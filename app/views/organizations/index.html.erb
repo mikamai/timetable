@@ -1,0 +1,16 @@
+<%= link_to 'New Organization', new_organization_path %>
+
+<table class="table">
+  <thead>
+    <tr>
+      <th scope="col">Name</th>
+    </tr>
+  </thead>
+  <tbody>
+    <% @organizations.each do |organization| %>
+      <tr>
+        <td><%= link_to organization.name, organization %></td>
+      </tr>
+    <% end %>
+  </tbody>
+</table>

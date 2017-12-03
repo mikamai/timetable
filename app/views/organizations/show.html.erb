@@ -1,0 +1,29 @@
+<nav aria-label="breadcrumb" role="navigation">
+  <ol class="breadcrumb">
+    <li class="breadcrumb-item">
+      <%= link_to 'Organizations', organizations_path %>
+    </li>
+    <li class="breadcrumb-item active" aria-current="page">
+      <%= @organization.name %>
+    </li>
+  </ol>
+</nav>
+
+<%= link_to 'Edit', edit_organization_path %>
+
+<table class="table">
+  <tbody>
+    <tr>
+      <th scope="row">Slug</th>
+      <td><%= @organization.slug %></td>
+    </tr>
+    <tr>
+      <th scope="row">Name</th>
+      <td><%= @organization.name %></td>
+    </tr>
+    <tr>
+      <th scope="row">Members</th>
+      <td><%= @memberships.map { |m| m.user_email }.join ', ' %></td>
+    </tr>
+  </tbody>
+</table>

@@ -15,6 +15,10 @@ gem 'pg', '~> 0.18'
 # App Server
 gem 'puma', '~> 3.7'
 
+# For Bootstrap
+gem 'bootstrap', '4.0.0.beta2.1'
+gem 'jquery-rails'
+
 # Other
 gem 'config'
 gem 'devise'
