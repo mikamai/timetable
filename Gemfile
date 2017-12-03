@@ -18,6 +18,7 @@ gem 'puma', '~> 3.7'
 # Other
 gem 'config'
 gem 'devise'
+gem 'friendly_id'
 
 # Views
 gem 'jbuilder', '~> 2.5'
