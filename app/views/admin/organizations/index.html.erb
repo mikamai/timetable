@@ -1,4 +1,4 @@
-<%= link_to 'New Organization', new_organization_path %>
+<%= link_to 'New Organization', new_admin_organization_path %>
 
 <table class="table">
   <thead>
@@ -9,7 +9,7 @@
   <tbody>
     <% @organizations.each do |organization| %>
       <tr>
-        <td><%= link_to organization.name, organization %></td>
+        <td><%= link_to organization.name, [:admin, organization] %></td>
       </tr>
     <% end %>
   </tbody>

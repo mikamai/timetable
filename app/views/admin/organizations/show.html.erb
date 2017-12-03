@@ -1,7 +1,7 @@
 <nav aria-label="breadcrumb" role="navigation">
   <ol class="breadcrumb">
     <li class="breadcrumb-item">
-      <%= link_to 'Organizations', organizations_path %>
+      <%= link_to 'Organizations', admin_organizations_path %>
     </li>
     <li class="breadcrumb-item active" aria-current="page">
       <%= @organization.name %>
@@ -9,7 +9,7 @@
   </ol>
 </nav>
 
-<%= link_to 'Edit', edit_organization_path %>
+<%= link_to 'Edit', edit_admin_organization_path %>
 
 <table class="table">
   <tbody>
@@ -23,7 +23,7 @@
     </tr>
     <tr>
       <th scope="row">Members</th>
-      <td><%= @memberships.map { |m| m.user_email }.join ', ' %></td>
+      <td><%= @users.map(&:email).join ', ' %></td>
     </tr>
   </tbody>
 </table>

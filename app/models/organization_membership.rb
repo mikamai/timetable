@@ -8,6 +8,4 @@ class OrganizationMembership < ApplicationRecord
             presence: true
   validates :user,
             presence: true
-
-  delegate :email, to: :user, prefix: true
 end

@@ -7,4 +7,6 @@ class User < ApplicationRecord
          :recoverable, :rememberable, :trackable, :validatable
 
   has_many :organization_memberships
+  has_many :organizations, through: :organization_memberships
+  has_many :projects, through: :organizations
 end

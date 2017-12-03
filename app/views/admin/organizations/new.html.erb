@@ -1,15 +1,15 @@
 <nav aria-label="breadcrumb" role="navigation">
   <ol class="breadcrumb">
     <li class="breadcrumb-item">
-      <%= link_to 'Organizations', organizations_path %>
+      <%= link_to 'Organizations', admin_organizations_path %>
     </li>
     <li class="breadcrumb-item active" aria-current="page">
-      <%= @organization.name %>
+      New Organization
     </li>
   </ol>
 </nav>
 
-<%= form_for @organization do |f| %>
+<%= form_for [:admin, @organization] do |f| %>
   <%= f.label :name %>
   <%= f.text_field :name %>
   <%= f.submit %>

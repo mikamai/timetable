@@ -1,0 +1,33 @@
+<nav aria-label="breadcrumb" role="navigation">
+  <ol class="breadcrumb">
+    <li class="breadcrumb-item">
+      <%= link_to 'Projects', projects_path %>
+    </li>
+    <li class="breadcrumb-item active" aria-current="page">
+      <%= @project.name %>
+    </li>
+  </ol>
+</nav>
+
+<%= link_to 'Edit', edit_organization_project_path %>
+
+<table class="table">
+  <tbody>
+    <tr>
+      <th scope="row">Slug</th>
+      <td><%= @project.slug %></td>
+    </tr>
+    <tr>
+      <th scope="row">Organization</th>
+      <td><%= @project.organization_name %></td>
+    </tr>
+    <tr>
+      <th scope="row">Name</th>
+      <td><%= @project.name %></td>
+    </tr>
+    <tr>
+      <th scope="row">Members</th>
+      <td><%= @users.map(&:email).join ', ' %></td>
+    </tr>
+  </tbody>
+</table>

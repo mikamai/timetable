@@ -1,0 +1,18 @@
+<%= link_to 'New Project', new_project_path %>
+
+<table class="table">
+  <thead>
+    <tr>
+      <th scope="col">Organization</th>
+      <th scope="col">Name</th>
+    </tr>
+  </thead>
+  <tbody>
+    <% @projects.each do |project| %>
+      <tr>
+        <td><%= link_to project.organization_name, [project.organization, project] %></td>
+        <td><%= link_to project.name, [project.organization, project] %></td>
+      </tr>
+    <% end %>
+  </tbody>
+</table>

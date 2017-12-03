@@ -1,15 +1,19 @@
 <nav aria-label="breadcrumb" role="navigation">
   <ol class="breadcrumb">
     <li class="breadcrumb-item">
-      <%= link_to 'Organizations', organizations_path %>
+      <%= link_to 'Projects', projects_path %>
     </li>
     <li class="breadcrumb-item active" aria-current="page">
-      New Organization
+      New Project
     </li>
   </ol>
 </nav>
 
-<%= form_for @organization do |f| %>
+<%= form_for @project do |f| %>
+  <div>
+    <%= f.label :organization %>
+    <%= f.collection_select :organization_id, current_user.organizations, :id, :name %>
+  </div>
   <%= f.label :name %>
   <%= f.text_field :name %>
   <%= f.submit %>

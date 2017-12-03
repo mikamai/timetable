@@ -1,0 +1,16 @@
+<nav aria-label="breadcrumb" role="navigation">
+  <ol class="breadcrumb">
+    <li class="breadcrumb-item">
+      <%= link_to 'Projects', projects_path %>
+    </li>
+    <li class="breadcrumb-item active" aria-current="page">
+      Edit Project
+    </li>
+  </ol>
+</nav>
+
+<%= form_for [@organization, @project] do |f| %>
+  <%= f.label :name %>
+  <%= f.text_field :name %>
+  <%= f.submit %>
+<% end %>
