@@ -1,0 +1,27 @@
+---
+extends: airbnb
+env:
+  browser: true
+parser: babel-eslint
+rules:
+  no-multi-spaces: 0
+  import/prefer-default-export: 0
+  no-unused-vars:
+    - error
+    - argsIgnorePattern: "^_.+"
+      varsIgnorePattern: "^_.+"
+  no-constant-condition:
+    - error
+    - checkLoops: false
+  import/no-extraneous-dependencies:
+    - error
+    - devDependencies: true
+settings:
+  import/resolver:
+    webpack:
+      config: "./internals/webpack.prod.config.babel.js"
+overrides:
+  - env:
+      jest: true
+    files:
+      - "**/*.test.js"
