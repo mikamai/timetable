@@ -149,6 +149,10 @@ Style/Semicolon:
   # Allow `;` to separate several expressions on the same line.
   AllowAsExpressionSeparator: true
 
+Metrics/MethodLength:
+  Exclude:
+    - db/migrate/*.rb
+
 Metrics/BlockLength:
   Exclude:
     - "**/*_spec.rb"
