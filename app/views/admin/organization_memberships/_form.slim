@@ -1,0 +1,5 @@
+= bootstrap_form_for [:admin, o.organization, o], \
+                     remote: true, data: { type: 'json', results_table: results_table } do |f|
+  = f.fields_for :user, User.new do |f|
+    = f.text_field :email
+  = f.submit

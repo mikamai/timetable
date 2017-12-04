@@ -15,19 +15,22 @@ gem 'pg', '~> 0.18'
 # App Server
 gem 'puma', '~> 3.7'
 
-# For Bootstrap
-gem 'bootstrap', '4.0.0.beta2.1'
-gem 'jquery-rails'
-
 # Other
 gem 'config'
 gem 'devise'
 gem 'friendly_id'
+gem 'kaminari'
+gem 'pundit'
+gem 'responders'
 
 # Views
+gem 'bootstrap', '4.0.0.beta2.1'
+gem 'bootstrap_form', github: 'bootstrap-ruby/rails-bootstrap-forms', branch: 'bootstrap-v4'
+gem 'entypo-rails'
 gem 'jbuilder', '~> 2.5'
+gem 'jquery-rails'
 gem 'sass-rails', '~> 5.0'
-gem 'turbolinks', '~> 5'
+gem 'slim-rails'
 gem 'uglifier', '>= 1.3.0'
 gem 'webpacker'
 # Use Redis adapter to run Action Cable in production
@@ -40,6 +43,7 @@ group :development, :test do
   gem 'byebug', platforms: %i[mri mingw x64_mingw]
   # Adds support for Capybara system testing and selenium driver
   gem 'capybara', '~> 2.13'
+  gem 'factory_bot_rails'
   gem 'rspec-rails'
   gem 'selenium-webdriver'
 end

@@ -5,6 +5,6 @@ namespace :orgs do
     org = Organization.friendly.find args[:org]
     user = User.find_by! email: args[:email]
     OrganizationMembership.create! organization: org, user: user, admin: true
-    puts "Admin added"
+    puts 'Admin added'
   end
 end

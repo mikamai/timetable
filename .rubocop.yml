@@ -26,6 +26,7 @@ AllCops:
     - db/schema.rb
     - node_modules/**/*
     - bin/*
+    - '**/*.jbuilder'
 
 # Align the elements of a hash literal if they span more than one line.
 Layout/AlignHash:

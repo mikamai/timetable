@@ -1,0 +1,14 @@
+p.text-right
+  = link_to 'New Organization', new_admin_organization_path, class: 'btn btn-secondary', role: 'button'
+
+table.table
+  thead
+    tr
+      th(scope="col") Name
+  tbody
+    - @organizations.each do |organization|
+      tr
+        td= link_to organization.name, [:admin, organization]
+  tfoot
+    tr
+      td.text-right= paginate @organizations

@@ -1,0 +1,31 @@
+nav(aria-label='breadcrumb' role='navigation')
+  ol.breadcrumb
+    li.breadcrumb-item= link_to 'Organizations', admin_organizations_path
+    li.breadcrumb-item.active(aria-current='page')= @organization.name
+
+p.text-right
+  = link_to 'Edit', edit_admin_organization_path, class: 'btn btn-secondary'
+
+table.table
+  tbody
+    tr
+      th(scope='row') Slug
+      td= @organization.slug
+    tr
+      th(scope='row') Name
+      td= @organization.name
+
+h4 Users
+
+table#organization_memberships_table.table
+  thead
+    tr
+      th Email
+      th &nbsp;
+  tbody= render @organization_members
+  tfoot
+    tr
+      td(colspan=2)
+        = render '/admin/organization_memberships/form', \
+                 o: OrganizationMembership.new(organization: @organization),
+                 results_table: '#organization_memberships_table'
