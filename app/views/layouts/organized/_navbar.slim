@@ -1,0 +1,20 @@
+nav.navbar.navbar-expand-lg.navbar-light.bg-light
+  = link_to current_organization.name, root_path, class: 'navbar-brand'
+  button.navbar-toggler(type='button' data-toggle='collapse' data-target='#navbar-supported-content' \
+                        aria-controls="navbar-supported-content" aria-expanded='false' aria-label='Toggle navigation')
+    span.navbar-toggler-icon
+  #navbar-supported-content.collapse.navbar-collapse
+    ul.navbar-nav.mr-auto
+      li.nav-item.active= link_to 'Home', current_organization, class: 'nav-link'
+      li.nav-item= link_to 'Projects', organization_projects_path, class: 'nav-link'
+
+    ul.navbar-nav
+      li.nav-item.dropdown
+        a#navbar-user-menu-link.nav-link.dropdown-toggle(\
+            href='#' data-toggle='dropdown' aria-haspopup='true' aria-expanded='false')
+          = current_user.email
+        .dropdown-menu(aria-labelledby='navbar-user-menu-link')
+          - available_organizations.each do |organization|
+            = link_to organization.name, organization, class: 'dropdown-item'
+          .dropdown-divider
+          = link_to 'Sign out', destroy_user_session_path, class: 'dropdown-item', data: { method: 'delete' }

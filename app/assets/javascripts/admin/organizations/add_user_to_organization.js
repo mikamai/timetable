@@ -1,7 +1,7 @@
 /* global $ */
 
 $(() => {
-  $('form.new_organization_membership')
+  $('form#new_organization_membership')
     .on('ajax:success', (e) => {
       const [data] = e.detail;
       const $form = $(e.target);

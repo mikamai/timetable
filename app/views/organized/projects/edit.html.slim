@@ -1,0 +1,7 @@
+nav(aria-label='breadcrumb' role='navigation')
+  ol.breadcrumb
+    li.breadcrumb-item= link_to current_organization.name, current_organization
+    li.breadcrumb-item= link_to 'Projects', organization_projects_path
+    li.breadcrumb-item.active(aria-current='page')= @project.name
+
+= render 'form'

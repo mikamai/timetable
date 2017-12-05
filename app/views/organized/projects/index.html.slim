@@ -1,0 +1,11 @@
+p.text-right
+  = link_to 'New Project', new_organization_project_path, class: 'btn btn-secondary', role: 'button'
+
+table.table
+  thead
+    tr
+      th(scope='col') Name
+  tbody= render @projects
+  tfoot
+    tr
+      td.text-right= paginate @projects

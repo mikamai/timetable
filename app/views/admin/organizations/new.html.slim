@@ -3,6 +3,4 @@ nav(aria-label='breadcrumb' role='navigation')
     li.breadcrumb-item= link_to 'Organizations', admin_organizations_path
     li.breadcrumb-item.active(aria-current='page') New Organization
 
-= bootstrap_form_for [:admin, @organization] do |f|
-  = f.text_field :name
-  = f.submit
+= render 'form'

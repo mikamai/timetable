@@ -1,0 +1,27 @@
+nav(aria-label='breadcrumb' role='navigation')
+  ol.breadcrumb
+    li.breadcrumb-item= link_to current_organization.name, current_organization
+    li.breadcrumb-item= link_to 'Projects', organization_projects_path
+    li.breadcrumb-item.active(aria-current='page')= @project.name
+
+p.text-right
+  = link_to 'Edit', [:edit, current_organization, @project], class: 'btn btn-secondary', role: 'button'
+
+table.table
+  tbody
+    tr
+      th(scope='row') Slug
+      td= @project.slug
+    tr
+      th(scope='row') Name
+      td= @project.name
+    tr
+
+h4 Users
+
+table#project_memberships_table.table
+  thead
+    tr
+      th Email
+      th Admin?
+  tbody= render @project_members

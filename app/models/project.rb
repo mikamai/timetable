@@ -9,6 +9,8 @@ class Project < ApplicationRecord
 
   friendly_id :name, use: :scoped, scope: :organization
 
+  scope :in_organization, -> (organization) { where organization_id: organization.id }
+
   validates :name,
             presence: true,
             uniqueness: true

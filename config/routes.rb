@@ -1,6 +1,8 @@
 # frozen_string_literal: true
 
 Rails.application.routes.draw do
+  devise_for :users
+
   namespace :admin do
     root to: 'dashboard#index'
     resources :organizations, except: :delete do
@@ -10,10 +12,12 @@ Rails.application.routes.draw do
     end
   end
 
-  devise_for :users
-  resources :organizations, only: [] do
-    resources :projects, only: %i[show edit update]
+  scope module: 'organized' do
+    resources :organizations, only: :show, path: 'orgs', controller: 'home' do
+      resources :projects
+    end
   end
-  resources :projects, only: %i[index new create]
-  root to: 'welcome#index'
+
+  get 'no_organization' => 'home#no_organization'
+  root to: 'home#index'
 end

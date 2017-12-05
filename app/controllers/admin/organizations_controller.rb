@@ -3,7 +3,7 @@
 module Admin
   class OrganizationsController < BaseController
     def index
-      @organizations = Organization.order(:name).page(params[:page]).load
+      @organizations = Organization.order(:name).page(params[:page])
       respond_with :admin, @organizations
     end
 
@@ -19,7 +19,7 @@ module Admin
 
     def show
       @organization = Organization.friendly.find params[:id]
-      @organization_members = @organization.organization_memberships.includes(:user).order('users.email').load
+      @organization_members = @organization.organization_memberships.includes(:user).order('users.email')
       respond_with :admin, @organization
     end
 
