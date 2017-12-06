@@ -20,7 +20,7 @@ module Organized
 
     def show
       @project = current_organization.projects.friendly.find params[:id]
-      @project_members = @project.project_memberships.includes(:user).order('users.email')
+      @project_members = @project.members.includes(:user).order('users.email')
       respond_with current_organization, @project
     end
 

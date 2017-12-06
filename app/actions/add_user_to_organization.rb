@@ -15,13 +15,18 @@ class AddUserToOrganization
   end
 
   def perform
-    organization.members.build.tap do |member|
-      member.user = User.find_by email: user_email
+    organization.members.build(user: user_by_email).tap do |member|
       if member.user
         member.save
       else
         member.errors.add :user, :not_found
       end
     end
+  end
+
+  private
+
+  def user_by_email
+    User.find_by email: user_email
   end
 end

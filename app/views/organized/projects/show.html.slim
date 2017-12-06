@@ -19,7 +19,7 @@ table.table
 
 h4 Users
 
-table#project_memberships_table.table
+table#project_members_table.table
   thead
     tr
       th Email
@@ -28,6 +28,6 @@ table#project_memberships_table.table
   tfoot
     tr
       td(colspan=2)
-        = render '/organized/project_memberships/form', \
-                 o: @project.project_memberships.build,
-                 results_table: '#project_memberships_table'
+        = render '/organized/project_members/form', \
+                 o: @project.members.build,
+                 results_table: '#project_members_table'

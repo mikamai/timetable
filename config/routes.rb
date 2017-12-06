@@ -15,7 +15,7 @@ Rails.application.routes.draw do
   scope module: 'organized' do
     resources :organizations, only: :show, path: 'orgs', controller: 'home' do
       resources :projects do
-        resources :project_memberships, path: :members, only: :create
+        resources :project_members, path: :members, only: :create
       end
 
       resources :organization_members, path: :members, only: :index do
