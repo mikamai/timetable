@@ -14,7 +14,13 @@ Rails.application.routes.draw do
 
   scope module: 'organized' do
     resources :organizations, only: :show, path: 'orgs', controller: 'home' do
-      resources :projects
+      resources :projects do
+        resources :project_memberships, path: :members, only: :create
+      end
+
+      resources :organization_memberships, path: :members, only: :index do
+        patch :toggle_admin, on: :member
+      end
     end
   end
 

@@ -27,5 +27,5 @@ table#organization_memberships_table.table
     tr
       td(colspan=2)
         = render '/admin/organization_memberships/form', \
-                 o: OrganizationMembership.new(organization: @organization),
+                 o: @organization.organization_memberships.build,
                  results_table: '#organization_memberships_table'

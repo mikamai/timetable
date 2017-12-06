@@ -25,3 +25,9 @@ table#project_memberships_table.table
       th Email
       th Admin?
   tbody= render @project_members
+  tfoot
+    tr
+      td(colspan=2)
+        = render '/organized/project_memberships/form', \
+                 o: @project.project_memberships.build,
+                 results_table: '#project_memberships_table'

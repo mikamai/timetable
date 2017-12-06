@@ -5,8 +5,9 @@ nav.navbar.navbar-expand-lg.navbar-light.bg-light
     span.navbar-toggler-icon
   #navbar-supported-content.collapse.navbar-collapse
     ul.navbar-nav.mr-auto
-      li.nav-item.active= link_to 'Home', current_organization, class: 'nav-link'
-      li.nav-item= link_to 'Projects', organization_projects_path, class: 'nav-link'
+      li.nav-item(class='#{'active' if controller_name == 'home'}')= link_to 'Home', current_organization, class: 'nav-link'
+      li.nav-item(class='#{'active' if controller_name == 'organization_memberships'}')= link_to 'Members', [current_organization, :organization_memberships], class: 'nav-link'
+      li.nav-item(class='#{'active' if controller_name == 'projects'}')== link_to 'Projects', [current_organization, :projects], class: 'nav-link'
 
     ul.navbar-nav
       li.nav-item.dropdown

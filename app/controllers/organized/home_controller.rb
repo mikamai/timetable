@@ -2,7 +2,12 @@
 
 module Organized
   class HomeController < BaseController
-    def index
+    def show; end
+
+    private
+
+    def organization_param
+      params[:id]
     end
   end
 end
