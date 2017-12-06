@@ -6,7 +6,7 @@ Rails.application.routes.draw do
   namespace :admin do
     root to: 'dashboard#index'
     resources :organizations, except: :delete do
-      resources :organization_memberships, path: :members, only: :create do
+      resources :organization_members, path: :members, only: :create do
         patch :toggle_admin, on: :member
       end
     end
@@ -18,7 +18,7 @@ Rails.application.routes.draw do
         resources :project_memberships, path: :members, only: :create
       end
 
-      resources :organization_memberships, path: :members, only: :index do
+      resources :organization_members, path: :members, only: :index do
         patch :toggle_admin, on: :member
       end
     end

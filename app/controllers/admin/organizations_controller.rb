@@ -13,13 +13,13 @@ module Admin
     end
 
     def create
-      @organization = Organization.new params.require(:organization).permit(:name)
+      @organization = Organization.create params.require(:organization).permit(:name)
       respond_with :admin, @organization
     end
 
     def show
       @organization = Organization.friendly.find params[:id]
-      @organization_members = @organization.organization_memberships.includes(:user).order('users.email')
+      @organization_members = @organization.members.includes(:user).order('users.email')
       respond_with :admin, @organization
     end
 

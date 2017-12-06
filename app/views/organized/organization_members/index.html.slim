@@ -3,15 +3,15 @@ nav(aria-label='breadcrumb' role='navigation')
     li.breadcrumb-item= link_to current_organization.name, current_organization
     li.breadcrumb-item.active(aria-current='page') Members
 
-table#organization_memberships_table.table
+table#organization_members_table.table
   thead
     tr
       th Email
       th Admin?
-  tbody= render @organization_memberships
+  tbody= render @organization_members
   tfoot
     tr
       td(colspan=2)
         = render 'form', \
-                 o: current_organization.organization_memberships.build,
-                 results_table: '#organization_memberships_table'
+                 o: current_organization.members.build,
+                 results_table: '#organization_members_table'

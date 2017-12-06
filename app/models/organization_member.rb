@@ -1,7 +1,7 @@
 # frozen_string_literal: true
 
-class OrganizationMembership < ApplicationRecord
-  belongs_to :organization
+class OrganizationMember < ApplicationRecord
+  belongs_to :organization, inverse_of: :members
   belongs_to :user
 
   validates :organization,

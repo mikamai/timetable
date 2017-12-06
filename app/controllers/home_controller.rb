@@ -18,7 +18,7 @@ class HomeController < ApplicationController
 
   def redirect_for_organized_user
     return if current_user.nil? || current_user.organizations.empty?
-    redirect_to organized_root_path last_used_organization
+    redirect_to last_used_organization
   end
 
   def last_used_organization
@@ -28,5 +28,7 @@ class HomeController < ApplicationController
   def last_used_organization_in_session
     return unless session[:last_organization_id].present?
     current_user.organizations.find session[:last_organization_id]
+  rescue ActiveRecord::RecordNotFound
+    nil
   end
 end

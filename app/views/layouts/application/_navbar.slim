@@ -8,9 +8,12 @@ nav.navbar.navbar-expand-lg.navbar-light.bg-light
       li.nav-item.active= link_to 'Home', root_path, class: 'nav-link'
 
     ul.navbar-nav
-      li.nav-item.dropdown
-        a#navbar-user-menu-link.nav-link.dropdown-toggle(\
-            href='#' data-toggle='dropdown' aria-haspopup='true' aria-expanded='false')
-          = current_user.email
-        .dropdown-menu(aria-labelledby='navbar-user-menu-link')
-          = link_to 'Sign out', destroy_user_session_path, class: 'dropdown-item', data: { method: 'delete' }
+      - if user_signed_in?
+        li.nav-item.dropdown
+          a#navbar-user-menu-link.nav-link.dropdown-toggle(\
+              href='#' data-toggle='dropdown' aria-haspopup='true' aria-expanded='false')
+            = current_user.email
+          .dropdown-menu(aria-labelledby='navbar-user-menu-link')
+            = link_to 'Sign out', destroy_user_session_path, class: 'dropdown-item', data: { method: 'delete' }
+      - elsif controller_name != 'sessions'
+        = link_to 'Sign in', new_user_session_path, class: 'nav-link'

@@ -1,7 +1,7 @@
 /* global $ */
 
 $(() => {
-  $('form#new_organization_membership')
+  $('form#new_organization_member')
     .on('ajax:success', (e) => {
       const [data] = e.detail;
       const $form = $(e.target);
@@ -12,6 +12,6 @@ $(() => {
     .on('ajax:error', (e) => {
       const [data] = e.detail;
       const $form = $(e.target);
-      $form.renderFormErrors('organization_membership', data.errors);
+      $form.renderFormErrors('organization_member', data.errors);
     });
 });

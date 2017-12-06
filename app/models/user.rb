@@ -6,7 +6,7 @@ class User < ApplicationRecord
   devise :database_authenticatable, :registerable,
          :recoverable, :rememberable, :trackable, :validatable
 
-  has_many :organization_memberships
-  has_many :organizations, through: :organization_memberships
+  has_many :organization_members
+  has_many :organizations, through: :organization_members
   has_many :projects, through: :organizations
 end

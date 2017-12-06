@@ -28,11 +28,11 @@ ActiveRecord::Schema.define(version: 20171204081449) do
     t.index ["sluggable_type"], name: "index_friendly_id_slugs_on_sluggable_type"
   end
 
-  create_table "organization_memberships", force: :cascade do |t|
+  create_table "organization_members", force: :cascade do |t|
     t.uuid "user_id", null: false
     t.uuid "organization_id", null: false
     t.boolean "admin", default: false, null: false
-    t.index ["organization_id", "user_id"], name: "index_organization_memberships_on_organization_id_and_user_id", unique: true
+    t.index ["organization_id", "user_id"], name: "index_organization_members_on_organization_id_and_user_id", unique: true
   end
 
   create_table "organizations", id: :uuid, default: -> { "gen_random_uuid()" }, force: :cascade do |t|
@@ -78,8 +78,8 @@ ActiveRecord::Schema.define(version: 20171204081449) do
     t.index ["reset_password_token"], name: "index_users_on_reset_password_token", unique: true
   end
 
-  add_foreign_key "organization_memberships", "organizations"
-  add_foreign_key "organization_memberships", "users"
+  add_foreign_key "organization_members", "organizations"
+  add_foreign_key "organization_members", "users"
   add_foreign_key "project_memberships", "projects"
   add_foreign_key "project_memberships", "users"
   add_foreign_key "projects", "organizations"

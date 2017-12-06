@@ -1,0 +1,11 @@
+tr
+  td
+    - if organization_member.admin?
+      strong= organization_member.user_email
+    - else
+      = organization_member.user_email
+  td
+    - organization = organization_member.organization
+    = link_to [:toggle_admin, :admin, organization, organization_member], \
+              class: 'toggle_admin', data: { method: 'patch' } do
+      span.icon-check(class='#{organization_member.admin? ? 'active' : 'inactive'}')

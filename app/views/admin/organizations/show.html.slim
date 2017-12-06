@@ -17,7 +17,7 @@ table.table
 
 h4 Users
 
-table#organization_memberships_table.table
+table#organization_members_table.table
   thead
     tr
       th Email
@@ -26,6 +26,6 @@ table#organization_memberships_table.table
   tfoot
     tr
       td(colspan=2)
-        = render '/admin/organization_memberships/form', \
-                 o: @organization.organization_memberships.build,
-                 results_table: '#organization_memberships_table'
+        = render '/admin/organization_members/form', \
+                 o: @organization.members.build,
+                 results_table: '#organization_members_table'
