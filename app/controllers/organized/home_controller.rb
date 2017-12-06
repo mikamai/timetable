@@ -2,7 +2,9 @@
 
 module Organized
   class HomeController < BaseController
-    def show; end
+    def show
+      redirect_to [current_organization, TimeView.today(current_organization)]
+    end
 
     private
 

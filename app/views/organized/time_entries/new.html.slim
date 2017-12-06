@@ -1,0 +1,10 @@
+nav(aria-label='breadcrumb' role='navigation')
+  ol.breadcrumb
+    li.breadcrumb-item= link_to current_organization.name, current_organization
+    li.breadcrumb-item= link_to l(@time_view.date), [current_organization, current_time_view]
+    li.breadcrumb-item.active(aria-current='page') New Entry
+
+= bootstrap_form_for [current_organization, current_time_view, @time_entry] do |f|
+  = f.collection_select :project_id, Project.order('name'), :id, :name
+  = f.number_field :minutes
+  = f.submit

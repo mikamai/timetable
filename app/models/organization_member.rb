@@ -2,7 +2,7 @@
 
 class OrganizationMember < ApplicationRecord
   belongs_to :organization, inverse_of: :members
-  belongs_to :user
+  belongs_to :user, inverse_of: :organization_memberships
 
   validates :organization,
             presence: true

@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20171204081449) do
+ActiveRecord::Schema.define(version: 20171206152732) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -60,6 +60,15 @@ ActiveRecord::Schema.define(version: 20171204081449) do
     t.index ["organization_id", "slug"], name: "index_projects_on_organization_id_and_slug", unique: true
   end
 
+  create_table "time_entries", id: :uuid, default: -> { "gen_random_uuid()" }, force: :cascade do |t|
+    t.uuid "user_id", null: false
+    t.uuid "project_id", null: false
+    t.date "executed_on", null: false
+    t.integer "minutes", null: false
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+  end
+
   create_table "users", id: :uuid, default: -> { "gen_random_uuid()" }, force: :cascade do |t|
     t.string "email", default: "", null: false
     t.string "encrypted_password", default: "", null: false
@@ -83,4 +92,6 @@ ActiveRecord::Schema.define(version: 20171204081449) do
   add_foreign_key "project_members", "projects"
   add_foreign_key "project_members", "users"
   add_foreign_key "projects", "organizations"
+  add_foreign_key "time_entries", "projects"
+  add_foreign_key "time_entries", "users"
 end

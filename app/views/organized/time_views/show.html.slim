@@ -1,0 +1,19 @@
+h4= l @time_view.date, format: :extended
+
+p.text-right
+  = link_to 'New Entry', [:new, current_organization, @time_view, :time_entry], class: 'btn btn-secondary', role: 'button'
+
+table.table
+  thead
+    tr
+      - @week_time_views.each do |time_view|
+        th.time_view_col(class='#{'active' if time_view == @time_view}')
+          = link_to [current_organization, time_view] do
+            span.day_name= l time_view.date, format: :time_view
+            span.total= time_view.time_entries.sum(:minutes)
+      th.time_view_total_col= "Total: #{@total_in_week}"
+  tbody= render @time_view.time_entries
+  tfoot
+    tr
+      td Total
+      td= @time_view.time_entries.sum(:minutes)
