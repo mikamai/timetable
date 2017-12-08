@@ -2,7 +2,8 @@
 
 class TimeEntry < ApplicationRecord
   belongs_to :user, inverse_of: :time_entries
-  belongs_to :project
+  belongs_to :task, inverse_of: :time_entries
+  has_one :project, through: :task
 
   scope :in_organization, ->(org) { joins(:project).where(projects: { organization_id: org.id }) }
   scope :in_time_view, ->(tv) { in_organization(tv.organization).where(executed_on: tv.date) }
@@ -14,7 +15,7 @@ class TimeEntry < ApplicationRecord
 
   validates :user_id,
             presence: true
-  validates :project_id,
+  validates :task_id,
             presence: true
   validates :executed_on,
             presence: true
@@ -25,6 +26,14 @@ class TimeEntry < ApplicationRecord
               greater_than: 0,
               allow_nil:    true
             }
+  validate  :validate_task_in_user_organization, on: :create
 
   delegate :name, to: :project, prefix: true
+
+  private
+
+  def validate_task_in_user_organization
+    return if user.organizations.pluck(:id).include? task.organization.id
+    errors.add :task, :not_found
+  end
 end

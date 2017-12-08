@@ -5,6 +5,7 @@ nav(aria-label='breadcrumb' role='navigation')
     li.breadcrumb-item.active(aria-current='page') New Entry
 
 = bootstrap_form_for [current_organization, current_time_view, @time_entry] do |f|
-  = f.collection_select :project_id, Project.order('name'), :id, :name
+  = f.collection_select :task_id, current_organization.tasks.by_path, :id, :path
+  = f.text_area :notes
   = f.number_field :minutes
   = f.submit

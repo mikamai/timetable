@@ -16,6 +16,7 @@ Rails.application.routes.draw do
     resources :organizations, only: :show, path: 'orgs', controller: 'home' do
       resources :projects do
         resources :project_members, path: :members, only: :create
+        resources :tasks, only: :create
       end
 
       resources :organization_members, path: :members, only: :index do

@@ -1,20 +1,20 @@
 # frozen_string_literal: true
 
 module Organized
-  class ProjectMembersController < BaseController
+  class TasksController < BaseController
     respond_to :json
 
     def create
       @project = current_organization.projects.friendly.find params[:project_id]
-      @project_member = AddUserToProject.perform @project, user_email_param
-      respond_with current_organization, @project, @project_member,
+      @task = @project.tasks.create task_params
+      respond_with current_organization, @project, @task,
                    location: -> { organization_project_path current_organization, @project }
     end
 
     private
 
-    def user_email_param
-      params[:project_member][:user][:email]
+    def task_params
+      params.require(:task).permit(:name)
     end
   end
 end

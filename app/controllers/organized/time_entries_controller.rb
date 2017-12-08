@@ -19,7 +19,7 @@ module Organized
     private
 
     def time_entry_params
-      params.require(:time_entry).permit(:project_id, :minutes)
+      params.require(:time_entry).permit(:task_id, :notes, :minutes)
             .merge(executed_on: current_time_view.date)
     end
 

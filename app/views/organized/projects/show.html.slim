@@ -17,6 +17,20 @@ table.table
       td= @project.name
     tr
 
+h4 Tasks
+
+table#project_tasks_table.table
+  thead
+    tr
+      th Name
+  tbody= render @project.tasks.order(:name)
+  tfoot
+    tr
+      td(colspan=2)
+        = render '/organized/tasks/form', \
+                 o: @project.tasks.build,
+                 results_table: '#project_tasks_table'
+
 h4 Users
 
 table#project_members_table.table
