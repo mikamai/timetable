@@ -1,7 +1,16 @@
-h4= l @time_view.date, format: :extended
+.row.mt-2
+  .col
+    h4= l @time_view.date, format: :extended
+  .col
+    .btn-group
+      = link_to prev_week_time_view_url, class: 'btn btn-light' do
+        i.icon-chevron-left
+      = link_to 'Today', today_time_view_url, class: 'btn btn-light'
+      = link_to next_week_time_view_url, class: 'btn btn-light' do
+        i.icon-chevron-right
 
 p.text-right
-  = link_to 'New Entry', [:new, current_organization, @time_view, :time_entry], class: 'btn btn-secondary', role: 'button'
+  
 
 ul.nav.nav-tabs.nav-fill
   = render @week_time_views
@@ -17,4 +26,6 @@ table.table.table-striped
       th(scope='row') Total
       td.amount
         strong= format_distance_of_minutes @time_view.time_entries.total_amount
-      td &nbsp;
+      td
+        = link_to [:new, current_organization, @time_view, :time_entry], class: 'btn btn-primary', role: 'button' do
+          i.icon-plus
