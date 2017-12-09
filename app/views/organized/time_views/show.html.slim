@@ -3,17 +3,18 @@ h4= l @time_view.date, format: :extended
 p.text-right
   = link_to 'New Entry', [:new, current_organization, @time_view, :time_entry], class: 'btn btn-secondary', role: 'button'
 
-table.table
-  thead
-    tr
-      - @week_time_views.each do |time_view|
-        th.time_view_col(class='#{'active' if time_view == @time_view}')
-          = link_to [current_organization, time_view] do
-            span.day_name= l time_view.date, format: :time_view
-            span.total= time_view.time_entries.sum(:minutes)
-      th.time_view_total_col= "Total: #{@total_in_week}"
+ul.nav.nav-tabs.nav-fill
+  = render @week_time_views
+  li.time-view-nav.total-time-view-nav.nav-item
+    span.nav-item.nav-link.disabled
+      strong.day_name Total
+      span.total= format_distance_of_minutes @total_in_week
+
+table.table.table-striped
   tbody= render @time_view.time_entries
   tfoot
-    tr
-      td Total
-      td= @time_view.time_entries.sum(:minutes)
+    tr.time-entry-total-row.time-entry-row
+      th(scope='row') Total
+      td.amount
+        strong= format_distance_of_minutes @time_view.time_entries.total_amount
+      td &nbsp;

@@ -1,10 +1,10 @@
 nav(aria-label='breadcrumb' role='navigation')
   ol.breadcrumb
     li.breadcrumb-item= link_to current_organization.name, current_organization
-    li.breadcrumb-item= link_to l(@time_view.date), [current_organization, @time_view]
-    li.breadcrumb-item.active(aria-current='page') New Entry
+    li.breadcrumb-item.active(aria-current='page') Edit entry
 
-= bootstrap_form_for [current_organization, @time_view, @time_entry] do |f|
+= bootstrap_form_for [current_organization, @time_entry] do |f|
+  = f.date_field :executed_on
   = f.collection_select :task_id, current_organization.tasks.by_path, :id, :path
   = f.text_area :notes
   = f.text_field :minutes_in_distance
