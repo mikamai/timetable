@@ -11,4 +11,6 @@ class User < ApplicationRecord
   has_many :project_memberships, class_name: 'ProjectMember', inverse_of: :user
   has_many :projects, through: :project_memberships
   has_many :time_entries, inverse_of: :user
+
+  alias_attribute :name, :email
 end

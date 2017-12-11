@@ -1,4 +1,4 @@
-module TimeViewHelper
+module TimeViewsHelper
   def today_time_view_url
     url_for [current_organization, TimeView.today(current_organization, current_user)]
   end

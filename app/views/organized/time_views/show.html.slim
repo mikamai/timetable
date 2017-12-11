@@ -1,7 +1,7 @@
 .row.mt-2
   .col
     h4= l @time_view.date, format: :extended
-  .col
+  .col.text-right
     .btn-group
       = link_to prev_week_time_view_url, class: 'btn btn-light' do
         i.icon-chevron-left

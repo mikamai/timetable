@@ -27,7 +27,7 @@ Rails.application.routes.draw do
         resources :time_entries, only: %i[new create], path: :entries
       end
       resources :time_entries, only: %i[edit update], path: :entries
-      resources :reports, only: %i[index]
+      resources :reports, only: %i[index show]
     end
   end
 
