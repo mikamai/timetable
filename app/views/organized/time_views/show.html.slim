@@ -8,9 +8,12 @@
       = link_to 'Today', today_time_view_url, class: 'btn btn-light'
       = link_to next_week_time_view_url, class: 'btn btn-light' do
         i.icon-chevron-right
+    = link_to organization_time_view_path(current_organization, ':time_view'), \
+              class: 'btn btn-light ml-2 seek-time-view', data: { current: @time_view.date.to_json } do
+      i.icon-calendar
 
 p.text-right
-  
+
 
 ul.nav.nav-tabs.nav-fill
   = render @week_time_views

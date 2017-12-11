@@ -2,16 +2,16 @@
   "name": "timetable",
   "private": true,
   "dependencies": {
-    "@rails/webpacker": "^3.0.2",
+    "@rails/webpacker": "^3.0.2"
+  },
+  "devDependencies": {
     "babel-eslint": "^8.0.3",
-    "coffeescript": "1.12.7",
+    "bower": "^1.8.2",
+    "eslint": "^4.12.1",
     "eslint-config-airbnb": "^16.1.0",
     "eslint-plugin-import": "^2.7.0",
     "eslint-plugin-jsx-a11y": "^6.0.2",
-    "eslint-plugin-react": "^7.4.0"
-  },
-  "devDependencies": {
-    "eslint": "^4.12.1",
+    "eslint-plugin-react": "^7.4.0",
     "webpack-dev-server": "^2.9.5"
   }
 }
