@@ -23,10 +23,11 @@ Rails.application.routes.draw do
         patch :toggle_admin, on: :member
       end
 
-      resources :time_views, only: [:index, :show], path: :time do
+      resources :time_views, only: %i[index show], path: :time do
         resources :time_entries, only: %i[new create], path: :entries
       end
       resources :time_entries, only: %i[edit update], path: :entries
+      resources :reports, only: %i[index]
     end
   end
 

@@ -3,3 +3,4 @@ en:
     formats:
       extended: '%A %d %b'
       time_view: '%a'
+      report: '%d %b %Y'
