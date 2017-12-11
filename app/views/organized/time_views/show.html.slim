@@ -16,11 +16,11 @@ p.text-right
 
 
 ul.nav.nav-tabs.nav-fill
-  = render @week_time_views
+  = render @week_view.time_views
   li.time-view-nav.total-time-view-nav.nav-item
     span.nav-item.nav-link.disabled
       strong.day_name Total
-      span.total= format_distance_of_minutes @total_in_week
+      span.total= format_distance_of_minutes @week_view.total_amount
 
 table.table.table-striped
   tbody= render @time_view.time_entries

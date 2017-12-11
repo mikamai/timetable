@@ -8,11 +8,8 @@ class TimeEntry < ApplicationRecord
 
   scope :in_organization, ->(org) { joins(:project).where(projects: { organization_id: org.id }) }
   scope :in_time_view, ->(tv) { in_organization(tv.organization).where(executed_on: tv.date) }
-  scope :in_time_view_week_including, (lambda do |tv|
-    in_organization(tv.organization)
-      .where('executed_on >= ?', tv.date.beginning_of_week)
-      .where('executed_on <= ?', tv.date.end_of_week)
-  end)
+  scope :executed_since, ->(date) { where 'executed_on >= ?', date }
+  scope :executed_until, ->(date) { where 'executed_on <= ?', date }
 
   validates :user_id,
             presence: true
