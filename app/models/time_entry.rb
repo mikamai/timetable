@@ -7,9 +7,10 @@ class TimeEntry < ApplicationRecord
   has_one :organization, through: :project
 
   scope :in_organization, ->(org) { joins(:project).where(projects: { organization_id: org.id }) }
-  scope :in_time_view, ->(tv) { in_organization(tv.organization).where(executed_on: tv.date) }
+  scope :executed_on, ->(date) { where executed_on: date }
   scope :executed_since, ->(date) { where 'executed_on >= ?', date }
   scope :executed_until, ->(date) { where 'executed_on <= ?', date }
+  scope :executed_by, ->(user) { where user_id: user.id }
 
   validates :user_id,
             presence: true

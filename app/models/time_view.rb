@@ -6,28 +6,23 @@ class TimeView
   ID_FORMAT = '%Y-%m-%d'
 
   class << self
-    def today organization
-      new date: Date.today, organization: organization
+    def today organization, user
+      new date: Date.today, organization: organization, user: user
     end
 
-    def find id, organization
-      new date: Date.strptime(id, ID_FORMAT), organization: organization
-    end
-
-    def find_week_including id, organization
-      date = Date.strptime id, ID_FORMAT
-      (date.beginning_of_week..date.end_of_week).map do |d|
-        new date: d, organization: organization
-      end
+    def find id, organization, user
+      new date: Date.strptime(id, ID_FORMAT), organization: organization, user: user
     end
   end
 
-  attr_accessor :date, :organization
+  attr_accessor :date, :organization, :user
 
   delegate :id, to: :organization, prefix: true
 
   def time_entries
-    TimeEntry.in_time_view(self)
+    TimeEntry.in_organization(organization)
+             .executed_on(date)
+             .executed_by(user)
   end
 
   def id
