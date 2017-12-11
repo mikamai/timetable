@@ -3,8 +3,7 @@
 module Organized
   class ProjectsController < BaseController
     def index
-      @projects = current_user.projects.in_organization(current_organization)
-                              .order(:name).page(params[:page])
+      @projects = current_organization.projects.order(:name).page(params[:page])
       respond_with current_organization, @projects
     end
 
