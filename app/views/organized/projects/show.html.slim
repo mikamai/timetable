@@ -23,6 +23,7 @@ table#project_tasks_table.table
   thead
     tr
       th Name
+      th &nbsp;
   tbody= render partial: 'organized/projects/task', collection: @project.tasks.order(:name), as: :task
   tfoot
     tr

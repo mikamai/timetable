@@ -4,3 +4,8 @@ en:
       extended: '%A %d %b'
       time_view: '%a'
       report: '%d %b %Y'
+
+  flash:
+    profile:
+      update:
+        notice: Your profile was successfully updated.

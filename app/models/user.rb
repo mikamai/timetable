@@ -3,7 +3,7 @@
 class User < ApplicationRecord
   # Include default devise modules. Others available are:
   # :confirmable, :lockable, :timeoutable and :omniauthable
-  devise :database_authenticatable, :registerable,
+  devise :database_authenticatable, :confirmable, :registerable,
          :recoverable, :rememberable, :trackable, :validatable
 
   has_many :organization_memberships, class_name: 'OrganizationMember', inverse_of: :user
@@ -12,5 +12,7 @@ class User < ApplicationRecord
   has_many :projects, through: :project_memberships
   has_many :time_entries, inverse_of: :user
 
-  alias_attribute :name, :email
+  validates :first_name,
+            :last_name,
+            presence: true
 end

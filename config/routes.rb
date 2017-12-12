@@ -32,6 +32,9 @@ Rails.application.routes.draw do
     end
   end
 
+  get 'profile' => 'profile#edit'
+  patch 'profile' => 'profile#update'
+
   get 'no_organization' => 'home#no_organization'
   root to: 'home#index'
 end
