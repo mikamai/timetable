@@ -1,17 +1,26 @@
-nav(aria-label='breadcrumb' role='navigation')
-  ol.breadcrumb
-    li.breadcrumb-item= link_to current_organization.name, current_organization
-    li.breadcrumb-item.active(aria-current='page') Members
+.row.mt-2
+  .col
+    nav(aria-label='breadcrumb' role='navigation')
+      ol.breadcrumb
+        li.breadcrumb-item= link_to current_organization.name, current_organization
+        li.breadcrumb-item.active(aria-current='page') Members
 
-table#organization_members_table.table
-  thead
-    tr
-      th Email
-      th Admin?
-  tbody= render @organization_members
-  tfoot
-    tr
-      td(colspan=2)
-        = render 'form', \
-                 o: current_organization.members.build,
-                 results_table: '#organization_members_table'
+.row
+  .col
+    h1 Members
+
+.row
+  .col
+    table#organization_members_table.table
+      thead
+        tr
+          th Name
+          th Admin?
+      tbody= render @organization_members
+      tfoot
+        tr
+          td(colspan=2)
+            = inline_add_form_tag [current_organization, current_organization.members.build], '#organization_members_table' do |f|
+              = f.text_field :user, hide_label: true, placeholder: 'Email', class: 'mr-sm-2'
+              = f.submit
+

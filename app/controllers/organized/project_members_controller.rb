@@ -14,7 +14,7 @@ module Organized
     private
 
     def user_email_param
-      params[:project_member][:user][:email]
+      params[:user]
     end
   end
 end

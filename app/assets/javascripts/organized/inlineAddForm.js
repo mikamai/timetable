@@ -7,8 +7,9 @@ $(() => {
       const $form = $(e.target);
       const $table = $($form.data('results-table'));
       const $tableItem = $(data.tableItem);
-      console.log($form.data('results-table'), $table, $tableItem)
       $('tbody', $table).append($tableItem);
+      $form.clearFormErrors();
+      $form[0].reset();
     })
     .on('ajax:error', (e) => {
       const [data] = e.detail;

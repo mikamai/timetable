@@ -27,9 +27,7 @@ table#project_tasks_table.table
   tfoot
     tr
       td(colspan=2)
-        = bootstrap_form_tag url: [:add_task, current_organization, @project], remote: true, layout: :inline, \
-                             data: { type: 'json', results_table: '#project_tasks_table' }, \
-                             html: { id: 'add_task_to_project', class: 'justify-content-end' } do |f|
+        = inline_add_form_tag [:add_task, current_organization, @project], '#project_tasks_table' do |f|
           = f.collection_select :task_id, current_organization.tasks.order('name'), :slug, :name, {}, data: { error_name: 'tasks' }
           = f.submit
 
@@ -44,6 +42,6 @@ table#project_members_table.table
   tfoot
     tr
       td(colspan=2)
-        = render '/organized/project_members/form', \
-                 o: @project.members.build,
-                 results_table: '#project_members_table'
+        = inline_add_form_tag [current_organization, @project, @project.members.build], '#project_members_table' do |f|
+          = f.text_field :user, hide_label: true, placeholder: 'Email', class: 'mr-sm-2'
+          = f.submit

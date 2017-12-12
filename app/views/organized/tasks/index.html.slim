@@ -11,6 +11,6 @@ table#tasks_table.table
   tfoot
     tr
       td(colspan=2)
-        = render 'form', \
-                 o: current_organization.tasks.build,
-                 results_table: '#tasks_table'
+        = inline_add_form_for [current_organization, current_organization.tasks.build], '#tasks_table' do |f|
+          = f.text_field :name
+          = f.submit

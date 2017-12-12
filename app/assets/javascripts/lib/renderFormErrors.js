@@ -12,7 +12,10 @@ $.fn.renderFormErrors = function renderFormErrors(modelName, errors) {
       }
       const name = $(el).attr('name');
       if (!name) return false;
-      return name.match(new RegExp(`${modelName}\\[${field}\\]`));
+      if (modelName) {
+        return name.match(new RegExp(`${modelName}\\[${field}\\]`));
+      }
+      return name.match(new RegExp(`^${field}`));
     });
     input.closest('.form-group').addClass('has-error');
     const errorsHtml = $.map(messages, m => m.charAt(0).toUpperCase() + m.slice(1)).join('<br />');

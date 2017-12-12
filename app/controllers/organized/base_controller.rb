@@ -2,10 +2,11 @@
 
 module Organized
   class BaseController < ApplicationController
+    layout 'organized'
+    respond_to :html, :json
+
     before_action :authenticate_user!
     before_action :set_current_organization
-
-    layout 'organized'
 
     helper_method :current_organization, :available_organizations
 
