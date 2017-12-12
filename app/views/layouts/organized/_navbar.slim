@@ -21,7 +21,8 @@ nav.navbar.navbar-expand-lg.navbar-light.bg-light
             href='#' data-toggle='dropdown' aria-haspopup='true' aria-expanded='false')
           = current_user.email
         .dropdown-menu(aria-labelledby='navbar-user-menu-link')
-          - available_organizations.each do |organization|
-            = link_to organization.name, organization, class: 'dropdown-item'
-          .dropdown-divider
+          - if available_organizations.count > 1
+            - available_organizations.each do |organization|
+              = link_to organization.name, organization, class: 'dropdown-item'
+            .dropdown-divider
           = link_to 'Sign out', destroy_user_session_path, class: 'dropdown-item', data: { method: 'delete' }
