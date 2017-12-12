@@ -1,19 +1,17 @@
 # frozen_string_literal: true
 
 class Task < ApplicationRecord
-  belongs_to :project, inverse_of: :tasks
+  extend FriendlyId
+
+  belongs_to :organization, inverse_of: :tasks
+  has_and_belongs_to_many :projects, inverse_of: :tasks
   has_many :time_entries, inverse_of: :task
-  has_one :organization, through: :project
 
-  scope :by_path, -> { joins(:project).order('projects.name', 'tasks.name') }
+  friendly_id :name, use: :scoped, scope: :organization
 
-  validates :project_id,
+  validates :organization_id,
             presence: true
   validates :name,
             presence: true,
-            uniqueness: { scope: :project_id }
-
-  def path
-    "#{project.name} / #{name}"
-  end
+            uniqueness: { scope: :organization_id }
 end

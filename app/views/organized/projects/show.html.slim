@@ -23,13 +23,15 @@ table#project_tasks_table.table
   thead
     tr
       th Name
-  tbody= render @project.tasks.order(:name)
+  tbody= render partial: 'organized/projects/task', collection: @project.tasks.order(:name), as: :task
   tfoot
     tr
       td(colspan=2)
-        = render '/organized/tasks/form', \
-                 o: @project.tasks.build,
-                 results_table: '#project_tasks_table'
+        = bootstrap_form_tag url: [:add_task, current_organization, @project], remote: true, layout: :inline, \
+                             data: { type: 'json', results_table: '#project_tasks_table' }, \
+                             html: { id: 'add_task_to_project', class: 'justify-content-end' } do |f|
+          = f.collection_select :task_id, current_organization.tasks.order('name'), :slug, :name, {}, data: { error_name: 'tasks' }
+          = f.submit
 
 h4 Users
 

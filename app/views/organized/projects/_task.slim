@@ -1,0 +1,6 @@
+tr
+  td= task.name
+  td.text-right
+    = link_to remove_task_organization_project_path(current_organization, @project, task), \
+              class: 'btn btn-outline-secondary', data: { method: 'DELETE' } do
+      i.icon-cross

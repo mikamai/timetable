@@ -6,6 +6,10 @@ $.fn.renderFormErrors = function renderFormErrors(modelName, errors) {
 
   $.each(errors, (field, messages) => {
     const input = $('input, select, textarea', $form).filter((i, el) => {
+      const dataName = $(el).data('error-name');
+      if (dataName && dataName.length > 0) {
+        return dataName === field;
+      }
       const name = $(el).attr('name');
       if (!name) return false;
       return name.match(new RegExp(`${modelName}\\[${field}\\]`));

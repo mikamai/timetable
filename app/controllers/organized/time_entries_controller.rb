@@ -6,29 +6,31 @@ module Organized
 
     def new
       @time_entry = current_user.time_entries.build executed_on: @time_view.date
-      respond_with @time_entry
+      respond_with current_organization, @time_entry
     end
 
     def create
       @time_entry = current_user.time_entries.create create_params
-      respond_with @time_entry, location: -> { [current_organization, @time_entry.time_view] }
+      respond_with current_organization, @time_entry,
+                   location: -> { [current_organization, @time_entry.time_view] }
     end
 
     def edit
       @time_entry = current_user.time_entries.in_organization(current_organization).find params[:id]
-      respond_with @time_entry
+      respond_with current_organization, @time_entry
     end
 
     def update
       @time_entry = current_user.time_entries.in_organization(current_organization).find params[:id]
       @time_entry.update_attributes update_params
-      respond_with @time_entry, location: -> { [current_organization, @time_entry.time_view] }
+      respond_with current_organization, @time_entry,
+                   location: -> { [current_organization, @time_entry.time_view] }
     end
 
     private
 
     def create_params
-      params.require(:time_entry).permit(:task_id, :notes, :minutes_in_distance)
+      params.require(:time_entry).permit(:project_id, :task_id, :notes, :minutes_in_distance)
             .merge(executed_on: @time_view.date)
     end
 
@@ -37,7 +39,7 @@ module Organized
     end
 
     def set_time_view
-      @time_view = TimeView.find params[:time_view_id], current_organization
+      @time_view = TimeView.find params[:time_view_id], current_organization, current_user
     end
   end
 end

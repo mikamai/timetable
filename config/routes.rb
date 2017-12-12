@@ -14,9 +14,11 @@ Rails.application.routes.draw do
 
   scope module: 'organized' do
     resources :organizations, only: :show, path: 'orgs', controller: 'home' do
+      resources :tasks, only: %i[index create]
       resources :projects do
         resources :project_members, path: :members, only: :create
-        resources :tasks, only: :create
+        post :add_task, on: :member, as: :add_task
+        delete 'remove_task/:task_id', on: :member, action: :remove_task, as: :remove_task
       end
 
       resources :organization_members, path: :members, only: :index do

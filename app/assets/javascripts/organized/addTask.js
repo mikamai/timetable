@@ -1,7 +1,7 @@
 /* global $ */
 
 $(() => {
-  $('form#add_task_to_project')
+  $('form#new_task')
     .on('ajax:success', (e) => {
       const [data] = e.detail;
       const $form = $(e.target);

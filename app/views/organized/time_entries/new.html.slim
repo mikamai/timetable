@@ -5,8 +5,10 @@ nav(aria-label='breadcrumb' role='navigation')
     li.breadcrumb-item.active(aria-current='page') New Entry
 
 = bootstrap_form_for [current_organization, @time_view, @time_entry] do |f|
-  = f.collection_select :task_id, current_organization.tasks.by_path, :id, :path
+  - projects = current_organization.projects.order('name')
+  = f.error_summary
+  = f.collection_select :project_id, projects, :id, :name, {}, data: { fetch_api: organization_project_path(current_organization, ':project') }
+  = f.collection_select :task_id, projects.first.tasks.order('name'), :id, :name
   = f.text_area :notes
   = f.text_field :minutes_in_distance
-  = f.errors_on :minutes
   = f.submit

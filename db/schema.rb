@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20171209180114) do
+ActiveRecord::Schema.define(version: 20171212093341) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -60,12 +60,18 @@ ActiveRecord::Schema.define(version: 20171209180114) do
     t.index ["organization_id", "slug"], name: "index_projects_on_organization_id_and_slug", unique: true
   end
 
-  create_table "tasks", id: :uuid, default: -> { "gen_random_uuid()" }, force: :cascade do |t|
+  create_table "projects_tasks", id: false, force: :cascade do |t|
     t.uuid "project_id", null: false
+    t.uuid "task_id", null: false
+    t.index ["project_id", "task_id"], name: "index_projects_tasks_on_project_id_and_task_id", unique: true
+  end
+
+  create_table "tasks", id: :uuid, default: -> { "gen_random_uuid()" }, force: :cascade do |t|
     t.string "name", null: false
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
-    t.index ["project_id", "name"], name: "index_tasks_on_project_id_and_name", unique: true
+    t.uuid "organization_id", null: false
+    t.string "slug", null: false
   end
 
   create_table "time_entries", id: :uuid, default: -> { "gen_random_uuid()" }, force: :cascade do |t|
@@ -76,6 +82,7 @@ ActiveRecord::Schema.define(version: 20171209180114) do
     t.string "notes"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+    t.uuid "project_id", null: false
   end
 
   create_table "users", id: :uuid, default: -> { "gen_random_uuid()" }, force: :cascade do |t|
@@ -101,7 +108,10 @@ ActiveRecord::Schema.define(version: 20171209180114) do
   add_foreign_key "project_members", "projects"
   add_foreign_key "project_members", "users"
   add_foreign_key "projects", "organizations"
-  add_foreign_key "tasks", "projects"
+  add_foreign_key "projects_tasks", "projects"
+  add_foreign_key "projects_tasks", "tasks"
+  add_foreign_key "tasks", "organizations"
+  add_foreign_key "time_entries", "projects"
   add_foreign_key "time_entries", "tasks"
   add_foreign_key "time_entries", "users"
 end

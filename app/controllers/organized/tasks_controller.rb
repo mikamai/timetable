@@ -2,13 +2,16 @@
 
 module Organized
   class TasksController < BaseController
-    respond_to :json
+    respond_to :html, :json
+
+    def index
+      @tasks = current_organization.tasks.order('name')
+      respond_with @tasks
+    end
 
     def create
-      @project = current_organization.projects.friendly.find params[:project_id]
-      @task = @project.tasks.create task_params
-      respond_with current_organization, @project, @task,
-                   location: -> { organization_project_path current_organization, @project }
+      @task = current_organization.tasks.create task_params
+      respond_with current_organization, @task
     end
 
     private

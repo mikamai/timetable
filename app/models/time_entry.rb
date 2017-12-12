@@ -2,8 +2,8 @@
 
 class TimeEntry < ApplicationRecord
   belongs_to :user, inverse_of: :time_entries
+  belongs_to :project, inverse_of: :time_entries
   belongs_to :task, inverse_of: :time_entries
-  has_one :project, through: :task
   has_one :organization, through: :project
 
   scope :in_organization, ->(org) { joins(:project).where(projects: { organization_id: org.id }) }
@@ -27,6 +27,8 @@ class TimeEntry < ApplicationRecord
             }
   validate  :validate_task_in_user_organization, on: :create
 
+  after_validation :copy_errors_to_minutes_in_distance
+
   delegate :name, to: :project, prefix: true
 
   def self.total_amount
@@ -38,7 +40,7 @@ class TimeEntry < ApplicationRecord
   end
 
   def time_view
-    TimeView.find executed_on.strftime(TimeView::ID_FORMAT), organization
+    TimeView.find executed_on.strftime(TimeView::ID_FORMAT), organization, user
   end
 
   def minutes_in_distance
@@ -59,5 +61,9 @@ class TimeEntry < ApplicationRecord
   def validate_task_in_user_organization
     return if user.organizations.pluck(:id).include? task.organization.id
     errors.add :task, :not_found
+  end
+
+  def copy_errors_to_minutes_in_distance
+    errors[:amount].each { |e| errors.add :minutes_in_distance, e }
   end
 end

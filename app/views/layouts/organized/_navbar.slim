@@ -6,9 +6,13 @@ nav.navbar.navbar-expand-lg.navbar-light.bg-light
   #navbar-supported-content.collapse.navbar-collapse
     ul.navbar-nav.mr-auto
       li.nav-item(class='#{'active' if controller_name == 'home'}')= link_to 'Home', current_organization, class: 'nav-link'
-      li.nav-item(class='#{'active' if controller_name == 'organization_members'}')= link_to 'Members', [current_organization, :organization_members], class: 'nav-link'
       li.nav-item(class='#{'active' if controller_name == 'projects'}')= link_to 'Projects', [current_organization, :projects], class: 'nav-link'
       li.nav-item(class='#{'active' if controller_name == 'reports'}')= link_to 'Reports', [current_organization, :reports], class: 'nav-link'
+      li.nav-item.dropdown
+        a.nav-link.dropdown-toggle(href='#' data-toggle='dropdown' class='#{'active' if %w[organization_members tasks].include? controller_name}') Manage
+        .dropdown-menu
+          = link_to 'Members', [current_organization, :organization_members], class: "nav-link #{'active' if controller_name == 'organization_members'}"
+          = link_to 'Tasks', [current_organization, :tasks], class: "nav-link #{'active' if controller_name == 'tasks'}"
 
     ul.navbar-nav
       li.nav-item.dropdown
