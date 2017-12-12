@@ -4,6 +4,7 @@ class Project < ApplicationRecord
   extend FriendlyId
 
   belongs_to :organization, inverse_of: :projects
+  belongs_to :client, inverse_of: :projects
   has_many :members, class_name: 'ProjectMember', inverse_of: :project
   has_many :users, through: :members
   has_many :time_entries, inverse_of: :project
@@ -15,9 +16,9 @@ class Project < ApplicationRecord
 
   validates :name,
             presence: true,
-            uniqueness: true
+            uniqueness: { scope: :organization_id }
 
-  delegate :name, to: :organization, prefix: true
+  delegate :name, to: :client, prefix: true
 
   def as_json opts={}
     super opts.reverse_merge(

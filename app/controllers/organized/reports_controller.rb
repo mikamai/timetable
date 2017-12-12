@@ -14,12 +14,14 @@ module Organized
     private
 
     def section_name
-      return params[:section] if %w[projects staff tasks].include? params[:section]
+      return params[:section] if %w[projects staff tasks clients].include? params[:section]
       'projects'
     end
 
     def report_class
       case section_name
+      when 'clients'
+        Reports::ClientsReport
       when 'projects'
         Reports::ProjectsReport
       when 'tasks'

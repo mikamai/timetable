@@ -22,6 +22,8 @@
   .col
     ul.nav.nav-pills
       li.nav-item
+        = link_to 'Clients', url_for(section: 'clients'), class: "nav-link #{'active' if section_name == 'clients'}"
+      li.nav-item
         = link_to 'Projects', url_for(section: 'projects'), class: "nav-link #{'active' if section_name == 'projects'}"
       li.nav-item
         = link_to 'Tasks', url_for(section: 'tasks'), class: "nav-link #{'active' if section_name == 'tasks'}"

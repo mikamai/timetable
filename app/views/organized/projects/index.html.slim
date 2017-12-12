@@ -5,7 +5,8 @@ table.table
   thead
     tr
       th(scope='col') Name
+      th(scope='col') Client
   tbody= render @projects
   tfoot
     tr
-      td.text-right= paginate @projects
+      td.text-right(colspan='2')= paginate @projects

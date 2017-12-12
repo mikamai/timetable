@@ -1,3 +1,4 @@
 = bootstrap_form_for [current_organization, @project] do |f|
+  = f.collection_select :client_id, current_organization.clients.order('name'), :id, :name
   = f.text_field :name
   = f.submit

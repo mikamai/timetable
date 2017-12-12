@@ -10,11 +10,20 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20171212093341) do
+ActiveRecord::Schema.define(version: 20171212132620) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
   enable_extension "pgcrypto"
+
+  create_table "clients", id: :uuid, default: -> { "gen_random_uuid()" }, force: :cascade do |t|
+    t.uuid "organization_id", null: false
+    t.string "name", null: false
+    t.string "slug", null: false
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["organization_id", "name"], name: "index_clients_on_organization_id_and_name", unique: true
+  end
 
   create_table "friendly_id_slugs", id: :uuid, default: -> { "gen_random_uuid()" }, force: :cascade do |t|
     t.string "slug", null: false
@@ -57,6 +66,7 @@ ActiveRecord::Schema.define(version: 20171212093341) do
     t.string "slug", null: false
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+    t.uuid "client_id", null: false
     t.index ["organization_id", "slug"], name: "index_projects_on_organization_id_and_slug", unique: true
   end
 
@@ -103,10 +113,12 @@ ActiveRecord::Schema.define(version: 20171212093341) do
     t.index ["reset_password_token"], name: "index_users_on_reset_password_token", unique: true
   end
 
+  add_foreign_key "clients", "organizations"
   add_foreign_key "organization_members", "organizations"
   add_foreign_key "organization_members", "users"
   add_foreign_key "project_members", "projects"
   add_foreign_key "project_members", "users"
+  add_foreign_key "projects", "clients"
   add_foreign_key "projects", "organizations"
   add_foreign_key "projects_tasks", "projects"
   add_foreign_key "projects_tasks", "tasks"

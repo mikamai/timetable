@@ -55,7 +55,7 @@ module Organized
     end
 
     def project_params
-      params.require(:project).permit(:organization_id, :name)
+      params.require(:project).permit(:client_id, :name)
     end
   end
 end
