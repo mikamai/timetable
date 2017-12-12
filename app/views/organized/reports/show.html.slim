@@ -24,6 +24,8 @@
       li.nav-item
         = link_to 'Projects', url_for(section: 'projects'), class: "nav-link #{'active' if section_name == 'projects'}"
       li.nav-item
+        = link_to 'Tasks', url_for(section: 'tasks'), class: "nav-link #{'active' if section_name == 'tasks'}"
+      li.nav-item
         = link_to 'Staff', url_for(section: 'staff'), class: "nav-link #{'active' if section_name == 'staff'}"
 
 .row.mt-2
