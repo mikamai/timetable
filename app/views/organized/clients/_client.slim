@@ -1,5 +1,7 @@
 tr
-  td= client.name
+  td
+    = client.name
+    small.text-muted.ml-2= client.slug
   td.text-right
     - if client.projects.empty?
       = link_to [current_organization, client], class: 'btn btn-outline-danger mr-2', data: { method: 'delete' } do
