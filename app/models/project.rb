@@ -10,6 +10,7 @@ class Project < ApplicationRecord
   has_many :time_entries, inverse_of: :project
   has_and_belongs_to_many :tasks, inverse_of: :projects
 
+  accepts_nested_attributes_for :members, reject_if: :all_blank, allow_destroy: true
   friendly_id :name, use: :scoped, scope: :organization
 
   scope :in_organization, ->(organization) { where organization_id: organization.id }

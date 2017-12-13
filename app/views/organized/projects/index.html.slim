@@ -1,12 +1,27 @@
-p.text-right
-  = link_to 'New Project', new_organization_project_path, class: 'btn btn-secondary', role: 'button'
+- content_for :heading do
+  .row.mt-2
+    .col
+      nav(aria-label='breadcrumb' role='navigation')
+        ol.breadcrumb
+          li.breadcrumb-item= link_to current_organization.name, current_organization
+          li.breadcrumb-item.active(aria-current='page') Projects
 
-table.table
-  thead
-    tr
-      th(scope='col') Name
-      th(scope='col') Client
-  tbody= render @projects
-  tfoot
-    tr
-      td.text-right(colspan='2')= paginate @projects
+  .row.align-items-center
+    .col
+      h1 Projects
+    .col.text-right
+      = link_to new_organization_project_path, class: 'btn btn-primary' do
+        i.icon-plus
+
+.row.mt-2
+  .col
+    table.table
+      thead
+        tr
+          th Name
+          th Client
+          th &nbsp;
+      tbody= render @projects
+      tfoot
+        tr
+          td(colspan=3)= paginate @projects

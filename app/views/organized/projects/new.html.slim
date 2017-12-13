@@ -1,7 +1,15 @@
-nav(aria-label='breadcrumb' role='navigation')
-  ol.breadcrumb
-    li.breadcrumb-item= link_to current_organization.name, current_organization
-    li.breadcrumb-item= link_to 'Projects', organization_projects_path
-    li.breadcrumb-item.active(aria-current='page') New Project
+- content_for :heading do
+  .row.mt-2
+    .col
+      nav(aria-label='breadcrumb' role='navigation')
+        ol.breadcrumb
+          li.breadcrumb-item= link_to current_organization.name, current_organization
+          li.breadcrumb-item= link_to 'Projects', organization_projects_path
+          li.breadcrumb-item.active(aria-current='page') New Project
 
-= render 'form'
+  .row
+    .col
+      h1 New Project
+
+.row.mt-2
+  .col= render 'form'

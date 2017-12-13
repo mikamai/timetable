@@ -14,7 +14,7 @@ class OrganizationMember < ApplicationRecord
 
   before_destroy :validate_references
 
-  delegate :name, to: :user, prefix: true
+  delegate :name, to: :user, prefix: true, allow_nil: true
 
   def user_email
     @user_email || user&.email

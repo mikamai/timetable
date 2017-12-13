@@ -1,4 +1,37 @@
-= bootstrap_form_for [current_organization, @project] do |f|
-  = f.collection_select :client_id, current_organization.clients.order('name'), :id, :name
-  = f.text_field :name
-  = f.submit
+= form_for [current_organization, @project] do |f|
+  .row.form-group
+    = f.label :client_id, class: 'col-sm-2 col-form-label'
+    .col-sm-10
+      = f.collection_select :client_id, available_clients_for_project, :id, :name, {}, class: 'form-control'
+      small.form-text.text-danger= f.object.errors[:client_id].join ', '
+  .row.form-group
+    = f.label :name, class: 'col-sm-2 col-form-label'
+    .col-sm-10
+      = f.text_field :name, class: 'form-control'
+      small.form-text.text-danger= f.object.errors[:name].join ', '
+  .row.form-group
+    = f.label :task_ids, class: 'col-sm-2 col-form-label'
+    .col-sm-10
+      = f.collection_select :task_ids, available_tasks_for_project, :id, :name, {}, multiple: true , class: 'form-control'
+  .row.form-group
+    = f.label :members, class: 'col-sm-2 col-form-label'
+    .col-sm-10
+      table#project-members-form-table.table.border
+        tbody
+          = f.fields_for :members do |member|
+            = render 'member_fields', f: member
+        tfoot
+          tr
+            td(colspan=2)
+              .row.form-inline
+                .col
+                  select#available-users-for-project.form-control
+                    - available_users_for_project.each do |user|
+                      option(value=user.id data-email=user.email)= user.name
+                .col-2.text-right
+                  = link_to_add_association f, :members, class: 'btn btn-outline-primary ml-2', \
+                                            data: { association_insertion_node: '#project-members-form-table tbody', association_insertion_method: 'append' } do
+                    i.icon-plus
+  .row.justify-content-end
+    .col-sm-10
+      = f.submit class: 'btn btn-primary'

@@ -18,11 +18,7 @@ Rails.application.routes.draw do
       resources :organization_members, path: :members, only: %i[index new create destroy] do
         patch :toggle_admin, on: :member
       end
-      resources :projects do
-        resources :project_members, path: :members, only: :create
-        post :add_task, on: :member, as: :add_task
-        delete 'remove_task/:task_id', on: :member, action: :remove_task, as: :remove_task
-      end
+      resources :projects, only: %i[index new create edit update]
       resources :reports, only: %i[index show]
       resources :tasks, only: %i[index create]
       resources :time_views, only: %i[index show], path: :time do

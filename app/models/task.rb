@@ -9,6 +9,8 @@ class Task < ApplicationRecord
 
   friendly_id :name, use: :scoped, scope: :organization
 
+  scope :by_name, -> { order :name }
+
   validates :organization_id,
             presence: true
   validates :name,

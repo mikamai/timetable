@@ -6,5 +6,5 @@ class ProjectMember < ApplicationRecord
 
   scope :by_user_name, -> { includes(:user).order 'users.last_name', 'users.first_name' }
 
-  delegate :name, to: :user, prefix: true
+  delegate :email, :name, to: :user, prefix: true, allow_nil: true
 end

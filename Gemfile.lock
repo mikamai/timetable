@@ -69,6 +69,7 @@ GEM
       xpath (~> 2.0)
     childprocess (0.8.0)
       ffi (~> 1.0, >= 1.0.11)
+    cocoon (1.2.11)
     concurrent-ruby (1.0.5)
     config (1.6.1)
       activesupport (>= 3.0)
@@ -306,6 +307,7 @@ DEPENDENCIES
   bower-rails
   byebug
   capybara (~> 2.13)
+  cocoon
   config
   devise
   entypo-rails

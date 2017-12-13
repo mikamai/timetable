@@ -1,0 +1,8 @@
+tr.nested-fields
+  td
+    = f.hidden_field :user_id, class: 'project-member-id'
+    span.project-member-name= f.object.user_name
+    small.project-member-email.text-muted.ml-2= f.object.user_email
+  td.text-right
+    = link_to_remove_association f, class: 'btn btn-outline-danger' do
+      i.icon-cross

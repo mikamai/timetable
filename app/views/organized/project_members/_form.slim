@@ -1,6 +1,0 @@
-= bootstrap_form_for [current_organization, o.project, o], \
-                     remote: true, data: { type: 'json', results_table: results_table }, \
-                     layout: :inline, html: { class: 'justify-content-end' } do |f|
-  = f.fields_for :user, User.new do |f|
-    = f.text_field :email, hide_label: true, placeholder: 'Email', class: 'mr-sm-2'
-  = f.submit

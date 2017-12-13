@@ -6,6 +6,9 @@ module Organized
 
     before_action :fetch_project, only: %i[show edit update add_task remove_task]
 
+    helper_method :available_clients_for_project, :available_tasks_for_project,
+                  :available_users_for_project
+
     def index
       @projects = current_organization.projects.order(:name).page(params[:page])
       respond_with current_organization, @projects
@@ -21,11 +24,6 @@ module Organized
       respond_with current_organization, @project
     end
 
-    def show
-      @project_members = @project.members.by_user_name
-      respond_with current_organization, @project
-    end
-
     def edit
       respond_with current_organization, @project
     end
@@ -35,19 +33,6 @@ module Organized
       respond_with current_organization, @project
     end
 
-    def add_task
-      @task = current_organization.tasks.friendly.find params[:task_id]
-      AddTaskToProject.perform @project, @task
-      respond_with current_organization, @project
-    end
-
-    def remove_task
-      @task = @project.tasks.friendly.find params[:task_id]
-      @project.tasks.delete @task
-      respond_with current_organization, @project,
-                   location: -> { [current_organization, @project] }
-    end
-
     private
 
     def fetch_project
@@ -55,7 +40,21 @@ module Organized
     end
 
     def project_params
-      params.require(:project).permit(:client_id, :name)
+      params.require(:project).permit :client_id, :name,
+                                      task_ids: [],
+                                      members_attributes: %i[id user_id _destroy]
+    end
+
+    def available_clients_for_project
+      @available_clients_for_project ||= current_organization.clients.by_name
+    end
+
+    def available_tasks_for_project
+      @available_tasks_for_project ||= current_organization.tasks.by_name
+    end
+
+    def available_users_for_project
+      @available_users_for_project ||= current_organization.users.by_name
     end
   end
 end

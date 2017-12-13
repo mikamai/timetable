@@ -17,6 +17,7 @@ gem 'pg', '~> 0.18'
 gem 'puma', '~> 3.7'
 
 # Other
+gem 'cocoon'
 gem 'config'
 gem 'devise'
 gem 'friendly_id'
