@@ -38,7 +38,8 @@ module Organized
     end
 
     def update_params
-      params.require(:time_entry).permit(:executed_on, :task_id, :notes, :minutes_in_distance)
+      params.require(:time_entry).permit(:project_id, :task_id, :notes, :minutes_in_distance,
+                                         :executed_on)
     end
 
     def set_time_view

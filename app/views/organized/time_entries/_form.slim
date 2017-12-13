@@ -1,9 +1,16 @@
 = form_for [current_organization, @time_view, @time_entry] do |f|
-  - projects = current_organization.projects.order('name')
+  .row.form-group
+    = f.label :executed_on, class: 'col-sm-2 col-form-label'
+    .col-sm-10
+      - if f.object.persisted?
+        = f.date_field :executed_on, class: 'form-control'
+        small.form-text.text-danger= f.object.errors[:executed_on].join ', '
+      - else
+        = f.date_field :executed_on, class: 'form-control-plaintext', readonly: ''
   .row.form-group
     = f.label :project_id, class: 'col-sm-2 col-form-label'
     .col-sm-10
-      = f.collection_select :project_id, projects, :id, :name, {}, \
+      = f.collection_select :project_id, available_projects_for_entry, :id, :name, {}, \
                             class: 'form-control', \
                             data: { fetch_api: organization_project_path(current_organization, ':project') }
       small.form-text.text-danger= f.object.errors[:project_id].join ', '
