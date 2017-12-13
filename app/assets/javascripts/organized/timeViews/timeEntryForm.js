@@ -25,7 +25,7 @@ $(() => {
     const match = val.match(/^(\d+)(:(\d+))?$/);
     if (match) {
       const hours = parseInt(match[1], 10);
-      const minutes = parseInt(match[3] || '', 10);
+      const minutes = parseInt(match[3] || '0', 10);
       $el.val(`${hours}:${_.pad(minutes, 2, '0')}`);
     }
   });

@@ -2,8 +2,6 @@
 
 module Organized
   class ProjectsController < BaseController
-    respond_to :html, :json
-
     before_action :fetch_project, only: %i[show edit update add_task remove_task]
 
     helper_method :available_clients_for_project, :available_tasks_for_project,
@@ -16,6 +14,11 @@ module Organized
 
     def new
       @project = current_organization.projects.build
+      respond_with current_organization, @project
+    end
+
+    def show
+      @project = current_organization.projects.friendly.find params[:id]
       respond_with current_organization, @project
     end
 
