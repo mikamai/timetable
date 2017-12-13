@@ -6,7 +6,11 @@ module Organized
 
     def index
       date = Date.today
-      redirect_to organization_report_summary_path current_organization, "#{date.cwyear}-#{date.cweek}"
+      redirect_to organization_report_summary_path(
+        current_organization,
+        "#{date.cwyear}-#{date.cweek}",
+        'projects'
+      )
     end
 
     def show; end

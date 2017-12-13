@@ -19,7 +19,10 @@ Rails.application.routes.draw do
         patch :toggle_admin, on: :member
       end
       resources :projects, except: :destroy
-      resources :report_summaries, only: %i[index show]
+
+      get 'report_summaries' => 'report_summaries#index', as: :report_summaries
+      get 'report_summary/:id/:section' => 'report_summaries#show', as: :report_summary
+
       resources :tasks, only: %i[index new create edit update]
       resources :time_views, only: %i[index show], path: :time do
         resources :time_entries, only: %i[new create], path: :entries
