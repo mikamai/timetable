@@ -7,9 +7,9 @@
           li.breadcrumb-item= link_to 'Clients', organization_clients_path
           li.breadcrumb-item.active(aria-current='page')= "Edit Client #{@client.slug_was}"
 
-  .row
-    .col
-      h1= "Edit Client #{@client.slug_was}"
+.row
+  .col
+    h4= "Edit Client #{@client.slug_was}"
 
 .row.mt-2
   .col= render 'form'

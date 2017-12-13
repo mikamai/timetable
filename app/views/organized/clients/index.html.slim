@@ -6,12 +6,12 @@
           li.breadcrumb-item= link_to current_organization.name, current_organization
           li.breadcrumb-item.active(aria-current='page') Clients
 
-  .row.align-items-center
-    .col
-      h1 Clients
-    .col.text-right
-      = link_to new_organization_client_path, class: 'btn btn-primary' do
-        i.icon-plus
+.row.align-items-center
+  .col
+    h4 Clients
+  .col.text-right
+    = link_to new_organization_client_path, class: 'btn btn-primary' do
+      i.icon-plus
 
 .row.mt-2
   .col

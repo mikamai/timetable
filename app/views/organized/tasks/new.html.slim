@@ -4,12 +4,12 @@
       nav(aria-label='breadcrumb' role='navigation')
         ol.breadcrumb
           li.breadcrumb-item= link_to current_organization.name, current_organization
-          li.breadcrumb-item= link_to 'Clients', organization_clients_path
-          li.breadcrumb-item.active(aria-current='page') New Client
+          li.breadcrumb-item= link_to 'Tasks', organization_tasks_path
+          li.breadcrumb-item.active(aria-current='page') New Task
 
 .row
   .col
-    h4 New Client
+    h4 New Task
 
 .row.mt-2
   .col= render 'form'

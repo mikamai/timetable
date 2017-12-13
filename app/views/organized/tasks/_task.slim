@@ -1,2 +1,7 @@
 tr
-  td= task.name
+  td
+    = task.name
+    small.text-muted.ml-2= task.slug
+  td.text-right
+    = link_to edit_organization_task_path(current_organization, task), class: 'btn btn-outline-secondary' do
+      i.icon-pencil

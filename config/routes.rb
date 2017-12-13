@@ -20,7 +20,7 @@ Rails.application.routes.draw do
       end
       resources :projects, only: %i[index new create edit update]
       resources :reports, only: %i[index show]
-      resources :tasks, only: %i[index create]
+      resources :tasks, only: %i[index new create edit update]
       resources :time_views, only: %i[index show], path: :time do
         resources :time_entries, only: %i[new create], path: :entries
       end
