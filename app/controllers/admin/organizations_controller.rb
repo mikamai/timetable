@@ -19,7 +19,7 @@ module Admin
 
     def show
       @organization = Organization.friendly.find params[:id]
-      @organization_members = @organization.members.includes(:user).order('users.email')
+      @organization_members = @organization.members.by_user_name
       respond_with :admin, @organization
     end
 

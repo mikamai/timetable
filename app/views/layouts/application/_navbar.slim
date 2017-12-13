@@ -12,7 +12,7 @@ nav.navbar.navbar-expand-lg.navbar-light.bg-light
         li.nav-item.dropdown
           a#navbar-user-menu-link.nav-link.dropdown-toggle(\
               href='#' data-toggle='dropdown' aria-haspopup='true' aria-expanded='false')
-            = current_user.email
+            = current_user.name
           .dropdown-menu(aria-labelledby='navbar-user-menu-link')
             = link_to 'Profile', profile_path, class: 'dropdown-item'
             = link_to 'Sign out', destroy_user_session_path, class: 'dropdown-item', data: { method: 'delete' }

@@ -1,9 +1,9 @@
 tr
   td
     - if organization_member.admin?
-      strong= organization_member.user_email
+      strong= organization_member.user_name
     - else
-      = organization_member.user_email
+      = organization_member.user_name
   td
     - organization = organization_member.organization
     = link_to [:toggle_admin, organization, organization_member], \

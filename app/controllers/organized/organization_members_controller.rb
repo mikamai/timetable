@@ -3,7 +3,7 @@
 module Organized
   class OrganizationMembersController < BaseController
     def index
-      @organization_members = current_organization.members.includes(:user).order('users.email')
+      @organization_members = current_organization.members.by_user_name
     end
 
     def create

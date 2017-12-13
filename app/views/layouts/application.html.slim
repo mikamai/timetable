@@ -9,5 +9,6 @@ html(lang='en')
   body
     = render 'layouts/application/navbar'
     .container
+      = yield :heading
       = render 'layouts/alerts'
       = yield

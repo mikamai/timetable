@@ -22,7 +22,7 @@ module Organized
     end
 
     def show
-      @project_members = @project.members.includes(:user).order('users.email')
+      @project_members = @project.members.by_user_name
       respond_with current_organization, @project
     end
 

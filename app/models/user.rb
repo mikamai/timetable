@@ -12,7 +12,13 @@ class User < ApplicationRecord
   has_many :projects, through: :project_memberships
   has_many :time_entries, inverse_of: :user
 
+  scope :by_name, -> { order :first_name, :last_name }
+
   validates :first_name,
             :last_name,
             presence: true
+
+  def name
+    "#{first_name} #{last_name}"
+  end
 end

@@ -19,7 +19,7 @@ nav.navbar.navbar-expand-lg.navbar-light.bg-light
       li.nav-item.dropdown
         a#navbar-user-menu-link.nav-link.dropdown-toggle(\
             href='#' data-toggle='dropdown' aria-haspopup='true' aria-expanded='false')
-          = current_user.email
+          = current_user.name
         .dropdown-menu(aria-labelledby='navbar-user-menu-link')
           - if available_organizations.count > 1
             - available_organizations.each do |organization|
