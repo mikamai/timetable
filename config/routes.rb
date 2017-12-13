@@ -15,7 +15,7 @@ Rails.application.routes.draw do
   scope module: 'organized' do
     resources :organizations, only: :show, path: 'orgs', controller: 'home' do
       resources :clients
-      resources :organization_members, path: :members, only: %i[index create] do
+      resources :organization_members, path: :members, only: %i[index new create destroy] do
         patch :toggle_admin, on: :member
       end
       resources :projects do

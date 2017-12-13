@@ -15,11 +15,19 @@ class Client < ApplicationRecord
             presence: true,
             uniqueness: { scope: :organization_id }
 
+  before_destroy :validate_references
+
   delegate :name, to: :organization, prefix: true
 
-  def safe_destroy
-    destroy
-  rescue ActiveRecord::InvalidForeignKey
-    errors.add :base, 'is used elsewhere'
+  def destroyable?
+    projects.empty?
+  end
+
+  private
+
+  def validate_references
+    return if destroyable?
+    errors.add :base, 'is referenced by projects'
+    throw :abort
   end
 end

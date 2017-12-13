@@ -30,7 +30,7 @@ module Organized
 
     def destroy
       @client = current_organization.clients.friendly.find params[:id]
-      @client.safe_destroy
+      @client.destroy
       respond_with current_organization, @client
     end
 

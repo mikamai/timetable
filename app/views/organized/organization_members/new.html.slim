@@ -1,0 +1,25 @@
+- content_for :heading do
+  .row.mt-2
+    .col
+      nav(aria-label='breadcrumb' role='navigation')
+        ol.breadcrumb
+          li.breadcrumb-item= link_to current_organization.name, current_organization
+          li.breadcrumb-item= link_to 'Team', organization_organization_members_path
+          li.breadcrumb-item.active(aria-current='page') New Member
+
+  .row
+    .col
+      h1 New Member
+
+.row-mt-2
+  .col
+    = form_for [current_organization, @organization_member] do |f|
+      .row.form-group
+        = f.label :user_email, class: 'col-sm-2 col-form-label'
+        .col-sm-10
+          = f.email_field :user_email, class: 'form-control'
+          small.form-text.text-danger= f.object.errors[:user].join ', '
+      .row.justify-content-end
+        .col-sm-10
+          = f.submit class: 'btn btn-primary'
+
