@@ -1,7 +1,7 @@
 # frozen_string_literal: true
 
-module Reports
-  class BaseReport
+module ReportSummaries
+  class Base
     include ActiveModel::Model
 
     define_model_callbacks :initialize, only: :after

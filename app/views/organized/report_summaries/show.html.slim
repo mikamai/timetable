@@ -1,14 +1,14 @@
 .row.mt-2
   .col
     h4
-      = l @report.beginning_of_week, format: :report
+      = l @report_summary.beginning_of_week, format: :report
       | &nbsp;-&nbsp;
-      = l @report.end_of_week, format: :report
+      = l @report_summary.end_of_week, format: :report
   .col.text-right
     .btn-group
-      = link_to prev_week_report_url, class: 'btn btn-light' do
+      = link_to prev_week_report_summary_url(@report_summary), class: 'btn btn-light' do
         i.icon-chevron-left
-      = link_to next_week_report_url, class: 'btn btn-light' do
+      = link_to next_week_report_summary_url(@report_summary), class: 'btn btn-light' do
         i.icon-chevron-right
 
 .row.mt-2
@@ -16,7 +16,7 @@
     table.table
       tbody
         th(scope='row') Hours Tracked
-        td= format_distance_of_minutes_as_hours @report.total_amount
+        td= format_distance_of_minutes_as_hours @report_summary.total_amount
 
 .row
   .col
@@ -28,7 +28,7 @@
       li.nav-item
         = link_to 'Tasks', url_for(section: 'tasks'), class: "nav-link #{'active' if section_name == 'tasks'}"
       li.nav-item
-        = link_to 'Staff', url_for(section: 'staff'), class: "nav-link #{'active' if section_name == 'staff'}"
+        = link_to 'Team', url_for(section: 'team'), class: "nav-link #{'active' if section_name == 'team'}"
 
 .row.mt-2
   .col
@@ -37,7 +37,7 @@
         th Name
         th Hours
       tbody
-        - @report.rows.each do |row|
+        - @report_summary.rows.each do |row|
           tr
             td= row.name
             td= (row.amount.to_f / 60).round 2

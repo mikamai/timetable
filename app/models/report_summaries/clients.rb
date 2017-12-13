@@ -1,7 +1,7 @@
 # frozen_string_literal: true
 
-module Reports
-  class ClientsReport < BaseReport
+module ReportSummaries
+  class Clients < Base
     Row = Struct.new(:client, :amount)
     class Row
       delegate :name, to: :client

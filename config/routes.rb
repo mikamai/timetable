@@ -19,7 +19,7 @@ Rails.application.routes.draw do
         patch :toggle_admin, on: :member
       end
       resources :projects, except: :destroy
-      resources :reports, only: %i[index show]
+      resources :report_summaries, only: %i[index show]
       resources :tasks, only: %i[index new create edit update]
       resources :time_views, only: %i[index show], path: :time do
         resources :time_entries, only: %i[new create], path: :entries
