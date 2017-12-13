@@ -8,6 +8,7 @@ class Client < ApplicationRecord
 
   friendly_id :name, use: :scoped, scope: :organization
 
+  scope :by_name, -> { order :name }
   scope :in_organization, ->(organization) { where organization_id: organization.id }
 
   validates :name,
@@ -15,4 +16,10 @@ class Client < ApplicationRecord
             uniqueness: { scope: :organization_id }
 
   delegate :name, to: :organization, prefix: true
+
+  def safe_destroy
+    destroy
+  rescue ActiveRecord::InvalidForeignKey
+    errors.add :base, 'is used elsewhere'
+  end
 end

@@ -1,16 +1,26 @@
-nav(aria-label='breadcrumb' role='navigation')
-  ol.breadcrumb
-    li.breadcrumb-item= link_to current_organization.name, current_organization
-    li.breadcrumb-item.active(aria-current='page') Clients
+- content_for :heading do
+  .row.mt-2
+    .col
+      nav(aria-label='breadcrumb' role='navigation')
+        ol.breadcrumb
+          li.breadcrumb-item= link_to current_organization.name, current_organization
+          li.breadcrumb-item.active(aria-current='page') Clients
 
-table#clients_table.table
-  thead
-    tr
-      th Name
-  tbody= render @clients
-  tfoot
-    tr
-      td(colspan=2)
-        = inline_add_form_for [current_organization, current_organization.clients.build], '#clients_table' do |f|
-          = f.text_field :name
-          = f.submit
+  .row.align-items-center
+    .col
+      h1 Clients
+    .col.text-right
+      = link_to new_organization_client_path, class: 'btn btn-primary' do
+        i.icon-plus
+
+.row.mt-2
+  .col
+    table#clients_table.table
+      thead
+        tr
+          th Name
+          th &nbsp;
+      tbody= render @clients
+      tfoot
+        tr
+          td.text-right(colspan=2)= paginate @clients
