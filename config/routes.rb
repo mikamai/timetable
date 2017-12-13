@@ -21,7 +21,8 @@ Rails.application.routes.draw do
       resources :projects, except: :destroy
 
       get 'report_summaries' => 'report_summaries#index', as: :report_summaries
-      get 'report_summary/:id/:section' => 'report_summaries#show', as: :report_summary
+      get 'report_summaries/:id/:section' => 'report_summaries#show', as: :report_summary
+      get 'report_entries(/:from_id/:to_id)' => 'report_entries#index', as: :report_entries
 
       resources :tasks, only: %i[index new create edit update]
       resources :time_views, only: %i[index show], path: :time do

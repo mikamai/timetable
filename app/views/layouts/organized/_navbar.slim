@@ -9,9 +9,10 @@ nav.navbar.navbar-expand-lg.navbar-light.bg-light
       li.nav-item(class='#{'active' if controller_name == 'projects'}')= link_to 'Projects', [current_organization, :projects], class: 'nav-link'
       li.nav-item(class="#{'active' if controller_name == 'organization_members'}")= link_to 'Team', [current_organization, :organization_members], class: 'nav-link'
       li.nav-item.dropdown
-        a.nav-link.dropdown-toggle(href='#' data-toggle='dropdown' class="#{'active' if %w[report_summaries].include? controller_name}") Reports
+        a.nav-link.dropdown-toggle(href='#' data-toggle='dropdown' class="#{'active' if %w[report_summaries report_entries].include? controller_name}") Reports
         .dropdown-menu
           = link_to 'Time', [current_organization, :report_summaries], class: "nav-link #{'active' if controller_name == 'report_summaries'}"
+          = link_to 'Detailed Time', [current_organization, :report_entries], class: "nav-link #{'active' if controller_name == 'report_entries'}"
       li.nav-item.dropdown
         a.nav-link.dropdown-toggle(href='#' data-toggle='dropdown' class='#{'active' if %w[clients tasks].include? controller_name}') Manage
         .dropdown-menu

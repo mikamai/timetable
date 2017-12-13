@@ -5,6 +5,7 @@ class TimeEntry < ApplicationRecord
   belongs_to :project, inverse_of: :time_entries
   belongs_to :task, inverse_of: :time_entries
   has_one :organization, through: :project
+  has_one :client, through: :project
 
   scope :in_organization, ->(org) { joins(:project).where(projects: { organization_id: org.id }) }
   scope :executed_on, ->(date) { where executed_on: date }
@@ -29,7 +30,10 @@ class TimeEntry < ApplicationRecord
 
   after_validation :copy_errors_to_minutes_in_distance
 
-  delegate :name, to: :project, prefix: true
+  delegate :name, to: :project, prefix: true, allow_nil: true
+  delegate :name, to: :client, prefix: true, allow_nil: true
+  delegate :name, to: :task, prefix: true, allow_nil: true
+  delegate :name, to: :user, prefix: true, allow_nil: true
 
   def self.total_amount
     sum(:amount)
