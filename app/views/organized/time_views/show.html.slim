@@ -1,4 +1,12 @@
-.row.mt-2
+- content_for :heading do
+  .row.mt-2
+    .col
+      nav(aria-label='breadcrumb' role='navigation')
+        ol.breadcrumb
+          li.breadcrumb-item= link_to current_organization.name, current_organization
+          li.breadcrumb-item.active(aria-current='page') Time
+
+.row.align-items-center
   .col
     h4= l @time_view.date, format: :extended
   .col.text-right
@@ -12,20 +20,30 @@
               class: 'btn btn-light ml-2 seek-time-view', data: { current: @time_view.date.to_json } do
       i.icon-calendar
 
-ul.nav.nav-tabs.nav-fill
-  = render @week_view.time_views
-  li.time-view-nav.total-time-view-nav.nav-item
-    span.nav-item.nav-link.disabled
-      strong.day_name Total
-      span.total= format_distance_of_minutes @week_view.total_amount
+.row.mt-2
+  .col
+    ul.nav.nav-tabs.nav-fill
+      = render @week_view.time_views
+      li.time-view-nav.total-time-view-nav.nav-item
+        span.nav-item.nav-link.disabled
+          strong.day_name Total
+          span.total= format_distance_of_minutes @week_view.total_amount
 
-table.table.table-striped
-  tbody= render @time_view.time_entries
-  tfoot
-    tr.time-entry-total-row.time-entry-row
-      th(scope='row') Total
-      td.amount
-        strong= format_distance_of_minutes @time_view.time_entries.total_amount
-      td
-        = link_to [:new, current_organization, @time_view, :time_entry], class: 'btn btn-primary', role: 'button' do
-          i.icon-plus
+.row
+  .col
+    table.time-view-table.table
+      tbody
+        - if @time_view.time_entries.any?
+          = render @time_view.time_entries
+        - else
+          tr
+            td(colspan=3)
+              p.alert.alert-info.text-center There are no entries to show.
+      tfoot
+        tr.time-entry-total-row.time-entry-row
+          th.align-middle.text-right.text-muted Total:
+          td.align-middle.text-right
+            = format_distance_of_minutes @time_view.time_entries.total_amount
+          td.align-middle.text-right
+            = link_to [:new, current_organization, @time_view, :time_entry], class: 'btn btn-primary', role: 'button' do
+              i.icon-plus

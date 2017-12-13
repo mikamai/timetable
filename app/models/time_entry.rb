@@ -44,6 +44,7 @@ class TimeEntry < ApplicationRecord
   end
 
   def minutes_in_distance
+    return @minutes_in_distance if @minutes_in_distance
     return nil unless amount
     hours = amount / 60
     minutes = amount % 60
@@ -51,8 +52,9 @@ class TimeEntry < ApplicationRecord
   end
 
   def minutes_in_distance= val
-    match = val.match(/\A(\d+)\:(\d+)\z/)
-    val = match[1].to_i * 60 + match[2].to_i if match
+    @minutes_in_distance = val
+    match = val.match(/\A(\d+)(:(\d+))?\z/)
+    val = match[1].to_i * 60 + (match[3] || '').to_i if match
     assign_attributes amount: val
   end
 

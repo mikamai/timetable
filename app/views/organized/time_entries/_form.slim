@@ -1,0 +1,29 @@
+= form_for [current_organization, @time_view, @time_entry] do |f|
+  - projects = current_organization.projects.order('name')
+  .row.form-group
+    = f.label :project_id, class: 'col-sm-2 col-form-label'
+    .col-sm-10
+      = f.collection_select :project_id, projects, :id, :name, {}, \
+                            class: 'form-control', \
+                            data: { fetch_api: organization_project_path(current_organization, ':project') }
+      small.form-text.text-danger= f.object.errors[:project_id].join ', '
+  .row.form-group
+    = f.label :task_id, class: 'col-sm-2 col-form-label'
+    .col-sm-10
+      = f.collection_select :task_id, available_tasks_for_entry_project, :id, :name, {}, \
+                            class: 'form-control'
+      small.form-text.text-danger= f.object.errors[:task_id].join ', '
+  .row.form-group
+    = f.label :notes, class: 'col-sm-2 col-form-label'
+    .col-sm-10
+      = f.text_area :notes, class: 'form-control'
+      small.form-text.text-danger= f.object.errors[:notes].join ', '
+  .row.form-group
+    = f.label :minutes_in_distance, class: 'col-sm-2 col-form-label'
+    .col-sm-10
+      = f.text_field :minutes_in_distance, class: 'form-control', placeholder: '0:00'
+      small.form-text.text-danger= f.object.errors[:amount].join ', '
+  .row.justify-content-end
+    .col-sm-10
+      = f.submit class: 'btn btn-primary'
+

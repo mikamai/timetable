@@ -3,6 +3,7 @@
 //= require popper
 //= require bootstrap-sprockets
 //= require cocoon
+//= require lodash/lodash
 //= require moment/moment
 //= require pikaday/pikaday
 //= require_tree .

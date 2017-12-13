@@ -1,6 +1,7 @@
 {
   "name": "dsl-generated-dependencies",
   "dependencies": {
+    "lodash": "latest",
     "moment": "latest",
     "pikaday": "latest"
   }

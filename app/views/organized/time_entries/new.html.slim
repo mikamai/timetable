@@ -1,14 +1,15 @@
-nav(aria-label='breadcrumb' role='navigation')
-  ol.breadcrumb
-    li.breadcrumb-item= link_to current_organization.name, current_organization
-    li.breadcrumb-item= link_to l(@time_view.date), [current_organization, @time_view]
-    li.breadcrumb-item.active(aria-current='page') New Entry
+- content_for :heading do
+  .row.mt-2
+    .col
+      nav(aria-label='breadcrumb' role='navigation')
+        ol.breadcrumb
+          li.breadcrumb-item= link_to current_organization.name, current_organization
+          li.breadcrumb-item= link_to l(@time_view.date), [current_organization, @time_view]
+          li.breadcrumb-item.active(aria-current='page') New Entry
 
-= bootstrap_form_for [current_organization, @time_view, @time_entry] do |f|
-  - projects = current_organization.projects.order('name')
-  = f.error_summary
-  = f.collection_select :project_id, projects, :id, :name, {}, data: { fetch_api: organization_project_path(current_organization, ':project') }
-  = f.collection_select :task_id, projects.first.tasks.order('name'), :id, :name
-  = f.text_area :notes
-  = f.text_field :minutes_in_distance
-  = f.submit
+.row
+  .col
+    h4 New Entry
+
+.row
+  .col= render 'form'

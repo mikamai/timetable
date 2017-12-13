@@ -4,6 +4,9 @@ module Organized
   class TimeEntriesController < BaseController
     before_action :set_time_view, only: %i[new create]
 
+    helper_method :available_projects_for_entry,
+                  :available_tasks_for_entry_project
+
     def new
       @time_entry = current_user.time_entries.build executed_on: @time_view.date
       respond_with current_organization, @time_entry
@@ -40,6 +43,15 @@ module Organized
 
     def set_time_view
       @time_view = TimeView.find params[:time_view_id], current_organization, current_user
+    end
+
+    def available_projects_for_entry
+      @available_projects ||= current_organization.projects.by_name
+    end
+
+    def available_tasks_for_entry_project
+      project = @time_entry.project || available_projects_for_entry.first
+      @available_tasks_for_project ||= project.tasks.by_name
     end
   end
 end

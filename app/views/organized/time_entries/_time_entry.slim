@@ -1,10 +1,11 @@
 tr.time-entry-row
-  td
-    strong= time_entry.project_name
+  td.align-middle
+    = time_entry.project_name
     - if time_entry.notes?
-      p.description= time_entry.notes
-  td.amount
-    strong= format_distance_of_minutes time_entry.amount
-  td.actions
+      .description.text-muted
+        small= time_entry.notes
+  td.amount.align-middle.text-right
+    = format_distance_of_minutes time_entry.amount
+  td.text-right.align-middle
     = link_to [:edit, current_organization, time_entry], class: 'btn btn-outline-secondary' do
       i.icon-pencil

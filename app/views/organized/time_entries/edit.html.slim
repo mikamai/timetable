@@ -1,12 +1,15 @@
-nav(aria-label='breadcrumb' role='navigation')
-  ol.breadcrumb
-    li.breadcrumb-item= link_to current_organization.name, current_organization
-    li.breadcrumb-item.active(aria-current='page') Edit entry
+- content_for :heading do
+  .row.mt-2
+    .col
+      nav(aria-label='breadcrumb' role='navigation')
+        ol.breadcrumb
+          li.breadcrumb-item= link_to current_organization.name, current_organization
+          li.breadcrumb-item= link_to l(@time_entry.executed_on), [current_organization, @time_entry.time_view]
+          li.breadcrumb-item.active(aria-current='page') Edit Entry
 
-= bootstrap_form_for [current_organization, @time_entry] do |f|
-  = f.date_field :executed_on
-  = f.collection_select :task_id, current_organization.tasks.by_path, :id, :path
-  = f.text_area :notes
-  = f.text_field :minutes_in_distance
-  = f.errors_on :minutes
-  = f.submit
+.row
+  .col
+    h4 Edit Entry
+
+.row
+  .col= render 'form'

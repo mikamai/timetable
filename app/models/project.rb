@@ -13,6 +13,7 @@ class Project < ApplicationRecord
   accepts_nested_attributes_for :members, reject_if: :all_blank, allow_destroy: true
   friendly_id :name, use: :scoped, scope: :organization
 
+  scope :by_name, -> { order :name }
   scope :in_organization, ->(organization) { where organization_id: organization.id }
 
   validates :name,
