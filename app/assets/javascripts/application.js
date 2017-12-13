@@ -6,4 +6,5 @@
 //= require lodash/lodash
 //= require moment/moment
 //= require pikaday/pikaday
+//= require selectize/dist/js/standalone/selectize
 //= require_tree .

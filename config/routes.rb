@@ -22,7 +22,7 @@ Rails.application.routes.draw do
 
       get 'report_summaries' => 'report_summaries#index', as: :report_summaries
       get 'report_summaries/:id/:section' => 'report_summaries#show', as: :report_summary
-      get 'report_entries(/:from_id/:to_id)' => 'report_entries#index', as: :report_entries
+      get 'report_entries' => 'report_entries#index', as: :report_entries
 
       resources :tasks, only: %i[index new create edit update]
       resources :time_views, only: %i[index show], path: :time do

@@ -6,6 +6,7 @@ class Organization < ApplicationRecord
   has_many :members, class_name: 'OrganizationMember', inverse_of: :organization
   has_many :users, through: :members
   has_many :projects, inverse_of: :organization
+  has_many :time_entries, through: :projects
   has_many :tasks, inverse_of: :organization
   has_many :clients, inverse_of: :organization
 

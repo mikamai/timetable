@@ -23,6 +23,7 @@ gem 'devise'
 gem 'friendly_id'
 gem 'kaminari'
 gem 'pundit'
+gem 'ransack', github: 'activerecord-hackery/ransack'
 gem 'responders'
 
 # Views

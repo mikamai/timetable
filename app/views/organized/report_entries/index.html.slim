@@ -12,23 +12,60 @@
 
 .row.mt-2
   .col
-    table.table
+    = search_form_for @q, url: organization_report_entries_path do |f|
+      .row.form-group
+        = f.label :executed_on_gteq, 'From', class: 'col-sm-2 col-form-label'
+        .col-sm-4
+          = f.date_field :executed_on_gteq, class: 'form-control'
+        = f.label :executed_on_lteq, 'To', class: 'col-sm-2 col-form-label'
+        .col-sm-4
+          = f.date_field :executed_on_lteq, class: 'form-control'
+      .row.form-group
+        = f.label :client_id_in, 'Clients', class: 'col-sm-2 col-form-label'
+        .col-sm-10
+          = f.collection_select :client_id_in, available_clients, :id, :name, {}, multiple: true, class: 'form-control chippable'
+      .row.form-group
+        = f.label :project_id_in, 'Projects', class: 'col-sm-2 col-form-label'
+        .col-sm-10
+          = f.collection_select :project_id_in, available_projects, :id, :name, {}, multiple: true, class: 'form-control chippable'
+      .row.form-group
+        = f.label :task_id_in, 'Tasks', class: 'col-sm-2 col-form-label'
+        .col-sm-10
+          = f.collection_select :task_id_in, available_tasks, :id, :name, {}, multiple: true, class: 'form-control chippable'
+      .row.form-group
+        = f.label :user_id_in, 'Users', class: 'col-sm-2 col-form-label'
+        .col-sm-10
+          = f.collection_select :user_id_in, available_users, :id, :name, {}, multiple: true, class: 'form-control chippable'
+      .row.justify-content-end
+        .col-sm-10
+          = f.submit class: 'btn btn-primary'
+          = link_to 'Reset', organization_report_entries_path, class: 'btn btn-secondary ml-2'
+
+.row.mt-2
+  .col
+    table.table.table-sm
       thead
         tr
-          th Client
-          th Project
-          th Task
-          th Person
-          th Hours
+          th= sort_link @q, :executed_on, 'Date'
+          th= sort_link @q, :client_name, 'Client'
+          th= sort_link @q, :project_name, 'Project'
+          th= sort_link @q, :task_name, 'Task'
+          th= sort_link @q, :person_name, 'Person'
+          th= sort_link @q, :amount, 'Hours'
       tbody
-        - @time_entries_by_date.each do |time_entries|
-          tr.date_head
-            th(colspan=4)= l time_entries.first.executed_on
-            th= format_distance_of_minutes time_entries.sum(&:amount)
-          - time_entries.each do |time_entry|
+        - if @time_entries.any?
+          - @time_entries.each do |time_entry|
             tr
+              td= l time_entry.executed_on
               td= time_entry.client_name
               td= time_entry.project_name
               td= time_entry.task_name
               td= time_entry.user_name
               td= format_distance_of_minutes time_entry.amount
+        - else
+          tr
+            td(colspan=6)
+              p.alert.alert-info.text-center There are no entries to show.
+      tfoot
+        tr
+          td(colspan=6)= paginate @time_entries

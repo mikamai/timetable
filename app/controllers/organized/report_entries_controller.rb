@@ -1,51 +1,34 @@
+# frozen_string_literal: true
+
 module Organized
   class ReportEntriesController < BaseController
-    before_action :set_basic_filters
-
-    helper_method :from_date, :to_date
+    helper_method :available_clients, :available_projects,
+                  :available_tasks, :available_users
 
     def index
-      @time_entries = TimeEntry.includes(:project, :client, :task, :user)
-                               .executed_since(from_date)
-                               .executed_until(to_date)
-                               .order(:executed_on, :created_at)
-      @time_entries_by_date = group_time_entries_by_date
+      @q = current_organization.time_entries.ransack(params[:q]).tap do |q|
+        q.sorts = 'execute_on asc' if q.sorts.empty?
+      end
+      @time_entries = @q.result.includes(:project, :client, :task, :user)
+                        .page(params[:page])
     end
 
     private
 
-    def from_date
-      return nil unless params[:from_id].present?
-      @from_date ||= Date.strptime params[:from_id], TimeView::ID_FORMAT
-    rescue ArgumentError
-      nil
+    def available_clients
+      current_organization.clients.by_name
     end
 
-    def to_date
-      return nil unless params[:to_id].present?
-      @to_date ||= Date.strptime params[:to_id], TimeView::ID_FORMAT
-    rescue ArgumentError
-      nil
+    def available_projects
+      current_organization.projects.by_name
     end
 
-    def set_basic_filters
-      return if from_date || to_date
-      redirect_to organization_report_entries_path(
-        from_id: Date.today.beginning_of_week.strftime(TimeView::ID_FORMAT),
-        to_id:   Date.today.end_of_week.strftime(TimeView::ID_FORMAT),
-      )
+    def available_tasks
+      current_organization.tasks.by_name
     end
 
-    def group_time_entries_by_date
-      @time_entries.inject [] do |memo, item|
-        array = memo.last
-        if array && array.last.executed_on == item.executed_on
-          array << item
-        else
-          memo << [item]
-        end
-        memo
-      end
+    def available_users
+      current_organization.users.by_name
     end
   end
 end

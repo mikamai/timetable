@@ -1,0 +1,5 @@
+/* global $ */
+
+$(() => {
+  $('.chippable').selectize();
+});

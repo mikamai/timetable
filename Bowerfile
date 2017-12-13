@@ -1,3 +1,4 @@
 asset 'lodash'
 asset 'moment'
 asset 'pikaday'
+asset 'selectize'

@@ -3,6 +3,7 @@
   "dependencies": {
     "lodash": "latest",
     "moment": "latest",
-    "pikaday": "latest"
+    "pikaday": "latest",
+    "selectize": "latest"
   }
 }
