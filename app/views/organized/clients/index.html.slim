@@ -20,7 +20,13 @@
         tr
           th Name
           th &nbsp;
-      tbody= render @clients
+      tbody
+        - if @clients.any?
+          = render @clients
+        - else
+          tr
+            td(colspan=2)
+              p.alert.alert-info.text-center There are no clients to show.
       tfoot
         tr
           td.text-right(colspan=2)= paginate @clients

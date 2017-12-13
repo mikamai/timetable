@@ -21,7 +21,13 @@
           th Name
           th Client
           th &nbsp;
-      tbody= render @projects
+      tbody
+        - if @projects.any?
+          = render @projects
+        - else
+          tr
+            td(colspan=2)
+              p.alert.alert-info.text-center There are no projects to show.
       tfoot
         tr
           td(colspan=3)= paginate @projects

@@ -21,7 +21,13 @@
           th Name
           th Admin?
           th &nbsp;
-      tbody= render @organization_members
+      tbody
+        - if @organization_members.any?
+          = render @organization_members
+        - else
+          tr
+            td(colspan=2)
+              p.alert.alert-info.text-center There are no members to show.
       tfoot
         tr
           td(colspan=3)= paginate @organization_members

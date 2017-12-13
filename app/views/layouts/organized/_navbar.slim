@@ -5,7 +5,7 @@ nav.navbar.navbar-expand-lg.navbar-light.bg-light
     span.navbar-toggler-icon
   #navbar-supported-content.collapse.navbar-collapse
     ul.navbar-nav.mr-auto
-      li.nav-item(class='#{'active' if controller_name == 'home'}')= link_to 'Home', current_organization, class: 'nav-link'
+      li.nav-item(class='#{'active' if %w[time_views time_entries].include? controller_name}')= link_to 'Time', current_organization, class: 'nav-link'
       li.nav-item(class='#{'active' if controller_name == 'projects'}')= link_to 'Projects', [current_organization, :projects], class: 'nav-link'
       li.nav-item(class="#{'active' if controller_name == 'organization_members'}")= link_to 'Team', [current_organization, :organization_members], class: 'nav-link'
       li.nav-item(class='#{'active' if controller_name == 'reports'}')= link_to 'Reports', [current_organization, :reports], class: 'nav-link'

@@ -20,7 +20,13 @@
         tr
           th Name
           th &nbsp;
-      tbody= render @tasks
+      tbody
+        - if @tasks.any?
+          = render @tasks
+        - else
+          tr
+            td(colspan=2)
+              p.alert.alert-info.text-center There are no tasks to show.
       tfoot
         tr
           td(colspan=2)= paginate @tasks
