@@ -17,6 +17,7 @@ nav.navbar.navbar-expand-lg.navbar-light.bg-light
         a.nav-link.dropdown-toggle(href='#' data-toggle='dropdown' class='#{'active' if %w[clients tasks].include? controller_name}') Manage
         .dropdown-menu
           = link_to 'Clients', [current_organization, :clients], class: "nav-link #{'active' if controller_name == 'clients'}"
+          = link_to 'Roles', [current_organization, :roles], class: "nav-link #{'active' if controller_name == 'clients'}"
           = link_to 'Tasks', [current_organization, :tasks], class: "nav-link #{'active' if controller_name == 'tasks'}"
 
     ul.navbar-nav

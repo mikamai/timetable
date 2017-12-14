@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20171212150024) do
+ActiveRecord::Schema.define(version: 20171213202709) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -76,6 +76,21 @@ ActiveRecord::Schema.define(version: 20171212150024) do
     t.index ["project_id", "task_id"], name: "index_projects_tasks_on_project_id_and_task_id", unique: true
   end
 
+  create_table "roles", id: :uuid, default: -> { "gen_random_uuid()" }, force: :cascade do |t|
+    t.uuid "organization_id", null: false
+    t.string "name", null: false
+    t.string "slug", null: false
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["organization_id", "slug"], name: "index_roles_on_organization_id_and_slug", unique: true
+  end
+
+  create_table "roles_users", id: false, force: :cascade do |t|
+    t.uuid "role_id", null: false
+    t.uuid "user_id", null: false
+    t.index ["role_id", "user_id"], name: "index_roles_users_on_role_id_and_user_id", unique: true
+  end
+
   create_table "tasks", id: :uuid, default: -> { "gen_random_uuid()" }, force: :cascade do |t|
     t.string "name", null: false
     t.datetime "created_at", null: false
@@ -128,6 +143,9 @@ ActiveRecord::Schema.define(version: 20171212150024) do
   add_foreign_key "projects", "organizations"
   add_foreign_key "projects_tasks", "projects"
   add_foreign_key "projects_tasks", "tasks"
+  add_foreign_key "roles", "organizations"
+  add_foreign_key "roles_users", "roles"
+  add_foreign_key "roles_users", "users"
   add_foreign_key "tasks", "organizations"
   add_foreign_key "time_entries", "projects"
   add_foreign_key "time_entries", "tasks"

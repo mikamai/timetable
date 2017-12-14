@@ -9,6 +9,7 @@ class Organization < ApplicationRecord
   has_many :time_entries, through: :projects
   has_many :tasks, inverse_of: :organization
   has_many :clients, inverse_of: :organization
+  has_many :roles, inverse_of: :organization
 
   friendly_id :name, use: :slugged
 

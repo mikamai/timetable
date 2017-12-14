@@ -1,0 +1,32 @@
+- content_for :heading do
+  .row.mt-2
+    .col
+      nav(aria-label='breadcrumb' role='navigation')
+        ol.breadcrumb
+          li.breadcrumb-item= link_to current_organization.name, current_organization
+          li.breadcrumb-item.active(aria-current='page') Roles
+
+.row.align-items-center
+  .col
+    h4 Roles
+  .col.text-right
+    = link_to new_organization_role_path, class: 'btn btn-primary' do
+      i.icon-plus
+
+.row.mt-2
+  .col
+    table.table
+      thead
+        tr
+          th Name
+          th &nbsp;
+      tbody
+        - if @roles.any?
+          = render @roles
+        - else
+          tr
+            td(colspan=2)
+              p.alert.alert-info.text-center There are no roles to show.
+      tfoot
+        tr
+          td.text-right(colspan=2)= paginate @roles

@@ -13,7 +13,7 @@ module Organized
     end
 
     def create
-      @client = current_organization.clients.create create_params
+      @client = current_organization.clients.create client_params
       respond_with current_organization, @client
     end
 
@@ -24,7 +24,7 @@ module Organized
 
     def update
       @client = current_organization.clients.friendly.find params[:id]
-      @client.update_attributes update_params
+      @client.update_attributes client_params
       respond_with current_organization, @client
     end
 
@@ -36,12 +36,8 @@ module Organized
 
     private
 
-    def create_params
+    def client_params
       params.require(:client).permit :name
-    end
-
-    def update_params
-      params.require(:client).permit :slug, :name
     end
   end
 end

@@ -1,0 +1,10 @@
+tr
+  td
+    = role.name
+    small.text-muted.ml-2= role.slug
+  td.text-right
+    - if role.destroyable?
+      = link_to [current_organization, role], class: 'btn btn-outline-danger mr-2', data: { method: 'delete' } do
+        i.icon-cross
+    = link_to [:edit, current_organization, role], class: 'btn btn-outline-secondary' do
+      i.icon-pencil
