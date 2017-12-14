@@ -15,6 +15,8 @@ class Organization < ApplicationRecord
 
   friendly_id :name, use: :slugged
 
+  scope :by_name, -> { order :name }
+
   validates :name,
             presence: true,
             uniqueness: true
