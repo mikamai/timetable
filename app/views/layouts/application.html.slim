@@ -1,7 +1,11 @@
 doctype html
 html(lang='en')
   head
-    title Timetable
+    title
+      - if current_organization
+        = "#{current_organization.name} | Timetable"
+      - else
+        | Timetable
     meta(name='viewport' content='width=device-width, initial-scale=1, shrink-to-fit=no')
       = csrf_meta_tags
       = stylesheet_link_tag    'application', media: 'all', 'data-turbolinks-track': 'reload'

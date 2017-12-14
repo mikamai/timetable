@@ -2,14 +2,10 @@
 
 module Organized
   class BaseController < ApplicationController
-    layout 'organized'
-    respond_to :html, :json
-
     before_action :authenticate_user!
     before_action :set_current_organization
 
-    helper_method :current_organization, :available_organizations,
-                  :available_clients, :available_projects, :available_tasks,
+    helper_method :available_clients, :available_projects, :available_tasks,
                   :available_users, :available_roles
 
     def current_organization
@@ -24,7 +20,7 @@ module Organized
 
     def set_current_organization
       @organization = current_user.organizations.friendly.find organization_param
-      session[:last_organization_id] = @organization.id
+      session[:last_used_organization_id] = @organization.id
     end
 
     def available_organizations
