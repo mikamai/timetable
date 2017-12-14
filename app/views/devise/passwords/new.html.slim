@@ -1,0 +1,25 @@
+- content_for :heading do
+  .row.mt-2
+    .col
+      nav(aria-label='breadcrumb' role='navigation')
+        ol.breadcrumb
+          li.breadcrumb-item.active(aria-current='page') Forgot your password?
+
+.row.justify-content-center
+  .col-sm-6
+    h4 Forgot your password?
+
+.row.justify-content-center
+  .col-sm-6
+    = form_for resource, as: resource_name, url: password_path(resource_name), html: { method: :post } do |f|
+      .row.form-group
+        = f.label :email, class: 'col-sm-2 col-form-label'
+        .col-sm-10
+          = f.email_field :email, class: 'form-control'
+          small.form-text.text-danger= f.object.errors[:email].join ', '
+
+      .row.justify-content-end
+        .col-sm-10
+          = f.submit 'Reset password', class: 'btn btn-primary'
+
+    = render 'devise/shared/links'

@@ -1,0 +1,62 @@
+- content_for :heading do
+  .row.mt-2
+    .col
+      nav(aria-label='breadcrumb' role='navigation')
+        ol.breadcrumb
+          li.breadcrumb-item.active Profile
+
+.row
+  .col
+    h4 Your Profile
+
+.row
+  .col
+    = form_for resource, as: resource_name, url: registration_path(resource_name), html: { method: :put } do |f|
+      .form-group.row
+        = f.label :first_name, class: 'col-sm-2 col-form-label'
+        .col-sm-4
+          = f.text_field :first_name, class: 'form-control'
+          small.form-text.text-danger= f.object.errors[:first_name].join ', '
+        = f.label :last_name, class: 'col-sm-2 col-form-label'
+        .col-sm-4
+          = f.text_field :last_name, class: 'form-control'
+          small.form-text.text-danger= f.object.errors[:last_name].join ', '
+
+      .form-group.row
+        = f.label :email, class: 'col-sm-2 col-form-label'
+        .col-sm-10
+          - if devise_mapping.confirmable? && resource.pending_reconfirmation?
+            - email_value = current_user.email_changed? ? current_user.email : f.object.unconfirmed_email || f.object.email
+            = f.email_field :email, value: email_value, class: 'form-control'
+            - if !current_user.email_changed? && f.object.unconfirmed_email
+              small.form-text.text-muted= "This email is pending confirmation. Until then, the old email (#{f.object.email}) will be used."
+          - else
+            = f.email_field :email, class: 'form-control'
+          small.form-text.text-danger= f.object.errors[:email].join ', '
+
+      .form-group.row
+        = f.label :password, class: 'col-sm-2 col-form-label'
+        .col-sm-10
+          = f.password_field :password, autocomplete: 'off', class: 'form-control'
+          small.form-text.text-muted
+            | leave blank if you don't want to change it.
+            - if @minimum_password_length
+              = " #{@minimum_password_length} characters minimum."
+
+      .form-group.row
+        = f.label :password_confirmation, class: 'col-sm-2 col-form-label'
+        .col-sm-10
+          = f.password_field :password_confirmation, autocomplete: 'off', class: 'form-control'
+
+      .form-group.row
+        = f.label :current_password, class: 'col-sm-2 col-form-label'
+        .col-sm-10
+          = f.password_field :current_password, autocomplete: 'off', class: 'form-control'
+          small.form-text.text-muted we need your current password to confirm your changes.
+
+      .row.justify-content-end
+        .col-sm-10
+          = f.submit class: 'btn btn-primary'
+          = link_to 'Cancel my account', registration_path(resource_name), \
+                    data: { confirm: 'Are you sure?' }, method: :delete, \
+                    class: 'btn btn-danger ml-2'

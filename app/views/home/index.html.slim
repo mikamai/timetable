@@ -1,0 +1,9 @@
+.row.mt-2
+  .col
+    .jumbotron
+      h1.display-3 Welcome to Timetable
+      p.lead Log in or register please.
+      hr.my-4
+      p.lead
+        = link_to 'Sign in', new_user_session_path, class: 'btn btn-primary btn-lg'
+        = link_to 'Sign up', new_user_registration_path, class: 'btn btn-primary btn-lg ml-2'

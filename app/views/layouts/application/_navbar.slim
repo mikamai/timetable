@@ -40,5 +40,5 @@ nav.navbar.navbar-expand-lg.navbar-light.bg-light
               - available_organizations.each do |organization|
                 = link_to organization.name, organization, class: 'dropdown-item'
               .dropdown-divider
-            = link_to 'Profile', profile_path, class: 'dropdown-item'
+            = link_to 'Profile', edit_user_registration_path, class: 'dropdown-item'
             = link_to 'Sign out', destroy_user_session_path, class: 'dropdown-item', data: { method: 'delete' }

@@ -1,0 +1,47 @@
+- content_for :heading do
+  .row.mt-2
+    .col
+      nav(aria-label='breadcrumb' role='navigation')
+        ol.breadcrumb
+          li.breadcrumb-item.active(aria-current='page') Sign up
+
+.row
+  .col
+    h4 Sign up
+
+.row
+  .col
+    = form_for resource, as: resource_name, url: registration_path(resource_name) do |f|
+      .row.form-group
+        = f.label :first_name, class: 'col-sm-2 col-form-label'
+        .col-sm-4
+          = f.text_field :first_name, autofocus: true, class: 'form-control'
+          small.form-text.text-danger= f.object.errors[:first_name].join ', '
+        = f.label :last_name, class: 'col-sm-2 col-form-label'
+        .col-sm-4
+          = f.text_field :last_name, class: 'form-control'
+          small.form-text.text-danger= f.object.errors[:last_name].join ', '
+
+      .row.form-group
+        = f.label :email, class: 'col-sm-2 col-form-label'
+        .col-sm-10
+          = f.email_field :email, class: 'form-control'
+          small.form-text.text-danger= f.object.errors[:email].join ', '
+
+      .row.form-group
+        = f.label :password, class: 'col-sm-2 col-form-label'
+        .col-sm-10
+          = f.password_field :password, autocomplete: 'off', class: 'form-control'
+          small.form-text.text-muted= "(#{@minimum_password_length} characters minimum)"
+          small.form-text.text-danger= f.object.errors[:password].join ', '
+
+      .row.form-group
+        = f.label :password_confirmation, class: 'col-sm-2 col-form-label'
+        .col-sm-10
+          = f.password_field :password_confirmation, autocomplete: 'off', class: 'form-control'
+
+      .row.justify-content-end
+        .col-sm-10
+          = f.submit 'Sign up', class: 'btn btn-primary'
+
+    = render 'devise/shared/links'
