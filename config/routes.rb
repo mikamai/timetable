@@ -33,6 +33,7 @@ Rails.application.routes.draw do
     end
   end
 
+  resources :organizations, only: %i[new create]
   get 'profile' => 'profile#edit'
   patch 'profile' => 'profile#update'
 

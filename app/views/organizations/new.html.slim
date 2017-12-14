@@ -1,0 +1,22 @@
+- content_for :heading do
+  .row.mt-2
+    .col
+      nav(aria-label='breadcrumb' role='navigation')
+        ol.breadcrumb
+          li.breadcrumb-item.active(aria-current='page') New Organization
+
+.row
+  .col
+    h4 New Organization
+
+.row
+  .col
+    = form_for @organization do |f|
+      .row.form-group
+        = f.label :name, class: 'col-sm-2 col-form-label'
+        .col-sm-10
+          = f.text_field :name, class: 'form-control'
+          small.form-text.text-danger= f.object.errors[:name].join ', '
+      .row.justify-content-end
+        .col-sm-10
+          = f.submit class: 'btn btn-primary'

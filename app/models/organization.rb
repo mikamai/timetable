@@ -11,6 +11,8 @@ class Organization < ApplicationRecord
   has_many :clients, inverse_of: :organization
   has_many :roles, inverse_of: :organization
 
+  accepts_nested_attributes_for :members, reject_if: :all_blank, allow_destroy: true
+
   friendly_id :name, use: :slugged
 
   validates :name,

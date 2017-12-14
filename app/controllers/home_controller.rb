@@ -1,19 +1,16 @@
 # frozen_string_literal: true
 
 class HomeController < ApplicationController
-  before_action :authenticate_user!, only: :no_organization
   before_action :redirect_for_organized_user
   before_action :redirect_for_unorganized_user, only: :index
 
   def index; end
 
-  def no_organization; end
-
   private
 
   def redirect_for_unorganized_user
-    return unless current_user
-    redirect_to no_organization_path if current_user.organizations.empty?
+    return unless current_user && current_user.organizations.empty?
+    redirect_to new_organization_path, flash: { alert: "You don't have any organization" }
   end
 
   def redirect_for_organized_user
@@ -22,11 +19,11 @@ class HomeController < ApplicationController
   end
 
   def last_used_organization
-    last_used_organization_in_session || current_user.organizations.order('name').first
+    last_used_organization_in_session || current_user.organizations.by_name.first
   end
 
   def last_used_organization_in_session
-    return unless session[:last_organization_id].present?
+    return unless session[:last_used_organization_id].present?
     current_user.organizations.find session[:last_organization_id]
   rescue ActiveRecord::RecordNotFound
     nil
