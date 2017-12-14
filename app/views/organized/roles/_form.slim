@@ -7,7 +7,7 @@
   .row.form-group
     = f.label :user_ids, class: 'col-sm-2 col-form-label'
     .col-sm-10
-      = f.collection_select :user_ids, available_users_for_role, :id, :name, {}, multiple: true, class: 'form-control chippable'
+      = f.collection_select :user_ids, available_users, :id, :name, {}, multiple: true, class: 'form-control chippable'
       small.form-text.text-danger= f.object.errors[:user_ids].join ', '
   .row.justify-content-end
     .col-sm-10

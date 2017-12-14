@@ -35,7 +35,7 @@
       .row.form-group
         = f.label :user_roles_id_in, 'Roles', class: 'col-sm-2 col-form-label'
         .col-sm-10
-          = f.collection_select :user_roles_id_in, Role.all, :id, :name, {}, multiple: true, class: 'form-control chippable'
+          = f.collection_select :user_roles_id_in, available_roles, :id, :name, {}, multiple: true, class: 'form-control chippable'
       .row.form-group
         = f.label :user_id_in, 'Users', class: 'col-sm-2 col-form-label'
         .col-sm-10

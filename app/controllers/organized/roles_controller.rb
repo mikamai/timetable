@@ -2,8 +2,6 @@
 
 module Organized
   class RolesController < BaseController
-    helper_method :available_users_for_role
-
     def index
       @roles = current_organization.roles.by_name.page params[:page]
       respond_with current_organization, @roles
@@ -40,10 +38,6 @@ module Organized
 
     def client_params
       params.require(:role).permit :name, user_ids: []
-    end
-
-    def available_users_for_role
-      current_organization.users.by_name
     end
   end
 end

@@ -19,6 +19,14 @@
     = link_to organization_time_view_path(current_organization, ':time_view'), \
               class: 'btn btn-light ml-2 seek-time-view', data: { current: @time_view.date.to_json } do
       i.icon-calendar
+    span.dropdown.ml-2
+      button.btn.btn-light.dropdown-toggle(data-toggle='dropdown')
+        | Team members
+        - if @week_view.user != current_user
+          small.text-muted.ml-2= @week_view.user.name
+      .dropdown-menu
+        - available_users.each do |user|
+          = link_to user.name, url_for(as: user), class: "dropdown-item #{'active' if user == @week_view.user}"
 
 .row.mt-2
   .col
@@ -45,5 +53,5 @@
           td.align-middle.text-right
             = format_distance_of_minutes @time_view.time_entries.total_amount
           td.align-middle.text-right
-            = link_to [:new, current_organization, @time_view, :time_entry], class: 'btn btn-primary', role: 'button' do
+            = link_to new_organization_time_view_time_entry_path(time_view_id: @time_view, as: @time_view.user), class: 'btn btn-primary', role: 'button' do
               i.icon-plus
