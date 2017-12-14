@@ -12,7 +12,8 @@
   .row.form-group
     = f.label :task_ids, class: 'col-sm-2 col-form-label'
     .col-sm-10
-      = f.collection_select :task_ids, available_tasks_for_project, :id, :name, {}, multiple: true , class: 'form-control'
+      = f.collection_select :task_ids, available_tasks_for_project, :id, :name, {}, multiple: true , class: 'form-control chippable'
+      small.form-text.text-danger= f.object.errors[:task_ids].join ', '
   .row.form-group
     = f.label :members, class: 'col-sm-2 col-form-label'
     .col-sm-10
