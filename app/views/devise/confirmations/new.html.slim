@@ -1,0 +1,25 @@
+- content_for :heading do
+  .row.mt-2
+    .col
+      nav(aria-label='breadcrumb' role='navigation')
+        ol.breadcrumb
+          li.breadcrumb-item.active(aria-current='page') Resend confirmation instructions
+
+.row.justify-content-center
+  .col-sm-6
+    h4 Resend confirmation instructions
+
+.row.justify-content-center
+  .col-sm-6
+    = form_for resource, as: resource_name, url: confirmation_path(resource_name), html: { method: :post } do |f|
+      .row.form-group
+        = f.label :email, class: 'col-sm-2 col-form-label'
+        .col-sm-10
+          = f.email_field :email, autofocus: true, class: 'form-control', value: (resource.pending_reconfirmation? ? resource.unconfirmed_email : resource.email)
+          small.form-text.text-danger= f.object.errors[:email].join ', '
+
+      .row.justify-content-end
+        .col-sm-10
+          = f.submit 'Resend confirmation instructions', class: 'btn btn-primary'
+
+    = render 'devise/shared/links'
