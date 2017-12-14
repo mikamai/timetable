@@ -4,11 +4,18 @@
       nav(aria-label='breadcrumb' role='navigation')
         ol.breadcrumb
           li.breadcrumb-item= link_to current_organization.name, current_organization
-          li.breadcrumb-item.active(aria-current='page') Time
+          - if @time_view.user != current_user
+            li.breadcrumb-item= link_to 'Time', url_for(as: nil)
+            li.breadcrumb-item.active= @time_view.user.name
+          - else
+            li.breadcrumb-item.active(aria-current='page') Time
 
 .row.align-items-center
   .col
-    h4= l @time_view.date, format: :extended
+    h4
+      = l @time_view.date, format: :extended
+      - if @time_view.user != current_user
+        = ", #{@time_view.user.name}"
   .col.text-right
     .btn-group
       = link_to prev_week_time_view_url, class: 'btn btn-light' do
@@ -20,10 +27,7 @@
               class: 'btn btn-light ml-2 seek-time-view', data: { current: @time_view.date.to_json } do
       i.icon-calendar
     span.dropdown.ml-2
-      button.btn.btn-light.dropdown-toggle(data-toggle='dropdown')
-        | Team members
-        - if @week_view.user != current_user
-          small.text-muted.ml-2= @week_view.user.name
+      button.btn.btn-light.dropdown-toggle(data-toggle='dropdown') Change team member
       .dropdown-menu
         - available_users.each do |user|
           = link_to user.name, url_for(as: user), class: "dropdown-item #{'active' if user == @week_view.user}"
