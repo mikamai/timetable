@@ -22,7 +22,7 @@ class OrganizationMember < ApplicationRecord
 
   def user_email= email
     @user_email = email
-    self.user = User.find_by email: email
+    self.user = User.find_by(email: email) || User.invite!(email: email)
   end
 
   def as_json opts = {}
