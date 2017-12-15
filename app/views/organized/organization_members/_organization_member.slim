@@ -1,7 +1,5 @@
 tr(class="#{'font-weight-bold' if organization_member.admin?}")
-  td
-    = organization_member.user_name
-    small.text-muted.ml-2= organization_member.user_email
+  td= user_table_name organization_member.user
   td
     - if policy(organization_member).toggle_admin?
       - organization = organization_member.organization

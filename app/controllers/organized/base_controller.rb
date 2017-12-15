@@ -40,7 +40,7 @@ module Organized
     end
 
     def available_users
-      @available_users ||= current_organization.users.by_name
+      @available_users ||= current_organization.users.confirmed.by_name
     end
   end
 end

@@ -14,6 +14,7 @@ class User < ApplicationRecord
   has_and_belongs_to_many :roles, inverse_of: :users
 
   scope :by_name, -> { order :first_name, :last_name }
+  scope :confirmed, -> { where.not confirmed_at: nil }
 
   validates :first_name,
             :last_name,
