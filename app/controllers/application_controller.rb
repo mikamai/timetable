@@ -3,13 +3,15 @@ require 'application_responder'
 # frozen_string_literal: true
 
 class ApplicationController < ActionController::Base
-  self.responder = ApplicationResponder
+  include Pundit
   respond_to :html, :json
   protect_from_forgery with: :exception
 
   before_action :configure_permitted_parameters, if: :devise_controller?
 
   helper_method :current_organization, :available_organizations
+
+  self.responder = ApplicationResponder
 
   protected
 

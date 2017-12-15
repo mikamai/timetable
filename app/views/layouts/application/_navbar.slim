@@ -25,7 +25,12 @@ nav.navbar.navbar-expand-lg.navbar-light.bg-light
             = link_to 'Tasks', [current_organization, :tasks], class: "nav-link #{'active' if controller_name == 'tasks'}"
       - else
         - available_organizations.each do |organization|
-          = link_to organization.name, organization, class: 'nav-link'
+          li.nav-item= link_to organization.name, organization, class: 'nav-link'
+      - if current_user.admin?
+        li.dropdown.nav-item
+          a.nav-link.dropdown-toggle(href='#' data-toggle='dropdown' class="#{'active' if controller_path =~ /^admin\//}") Admin
+          .dropdown-menu
+            = link_to 'Users', [:admin, :users], class: "nav-link #{'active' if controller_path == 'admin/users'}"
 
     - if user_signed_in?
       ul.navbar-nav
