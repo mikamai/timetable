@@ -26,6 +26,10 @@ gem 'pundit'
 gem 'ransack', github: 'activerecord-hackery/ransack'
 gem 'responders'
 
+# Rollbar
+gem 'oj'
+gem 'rollbar'
+
 # Views
 gem 'bootstrap', '4.0.0.beta2.1'
 gem 'bootstrap_form', github: 'bootstrap-ruby/rails-bootstrap-forms', branch: 'bootstrap-v4'
