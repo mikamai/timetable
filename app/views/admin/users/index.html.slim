@@ -9,9 +9,10 @@
 .row.align-items-center
   .col
     h4 Users
-  / .col.text-right
-  /   = link_to new_organization_client_path, class: 'btn btn-primary' do
-  /     i.icon-plus
+  .col.text-right
+    - if policy(User).create?
+      = link_to new_user_invitation_path, class: 'btn btn-primary' do
+        i.icon-plus
 
 .row.mt-2
   .col

@@ -1,0 +1,41 @@
+- content_for :heading do
+  .row.mt-2
+    .col
+      nav(aria-label='breadcrumb' role='navigation')
+        ol.breadcrumb
+          li.breadcrumb-item.active= t 'devise.invitations.edit.header'
+
+.row
+  .col
+    h4= t 'devise.invitations.edit.header'
+
+.row
+  .col
+    = form_for resource, as: resource_name, url: invitation_path(resource_name) do |f|
+      = f.hidden_field :invitation_token
+
+      .row.form-group
+        = f.label :first_name, class: 'col-sm-2 col-form-label'
+        .col-sm-4
+          = f.text_field :first_name, autofocus: true, class: 'form-control'
+          small.form-text.text-danger= f.object.errors[:first_name].join ', '
+        = f.label :last_name, class: 'col-sm-2 col-form-label'
+        .col-sm-4
+          = f.text_field :last_name, class: 'form-control'
+          small.form-text.text-danger= f.object.errors[:last_name].join ', '
+
+      - if f.object.class.require_password_on_accepting
+        .row.form-group
+          = f.label :password, class: 'col-sm-2 col-form-label'
+          .col-sm-10
+            = f.password_field :password, autocomplete: 'off', class: 'form-control'
+            small.form-text.text-danger= f.object.errors[:password].join ', '
+        .row.form-group
+          = f.label :password_confirmation, class: 'col-sm-2 col-form-label'
+          .col-sm-10
+            = f.password_field :password_confirmation, autocomplete: 'off', class: 'form-control'
+            small.form-text.text-danger= f.object.errors[:password_confirmation].join ', '
+
+      .row.justify-content-end
+        .col-sm-10
+          = f.submit t('devise.invitations.edit.submit_button'), class: 'btn btn-primary'

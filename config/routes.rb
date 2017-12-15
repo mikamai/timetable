@@ -1,7 +1,9 @@
 # frozen_string_literal: true
 
 Rails.application.routes.draw do
-  devise_for :users
+  devise_for :users, controllers: {
+    invitations: 'users/invitations'
+  }
 
   namespace :admin do
     resources :users, only: :index
