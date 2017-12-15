@@ -7,5 +7,6 @@ tr.time-entry-row
   td.amount.align-middle.text-right
     = format_distance_of_minutes time_entry.amount
   td.text-right.align-middle
-    = link_to [:edit, current_organization, time_entry], class: 'btn btn-outline-secondary' do
-      i.icon-pencil
+    - if policy(time_entry).update?
+      = link_to [:edit, current_organization, time_entry], class: 'btn btn-outline-secondary' do
+        i.icon-pencil

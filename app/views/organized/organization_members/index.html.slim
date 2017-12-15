@@ -10,8 +10,9 @@
   .col
     h4 Team
   .col.text-right
-    = link_to new_organization_organization_member_path, class: 'btn btn-primary' do
-      i.icon-plus
+    - if policy(current_organization.members.build).create?
+      = link_to new_organization_organization_member_path, class: 'btn btn-primary' do
+        i.icon-plus
 
 .row.mt-2
   .col

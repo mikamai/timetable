@@ -4,7 +4,7 @@
       nav(aria-label='breadcrumb' role='navigation')
         ol.breadcrumb
           li.breadcrumb-item= link_to current_organization.name, current_organization
-          li.breadcrumb-item= link_to l(@time_entry.executed_on), [current_organization, @time_entry.time_view]
+          li.breadcrumb-item= link_to l(@time_entry.executed_on), [current_organization, @time_entry.time_view, as: @time_entry.user]
           li.breadcrumb-item.active(aria-current='page') Edit Entry
 
 .row

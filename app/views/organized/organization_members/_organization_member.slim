@@ -3,11 +3,12 @@ tr(class="#{'font-weight-bold' if organization_member.admin?}")
     = organization_member.user_name
     small.text-muted.ml-2= organization_member.user_email
   td
-    - organization = organization_member.organization
-    = link_to [:toggle_admin, organization, organization_member], \
-              class: 'toggle_admin', data: { method: 'patch' } do
-      span.icon-check(class='#{organization_member.admin? ? 'active' : 'inactive'}')
+    - if policy(organization_member).toggle_admin?
+      - organization = organization_member.organization
+      = link_to [:toggle_admin, organization, organization_member], \
+                class: 'toggle_admin', data: { method: 'patch' } do
+        span.icon-check(class='#{organization_member.admin? ? 'active' : 'inactive'}')
   td
-    - if organization_member.destroyable?
+    - if policy(organization_member).destroy?
       = link_to [current_organization, organization_member], class: 'btn btn-outline-danger', data: { method: 'delete' } do
         i.icon-cross

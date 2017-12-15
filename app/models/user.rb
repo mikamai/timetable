@@ -22,4 +22,10 @@ class User < ApplicationRecord
   def name
     "#{first_name} #{last_name}"
   end
+
+  def admin_in? organization
+    return true if admin?
+    membership = organization_memberships.find_by(organization_id: organization.id)
+    membership&.admin?
+  end
 end

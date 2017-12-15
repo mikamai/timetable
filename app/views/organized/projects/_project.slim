@@ -4,5 +4,6 @@ tr
     small.text-muted.ml-2= project.slug
   td= project.client_name
   td.text-right
-    = link_to edit_organization_project_path(current_organization, project), class: 'btn btn-outline-secondary' do
-      i.icon-pencil
+    - if policy(project).update?
+      = link_to edit_organization_project_path(current_organization, project), class: 'btn btn-outline-secondary' do
+        i.icon-pencil

@@ -2,33 +2,39 @@
 
 module Organized
   class ProjectsController < BaseController
-    before_action :fetch_project, only: %i[show edit update add_task remove_task]
+    before_action :fetch_project, only: %i[show edit update]
 
     def index
       @projects = current_organization.projects.order(:name).page(params[:page])
+      authorize current_organization.projects.build
       respond_with current_organization, @projects
     end
 
     def new
       @project = current_organization.projects.build
+      authorize @project
       respond_with current_organization, @project
     end
 
     def show
-      @project = current_organization.projects.friendly.find params[:id]
+      authorize @project
       respond_with current_organization, @project
     end
 
     def create
-      @project = current_organization.projects.create project_params
+      @project = current_organization.projects.build project_params
+      authorize @project
+      @project.save
       respond_with current_organization, @project
     end
 
     def edit
+      authorize @project
       respond_with current_organization, @project
     end
 
     def update
+      authorize @project
       @project.update_attributes project_params
       respond_with current_organization, @project
     end

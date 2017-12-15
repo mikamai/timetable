@@ -6,22 +6,27 @@ module Organized
 
     def new
       @time_entry = TimeEntry.new executed_on: @time_view.date, user: impersonating_user
+      authorize @time_entry
       respond_with current_organization, @time_entry
     end
 
     def create
-      @time_entry = TimeEntry.create create_params
+      @time_entry = TimeEntry.new create_params
+      authorize @time_entry
+      @time_entry.save
       respond_with current_organization, @time_entry,
                    location: -> { organization_time_view_path(current_organization, @time_entry.time_view, as: @time_entry.user) }
     end
 
     def edit
-      @time_entry = current_organization.time_entries.in_organization(current_organization).find params[:id]
+      @time_entry = current_organization.time_entries.find params[:id]
+      authorize @time_entry
       respond_with current_organization, @time_entry
     end
 
     def update
-      @time_entry = current_organization.time_entries.in_organization(current_organization).find params[:id]
+      @time_entry = current_organization.time_entries.find params[:id]
+      authorize @time_entry
       @time_entry.update_attributes update_params
       respond_with current_organization, @time_entry,
                    location: -> { organization_time_view_path(current_organization, @time_entry.time_view, as: @time_entry.user) }

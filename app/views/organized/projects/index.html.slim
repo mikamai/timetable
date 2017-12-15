@@ -10,8 +10,9 @@
   .col
     h4 Projects
   .col.text-right
-    = link_to new_organization_project_path, class: 'btn btn-primary' do
-      i.icon-plus
+    - if policy(current_organization.projects.build).create?
+      = link_to new_organization_project_path, class: 'btn btn-primary' do
+        i.icon-plus
 
 .row.mt-2
   .col
