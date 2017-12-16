@@ -18,7 +18,11 @@ Rails.application.routes.draw do
       resources :projects, except: :destroy
 
       get 'report_summaries' => 'report_summaries#index', as: :report_summaries
-      get 'report_summaries/:id/:section' => 'report_summaries#show', as: :report_summary
+      get 'report_summaries/:id/clients' => 'report_summaries#clients', as: :clients_report_summary
+      get 'report_summaries/:id/projects' => 'report_summaries#projects', as: :projects_report_summary
+      get 'report_summaries/:id/tasks' => 'report_summaries#tasks', as: :tasks_report_summary
+      get 'report_summaries/:id/team' => 'report_summaries#team', as: :team_report_summary
+
       get 'report_entries' => 'report_entries#index', as: :report_entries
 
       resources :roles

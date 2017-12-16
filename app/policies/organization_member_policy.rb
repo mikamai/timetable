@@ -1,13 +1,6 @@
 class OrganizationMemberPolicy < ApplicationPolicy
-  attr_reader :user, :organization_member
-
-  def initialize user, organization_member
-    @user = user
-    @organization_member = organization_member
-  end
-
   def index?
-    @user.admin_in? organization_member.organization
+    @user.admin_in? record.organization
   end
 
   def create?
@@ -19,7 +12,7 @@ class OrganizationMemberPolicy < ApplicationPolicy
   end
 
   def destroy?
-    index? && organization_member.destroyable?
+    index? && record.destroyable?
   end
 
   def toggle_admin?

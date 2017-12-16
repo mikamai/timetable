@@ -9,14 +9,14 @@
 .row.mt-2
   .col
     h4
-      = l @report_summary.beginning_of_week, format: :report
+      = l @beginning_of_week, format: :report
       | &nbsp;-&nbsp;
-      = l @report_summary.end_of_week, format: :report
+      = l @end_of_week, format: :report
   .col.text-right
     .btn-group
-      = link_to prev_week_report_summary_url(@report_summary), class: 'btn btn-light' do
+      = link_to url_for(id: (@beginning_of_week - 1.week).strftime("%G-%V")), class: 'btn btn-light' do
         i.icon-chevron-left
-      = link_to next_week_report_summary_url(@report_summary), class: 'btn btn-light' do
+      = link_to url_for(id: (@beginning_of_week + 1.week).strftime("%G-%V")), class: 'btn btn-light' do
         i.icon-chevron-right
 
 .row.mt-2
@@ -24,19 +24,19 @@
     table.table
       tbody
         th(scope='row') Hours Tracked
-        td= format_distance_of_minutes_as_hours @report_summary.total_amount
+        td= format_distance_of_minutes_as_hours @time_entries.total_amount
 
 .row
   .col
     ul.nav.nav-pills
       li.nav-item
-        = link_to 'Clients', url_for(section: 'clients'), class: "nav-link #{'active' if section_name == 'clients'}"
+        = link_to 'Clients', organization_clients_report_summary_path, class: "nav-link #{'active' if action_name == 'clients'}"
       li.nav-item
-        = link_to 'Projects', url_for(section: 'projects'), class: "nav-link #{'active' if section_name == 'projects'}"
+        = link_to 'Projects', organization_projects_report_summary_path, class: "nav-link #{'active' if action_name == 'projects'}"
       li.nav-item
-        = link_to 'Tasks', url_for(section: 'tasks'), class: "nav-link #{'active' if section_name == 'tasks'}"
+        = link_to 'Tasks', organization_tasks_report_summary_path, class: "nav-link #{'active' if action_name == 'tasks'}"
       li.nav-item
-        = link_to 'Team', url_for(section: 'team'), class: "nav-link #{'active' if section_name == 'team'}"
+        = link_to 'Team', organization_team_report_summary_path, class: "nav-link #{'active' if action_name == 'team'}"
 
 .row.mt-2
   .col
@@ -45,7 +45,7 @@
         th Name
         th Hours
       tbody
-        - @report_summary.rows.each do |row|
+        - @rows.each do |row|
           tr
             td= row.name
             td= (row.amount.to_f / 60).round 2

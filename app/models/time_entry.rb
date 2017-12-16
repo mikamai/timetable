@@ -1,6 +1,8 @@
 # frozen_string_literal: true
 
 class TimeEntry < ApplicationRecord
+  WEEK_ID_FORMAT = '%G-%V'
+
   belongs_to :user, inverse_of: :time_entries
   belongs_to :project, inverse_of: :time_entries
   belongs_to :task, inverse_of: :time_entries

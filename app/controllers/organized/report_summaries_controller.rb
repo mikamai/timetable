@@ -1,45 +1,47 @@
 module Organized
   class ReportSummariesController < BaseController
-    before_action :fetch_report_summary!, only: :show
-
-    helper_method :section_name
+    before_action :set_week_range, except: :index
 
     def index
-      date = Date.today
-      redirect_to organization_report_summary_path(
-        current_organization,
-        "#{date.cwyear}-#{date.cweek}",
-        'projects'
-      )
+      week_id = Date.today.strftime TimeEntry::WEEK_ID_FORMAT
+      redirect_to organization_clients_report_summary_path(id: week_id)
     end
 
-    def show; end
+    def clients
+      @rows = ReportSummaries::ClientRow.build_from_scope time_entries
+      render 'show'
+    end
+
+    def projects
+      @rows = ReportSummaries::ProjectRow.build_from_scope time_entries
+      render 'show'
+    end
+
+    def tasks
+      @rows = ReportSummaries::TaskRow.build_from_scope time_entries
+      render 'show'
+    end
+
+    def team
+      @rows = ReportSummaries::UserRow.build_from_scope time_entries
+      render 'show'
+    end
 
     private
 
-    def section_name
-      return params[:section] if %w[projects staff tasks team clients].include? params[:section]
-      'projects'
+    def time_entries
+      @time_entries ||= policy_scope(
+        TimeEntry.in_organization(current_organization)
+                 .executed_since(@beginning_of_week)
+                 .executed_until(@end_of_week)
+      )
     end
 
-    def report_summary_class
-      case section_name
-      when 'clients'
-        ReportSummaries::Clients
-      when 'projects'
-        ReportSummaries::Projects
-      when 'tasks'
-        ReportSummaries::Tasks
-      when 'team'
-        ReportSummaries::Team
-      else
-        raise NotImplementedError
-      end
-    end
-
-    def fetch_report_summary!
-      year, week = params[:id].split('-').map(&:to_i)
-      @report_summary = report_summary_class.find_by_week current_organization, year.to_i, week.to_i
+    def set_week_range
+      @beginning_of_week = Date.strptime(params[:id], TimeEntry::WEEK_ID_FORMAT).beginning_of_week
+      @end_of_week = @beginning_of_week.end_of_week
+    rescue ArgumentError
+      raise ActiveRecord::RecordNotFound, 'dates are not valid'
     end
   end
 end

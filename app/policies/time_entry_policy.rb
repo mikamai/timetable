@@ -1,13 +1,13 @@
 class TimeEntryPolicy < ApplicationPolicy
-  attr_reader :user, :time_entry
-
-  def initialize user, time_entry
-    @user = user
-    @time_entry = time_entry
+  class Scope < Scope
+    def resolve
+      return scope if user.admin?
+      scope.executed_by user
+    end
   end
 
   def create?
-    return true if user == time_entry.user
+    return true if user == record.user
     user.admin?
   end
 
