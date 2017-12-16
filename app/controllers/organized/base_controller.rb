@@ -42,5 +42,9 @@ module Organized
     def available_users
       @available_users ||= current_organization.users.confirmed.by_name
     end
+
+    def available_roles
+      @available_roles ||= current_organization.roles.by_name
+    end
   end
 end
