@@ -13,6 +13,10 @@ class TimeView
     def find id, organization, user
       new date: Date.strptime(id, ID_FORMAT), organization: organization, user: user
     end
+
+    def policy_class
+      Organized::TimeViewPolicy
+    end
   end
 
   attr_accessor :date, :organization, :user

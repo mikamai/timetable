@@ -6,7 +6,7 @@ module Organized
 
     def index
       @projects = current_organization.projects.order(:name).page(params[:page])
-      authorize current_organization.projects.build
+      authorize Project
       respond_with current_organization, @projects
     end
 

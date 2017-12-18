@@ -6,13 +6,17 @@ module Organized
     before_action :set_current_organization
 
     helper_method :available_clients, :available_projects, :available_tasks,
-                  :available_users, :available_roles
+                  :available_users, :available_roles, :pundit_user
+
+    private
 
     def current_organization
       @organization
     end
 
-    private
+    def pundit_user
+      @pundit_user ||= current_user.organization_memberships.find_by(organization_id: current_organization.id)
+    end
 
     def organization_param
       params[:organization_id]

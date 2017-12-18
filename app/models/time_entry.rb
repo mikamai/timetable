@@ -37,6 +37,10 @@ class TimeEntry < ApplicationRecord
   delegate :name, to: :task, prefix: true, allow_nil: true
   delegate :name, to: :user, prefix: true, allow_nil: true
 
+  def self.policy_class
+    Organized::TimeEntryPolicy
+  end
+
   def self.total_amount
     sum(:amount)
   end

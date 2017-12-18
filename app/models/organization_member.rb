@@ -16,6 +16,10 @@ class OrganizationMember < ApplicationRecord
 
   delegate :name, to: :user, prefix: true, allow_nil: true
 
+  def self.policy_class
+    Organized::OrganizationMemberPolicy
+  end
+
   def user_email
     @user_email || user&.email
   end

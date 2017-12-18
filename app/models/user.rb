@@ -24,9 +24,10 @@ class User < ApplicationRecord
     "#{first_name} #{last_name}"
   end
 
-  def admin_in? organization
+  def admin_in? organization_or_id
     return true if admin?
-    membership = organization_memberships.find_by(organization_id: organization.id)
+    organization_id = organization_or_id.is_a?(String) ? organization_or_id : organization_or_id.id
+    membership = organization_memberships.find_by(organization_id: organization_id)
     membership&.admin?
   end
 end

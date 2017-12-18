@@ -22,6 +22,10 @@ class Project < ApplicationRecord
 
   delegate :name, to: :client, prefix: true
 
+  def self.policy_class
+    Organized::ProjectPolicy
+  end
+
   def as_json opts={}
     super opts.reverse_merge(
       only: %i[id organization_id name],

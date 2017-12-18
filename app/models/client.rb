@@ -19,6 +19,10 @@ class Client < ApplicationRecord
 
   delegate :name, to: :organization, prefix: true
 
+  def self.policy_class
+    Organized::ClientPolicy
+  end
+
   def destroyable?
     projects.empty?
   end

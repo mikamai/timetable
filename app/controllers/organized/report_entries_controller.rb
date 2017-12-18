@@ -3,7 +3,7 @@
 module Organized
   class ReportEntriesController < BaseController
     def index
-      scoped = policy_scope(current_organization.time_entries)
+      scoped = policy_scope(TimeEntry.in_organization(current_organization))
       @q = scoped.ransack(params[:q]).tap do |q|
         q.sorts = 'execute_on asc' if q.sorts.empty?
       end

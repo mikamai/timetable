@@ -16,4 +16,8 @@ class Task < ApplicationRecord
   validates :name,
             presence: true,
             uniqueness: { scope: :organization_id }
+
+  def self.policy_class
+    Organized::TaskPolicy
+  end
 end

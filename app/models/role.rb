@@ -16,6 +16,10 @@ class Role < ApplicationRecord
 
   before_destroy :validate_references
 
+  def self.policy_class
+    Organized::RolePolicy
+  end
+
   def destroyable?
     users.empty?
   end
