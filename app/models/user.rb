@@ -29,9 +29,9 @@ class User < ApplicationRecord
   end
 
   def membership_in organization_or_project
-    if organization.is_a? Organization
+    if organization_or_project.is_a? Organization
       organization_memberships.find_by organization_id: organization_or_project.id
-    elsif organization.is_a? Project
+    elsif organization_or_project.is_a? Project
       project_memberships.find_by project_id: organization_or_project.id
     else
       raise NotImplementedError, 'Only organizations or projects are allowed. ' \
