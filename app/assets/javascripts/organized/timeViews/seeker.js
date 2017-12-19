@@ -15,6 +15,13 @@ $(document).on('turbolinks:load', () => {
       content: picker.el,
       html: true,
       placement: 'bottom',
+      template: `
+        <div class="popover seek-time-view-dialog" role="tooltip">
+          <div class="arrow"></div>
+          <h3 class="popover-header"></h3>
+          <div class="popover-body"></div>
+        </div>
+      `,
     });
   });
 });
