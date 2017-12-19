@@ -1,6 +1,6 @@
 /* global $, _ */
 
-$(() => {
+$(document).on('turbolinks:load', () => {
   $('select#time_entry_project_id[data-fetch-api]').change((e) => {
     const $el = $(e.target);
     const url = $el.data('fetch-api').replace(/:project/, $el.val());

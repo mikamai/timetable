@@ -1,6 +1,6 @@
 /* global $, Pikaday, moment */
 
-$(() => {
+$(document).on('turbolinks:load', () => {
   $('.seek-time-view').each((i, el) => {
     const $el = $(el);
     const url = $el.attr('href');

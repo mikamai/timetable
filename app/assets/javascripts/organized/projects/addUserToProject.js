@@ -1,6 +1,6 @@
 /* global $ */
 
-$(() => {
+$(document).on('turbolinks:load', () => {
   const $userSelect = $('#available-users-for-project');
   const $usersTable = $('#project-members-form-table');
   const allUsers = $('option', $userSelect).clone();

@@ -26,6 +26,7 @@ gem 'kaminari'
 gem 'pundit'
 gem 'ransack', github: 'activerecord-hackery/ransack'
 gem 'responders'
+gem 'turbolinks'
 
 # Rollbar
 gem 'oj'
