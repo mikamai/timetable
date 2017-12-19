@@ -15,10 +15,6 @@ class TimeEntry < ApplicationRecord
   scope :executed_until, ->(date) { where 'executed_on <= ?', date }
   scope :executed_by, ->(user) { where user_id: user.id }
 
-  validates :user_id,
-            presence: true
-  validates :task_id,
-            presence: true
   validates :executed_on,
             presence: true
   validates :amount,
@@ -71,7 +67,7 @@ class TimeEntry < ApplicationRecord
   private
 
   def validate_task_in_user_organization
-    return if user.organizations.pluck(:id).include? task.organization.id
+    return if user.nil? || user.organizations.find_by(id: task.organization.id).present?
     errors.add :task, :not_found
   end
 

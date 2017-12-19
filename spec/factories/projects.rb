@@ -5,6 +5,7 @@ FactoryBot.define do
 
   factory :project do
     organization
+    client { build :client, organization: organization }
     name { generate :project_name }
   end
 end
