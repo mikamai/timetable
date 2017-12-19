@@ -1,55 +1,56 @@
-nav.navbar.navbar-expand-lg.navbar-light.bg-light
-  - if current_organization
-    = link_to current_organization.name, organization_path(current_organization), class: 'navbar-brand'
-  - else
-    = link_to 'Timetable', root_path, class: 'navbar-brand'
-  button.navbar-toggler(type='button' data-toggle='collapse' data-target='#navbar-supported-content' \
-                        aria-controls="navbar-supported-content" aria-expanded='false' aria-label='Toggle navigation')
-    span.navbar-toggler-icon
-  #navbar-supported-content.collapse.navbar-collapse
-    - if user_signed_in?
-      ul.navbar-nav.mr-auto
-        - if current_organization
-          li.nav-item(class='#{'active' if %w[time_views time_entries].include? controller_name}')= link_to 'Time', current_organization, class: 'nav-link'
-          - if policy(Project).index?
-            li.nav-item(class='#{'active' if controller_name == 'projects'}')= link_to 'Projects', [current_organization, :projects], class: 'nav-link'
-          - if policy(OrganizationMember).index?
-            li.nav-item(class="#{'active' if controller_name == 'organization_members'}")= link_to 'Team', [current_organization, :organization_members], class: 'nav-link'
-          li.nav-item.dropdown
-            a.nav-link.dropdown-toggle(href='#' data-toggle='dropdown' class="#{'active' if %w[report_summaries report_entries].include? controller_name}") Reports
-            .dropdown-menu
-              = link_to 'Time', [current_organization, :report_summaries], class: "nav-link #{'active' if controller_name == 'report_summaries'}"
-              = link_to 'Detailed Time', [current_organization, :report_entries], class: "nav-link #{'active' if controller_name == 'report_entries'}"
-          - if policy(Client).index? || policy(Role).index? || policy(Task).index?
+nav.navbar.navbar-expand-lg.navbar-dark.bg-primary
+  .container
+    - if current_organization
+      = link_to current_organization.name, organization_path(current_organization), class: 'navbar-brand'
+    - else
+      = link_to 'Timetable', root_path, class: 'navbar-brand'
+    button.navbar-toggler(type='button' data-toggle='collapse' data-target='#navbar-supported-content' \
+                          aria-controls="navbar-supported-content" aria-expanded='false' aria-label='Toggle navigation')
+      span.navbar-toggler-icon
+    #navbar-supported-content.collapse.navbar-collapse
+      - if user_signed_in?
+        ul.navbar-nav.mr-auto
+          - if current_organization
+            li.nav-item(class='#{'active' if %w[time_views time_entries].include? controller_name}')= link_to 'Time', current_organization, class: 'nav-link'
+            - if policy(Project).index?
+              li.nav-item(class='#{'active' if controller_name == 'projects'}')= link_to 'Projects', [current_organization, :projects], class: 'nav-link'
+            - if policy(OrganizationMember).index?
+              li.nav-item(class="#{'active' if controller_name == 'organization_members'}")= link_to 'Team', [current_organization, :organization_members], class: 'nav-link'
             li.nav-item.dropdown
-              a.nav-link.dropdown-toggle(href='#' data-toggle='dropdown' class='#{'active' if %w[clients tasks].include? controller_name}') Manage
+              a.nav-link.dropdown-toggle(href='#' data-toggle='dropdown' class="#{'active' if %w[report_summaries report_entries].include? controller_name}") Reports
               .dropdown-menu
-                - if policy(Client).index?
-                  = link_to 'Clients', [current_organization, :clients], class: "nav-link #{'active' if controller_name == 'clients'}"
-                - if policy(Role).index?
-                  = link_to 'Roles', [current_organization, :roles], class: "nav-link #{'active' if controller_name == 'clients'}"
-                - if policy(Task).index?
-                  = link_to 'Tasks', [current_organization, :tasks], class: "nav-link #{'active' if controller_name == 'tasks'}"
-        - else
-          - available_organizations.each do |organization|
-            li.nav-item= link_to organization.name, organization, class: 'nav-link'
-        - if current_user.admin?
-          li.dropdown.nav-item
-            a.nav-link.dropdown-toggle(href='#' data-toggle='dropdown' class="#{'active' if controller_path =~ /^admin\//}") Admin
-            .dropdown-menu
-              = link_to 'Users', [:admin, :users], class: "nav-link #{'active' if controller_path == 'admin/users'}"
+                = link_to 'Time', [current_organization, :report_summaries], class: "nav-link #{'active' if controller_name == 'report_summaries'}"
+                = link_to 'Detailed Time', [current_organization, :report_entries], class: "nav-link #{'active' if controller_name == 'report_entries'}"
+            - if policy(Client).index? || policy(Role).index? || policy(Task).index?
+              li.nav-item.dropdown
+                a.nav-link.dropdown-toggle(href='#' data-toggle='dropdown' class='#{'active' if %w[clients tasks].include? controller_name}') Manage
+                .dropdown-menu
+                  - if policy(Client).index?
+                    = link_to 'Clients', [current_organization, :clients], class: "nav-link #{'active' if controller_name == 'clients'}"
+                  - if policy(Role).index?
+                    = link_to 'Roles', [current_organization, :roles], class: "nav-link #{'active' if controller_name == 'clients'}"
+                  - if policy(Task).index?
+                    = link_to 'Tasks', [current_organization, :tasks], class: "nav-link #{'active' if controller_name == 'tasks'}"
+          - else
+            - available_organizations.each do |organization|
+              li.nav-item= link_to organization.name, organization, class: 'nav-link'
+          - if current_user.admin?
+            li.dropdown.nav-item
+              a.nav-link.dropdown-toggle(href='#' data-toggle='dropdown' class="#{'active' if controller_path =~ /^admin\//}") Admin
+              .dropdown-menu
+                = link_to 'Users', [:admin, :users], class: "nav-link #{'active' if controller_path == 'admin/users'}"
 
-      ul.navbar-nav
-        li.nav-item.dropdown
-          a#navbar-user-menu-link.nav-link.dropdown-toggle(\
-              href='#' data-toggle='dropdown' aria-haspopup='true' aria-expanded='false')
-            = current_user.name
-          .dropdown-menu(aria-labelledby='navbar-user-menu-link')
-            = link_to 'New Organization', new_organization_path, class: 'dropdown-item'
-            .dropdown-divider
-            - if current_organization && available_organizations.count > 1
-              - available_organizations.each do |organization|
-                = link_to organization.name, organization, class: 'dropdown-item'
+        ul.navbar-nav
+          li.nav-item.dropdown
+            a#navbar-user-menu-link.nav-link.dropdown-toggle(\
+                href='#' data-toggle='dropdown' aria-haspopup='true' aria-expanded='false')
+              = current_user.name
+            .dropdown-menu(aria-labelledby='navbar-user-menu-link')
+              = link_to 'New Organization', new_organization_path, class: 'dropdown-item'
               .dropdown-divider
-            = link_to 'Profile', edit_user_registration_path, class: 'dropdown-item'
-            = link_to 'Sign out', destroy_user_session_path, class: 'dropdown-item', data: { method: 'delete' }
+              - if current_organization && available_organizations.count > 1
+                - available_organizations.each do |organization|
+                  = link_to organization.name, organization, class: 'dropdown-item'
+                .dropdown-divider
+              = link_to 'Profile', edit_user_registration_path, class: 'dropdown-item'
+              = link_to 'Sign out', destroy_user_session_path, class: 'dropdown-item', data: { method: 'delete' }
