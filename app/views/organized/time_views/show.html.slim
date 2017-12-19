@@ -23,12 +23,13 @@
 
 .row.mt-2
   .col
-    ul.nav.nav-tabs.nav-fill
-      = render @week_view.time_views
-      li.time-view-nav.total-time-view-nav.nav-item
-        span.nav-item.nav-link.disabled
-          strong.day_name Total
-          span.total= format_distance_of_minutes @week_view.total_amount
+    .time-view-navbar
+      ul.nav.nav-tabs.nav-fill
+        = render @week_view.time_views
+        li.time-view-nav.total-time-view-nav.nav-item
+          span.nav-item.nav-link.disabled
+            strong.day_name Total
+            span.total= format_distance_of_minutes @week_view.total_amount
 
 .row
   .col
