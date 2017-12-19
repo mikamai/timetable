@@ -15,7 +15,7 @@ module Organized
     end
 
     def pundit_user
-      @pundit_user ||= current_user.organization_memberships.find_by(organization_id: current_organization.id)
+      @pundit_user ||= current_user.membership_in current_organization
     end
 
     def organization_param

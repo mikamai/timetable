@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 module Organized
   class TaskPolicy < BasePolicy
     def index?

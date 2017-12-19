@@ -15,7 +15,7 @@ module Organized
       authorize @time_entry
       @time_entry.save
       respond_with current_organization, @time_entry,
-                   location: -> { organization_time_view_path(current_organization, @time_entry.time_view, as: @time_entry.user) }
+                   location: -> { after_create_or_update_path @time_entry }
     end
 
     def edit
@@ -29,13 +29,18 @@ module Organized
       authorize @time_entry
       @time_entry.update_attributes update_params
       respond_with current_organization, @time_entry,
-                   location: -> { organization_time_view_path(current_organization, @time_entry.time_view, as: @time_entry.user) }
+                   location: -> { after_create_or_update_path @time_entry }
     end
 
     private
 
+    def after_create_or_update_path time_entry
+      organization_time_view_path current_organization, time_entry.time_view, as: time_entry.user
+    end
+
     def create_params
-      params.require(:time_entry).permit(:user_id, :project_id, :task_id, :notes, :minutes_in_distance)
+      params.require(:time_entry).permit(:user_id, :project_id, :task_id, :notes,
+                                         :minutes_in_distance)
             .merge(executed_on: @time_view.date)
     end
 

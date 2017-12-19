@@ -3,7 +3,8 @@
 module Organized
   class TimeViewsController < BaseController
     def show
-      @week_view = WeekView.find_by_time_view_id params[:id], current_organization, impersonating_user
+      @week_view = WeekView.find_by_time_view_id params[:id], current_organization,
+                                                 impersonating_user
       @time_view = @week_view.selected_time_view
       authorize @time_view
     end

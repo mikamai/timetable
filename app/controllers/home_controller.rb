@@ -9,8 +9,10 @@ class HomeController < ApplicationController
   private
 
   def redirect_for_unorganized_user
-    return unless current_user && current_user.organizations.empty?
-    redirect_to new_organization_path, flash: { notice: "You don't have any organization. Create one to continue" }
+    return if current_user&.organizations?
+    redirect_to new_organization_path, flash: {
+      notice: "You don't have any organization. Create one to continue"
+    }
   end
 
   def redirect_for_organized_user

@@ -1,10 +1,12 @@
+# frozen_string_literal: true
+
 module Organized
   class ReportSummariesController < BaseController
     before_action :set_week_range, except: :index
 
     def index
       week_id = Date.today.strftime TimeEntry::WEEK_ID_FORMAT
-      redirect_to organization_clients_report_summary_path(id: week_id)
+      redirect_to clients_organization_report_summary_path(id: week_id)
     end
 
     def clients

@@ -24,6 +24,21 @@ class User < ApplicationRecord
     "#{first_name} #{last_name}"
   end
 
+  def organizations?
+    organizations.any?
+  end
+
+  def membership_in organization_or_project
+    if organization.is_a? Organization
+      organization_memberships.find_by organization_id: organization_or_project.id
+    elsif organization.is_a? Project
+      project_memberships.find_by project_id: organization_or_project.id
+    else
+      raise NotImplementedError, 'Only organizations or projects are allowed. ' \
+                                 "Argument is of type #{organization_or_project.class.name}."
+    end
+  end
+
   def admin_in? organization_or_id
     return true if admin?
     organization_id = organization_or_id.is_a?(String) ? organization_or_id : organization_or_id.id

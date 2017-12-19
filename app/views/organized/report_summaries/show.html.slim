@@ -22,13 +22,13 @@
   .col
     ul.nav.nav-pills
       li.nav-item
-        = link_to 'Clients', organization_clients_report_summary_path, class: "nav-link #{'active' if action_name == 'clients'}"
+        = link_to 'Clients', clients_organization_report_summary_path, class: "nav-link #{'active' if action_name == 'clients'}"
       li.nav-item
-        = link_to 'Projects', organization_projects_report_summary_path, class: "nav-link #{'active' if action_name == 'projects'}"
+        = link_to 'Projects', projects_organization_report_summary_path, class: "nav-link #{'active' if action_name == 'projects'}"
       li.nav-item
-        = link_to 'Tasks', organization_tasks_report_summary_path, class: "nav-link #{'active' if action_name == 'tasks'}"
+        = link_to 'Tasks', tasks_organization_report_summary_path, class: "nav-link #{'active' if action_name == 'tasks'}"
       li.nav-item
-        = link_to 'Team', organization_team_report_summary_path, class: "nav-link #{'active' if action_name == 'team'}"
+        = link_to 'Team', team_organization_report_summary_path, class: "nav-link #{'active' if action_name == 'team'}"
 
 .row.mt-2
   .col

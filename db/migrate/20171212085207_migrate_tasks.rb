@@ -1,14 +1,18 @@
 # frozen_string_literal: true
 
 class MigrateTasks < ActiveRecord::Migration[5.1]
+  def migrate_task
+    project = Project.find task.old_project_id
+    task.update_column :organization_id, project.organization_id
+    task.projects << project
+    TimeEntry.where(task_id: task.id).update_all project_id: project.id
+  end
+
   def up
     add_column :time_entries, :project_id, :uuid
     add_column :tasks, :organization_id, :uuid
     Task.find_each do |task|
-      project = Project.find task.old_project_id
-      task.update_column :organization_id, project.organization_id
-      task.projects << project
-      TimeEntry.where(task_id: task.id).update_all project_id: project.id
+      migrate_task task
     end
     remove_column :tasks, :old_project_id
     change_column :tasks, :organization_id, :uuid, null: false

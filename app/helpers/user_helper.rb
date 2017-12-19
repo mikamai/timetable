@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 module UserHelper
   def user_table_name user
     name = if user.confirmed?

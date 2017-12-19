@@ -1,6 +1,8 @@
+# frozen_string_literal: true
+
 module ReportSummaries
   class BaseRow
-    def self.build_from_scope scope
+    def self.build_from_scope _scope
       raise NotImplementedError
     end
 
@@ -15,7 +17,7 @@ module ReportSummaries
 
     delegate :name, to: :resource
 
-    def initialize(resource, amount)
+    def initialize resource, amount
       @resource = resource
       @amount = amount
     end

@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 module ReportSummariesHelper
   def prev_week_report_summary_url report_summary
     date = report_summary.beginning_of_week - 1.week

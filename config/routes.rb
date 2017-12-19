@@ -1,5 +1,7 @@
 # frozen_string_literal: true
 
+# rubocop:disable Metrics/BlockLength
+
 Rails.application.routes.draw do
   devise_for :users, controllers: {
     invitations: 'users/invitations'
@@ -17,11 +19,14 @@ Rails.application.routes.draw do
       end
       resources :projects, except: :destroy
 
-      get 'report_summaries' => 'report_summaries#index', as: :report_summaries
-      get 'report_summaries/:id/clients' => 'report_summaries#clients', as: :clients_report_summary
-      get 'report_summaries/:id/projects' => 'report_summaries#projects', as: :projects_report_summary
-      get 'report_summaries/:id/tasks' => 'report_summaries#tasks', as: :tasks_report_summary
-      get 'report_summaries/:id/team' => 'report_summaries#team', as: :team_report_summary
+      resources :report_summaries, only: :index do
+        member do
+          get :clients
+          get :projects
+          get :tasks
+          get :team
+        end
+      end
 
       get 'report_entries' => 'report_entries#index', as: :report_entries
 

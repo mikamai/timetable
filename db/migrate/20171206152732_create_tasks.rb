@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 class CreateTasks < ActiveRecord::Migration[5.1]
   def change
     create_table :tasks, id: :uuid do |t|
@@ -6,6 +8,6 @@ class CreateTasks < ActiveRecord::Migration[5.1]
       t.timestamps
     end
     add_foreign_key :tasks, :projects
-    add_index :tasks, [:project_id, :name], unique: true
+    add_index :tasks, %i[project_id name], unique: true
   end
 end

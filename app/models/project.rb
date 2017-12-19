@@ -26,7 +26,7 @@ class Project < ApplicationRecord
     Organized::ProjectPolicy
   end
 
-  def as_json opts={}
+  def as_json opts = {}
     super opts.reverse_merge(
       only: %i[id organization_id name],
       include: { tasks: { only: %i[id name] } }
