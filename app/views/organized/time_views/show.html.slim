@@ -18,17 +18,17 @@
         = ", #{@time_view.user.name}"
   .col.text-right
     .btn-group
-      = link_to prev_week_time_view_url, class: 'btn btn-light' do
+      = link_to prev_week_time_view_url, class: 'btn btn-secondary' do
         i.icon-chevron-left
-      = link_to 'Today', today_time_view_url, class: 'btn btn-light'
-      = link_to next_week_time_view_url, class: 'btn btn-light' do
+      = link_to 'Today', today_time_view_url, class: 'btn btn-secondary'
+      = link_to next_week_time_view_url, class: 'btn btn-secondary' do
         i.icon-chevron-right
     = link_to organization_time_view_path(current_organization, ':time_view'), \
-              class: 'btn btn-light ml-2 seek-time-view', data: { current: @time_view.date.to_json } do
+              class: 'btn btn-secondary ml-2 seek-time-view', data: { current: @time_view.date.to_json } do
       i.icon-calendar
     - if policy(TimeView).show_for_others?
       span.dropdown.ml-2
-        button.btn.btn-light.dropdown-toggle(data-toggle='dropdown') Change team member
+        button.btn.btn-secondary.dropdown-toggle(data-toggle='dropdown') Change team member
         .dropdown-menu
           - available_users.each do |user|
             = link_to user.name, url_for(as: user), class: "dropdown-item #{'active' if user == @week_view.user}"

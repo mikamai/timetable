@@ -14,9 +14,9 @@
       = l @end_of_week, format: :report
   .col.text-right
     .btn-group
-      = link_to url_for(id: (@beginning_of_week - 1.week).strftime("%G-%V")), class: 'btn btn-light' do
+      = link_to url_for(id: (@beginning_of_week - 1.week).strftime("%G-%V")), class: 'btn btn-secondary' do
         i.icon-chevron-left
-      = link_to url_for(id: (@beginning_of_week + 1.week).strftime("%G-%V")), class: 'btn btn-light' do
+      = link_to url_for(id: (@beginning_of_week + 1.week).strftime("%G-%V")), class: 'btn btn-secondary' do
         i.icon-chevron-right
 
 .row.mt-2
