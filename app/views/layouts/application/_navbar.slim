@@ -1,7 +1,7 @@
 nav.navbar.navbar-expand-lg.navbar-dark.bg-primary
   .container
     - if current_organization
-      = render 'layouts/application/navbar_brand', name: current_organization.name, path: organization_path, \
+      = render 'layouts/application/navbar_brand', name: current_organization.name, path: organization_path(current_organization), \
                organizations: available_organizations.select { |o| o != current_organization }
     - else
       = render 'layouts/application/navbar_brand', name: 'Timetable', path: root_path, \

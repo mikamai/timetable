@@ -12,7 +12,6 @@ html(lang='en')
       = javascript_include_tag 'application', 'data-turbolinks-track': 'reload'
   body
     = render 'layouts/application/navbar'
-    .container
-      = yield :heading
+    #main-container.container
       = render 'layouts/alerts'
       = yield
