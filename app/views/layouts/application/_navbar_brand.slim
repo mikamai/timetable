@@ -1,0 +1,8 @@
+.dropdown.show
+  = link_to name, path, id: 'navbar-brand', class: 'dropdown-toggle navbar-brand btn btn-outline-primary', data: { toggle: 'dropdown' }
+  .dropdown-menu
+    - if organizations.any?
+      - organizations.each do |organization|
+        = link_to organization.name, organization, class: 'dropdown-item'
+      .dropdown-divider
+    = link_to 'New Organization', new_organization_path, class: 'dropdown-item'

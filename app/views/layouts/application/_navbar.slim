@@ -1,23 +1,11 @@
 nav.navbar.navbar-expand-lg.navbar-dark.bg-primary
   .container
     - if current_organization
-      .dropdown.show
-        = link_to current_organization.name, current_organization, id: 'navbar-brand', class: 'dropdown-toggle navbar-brand btn btn-outline-primary', data: { toggle: 'dropdown' }
-        .dropdown-menu
-          = link_to 'New Organization', new_organization_path, class: 'dropdown-item'
-          .dropdown-divider
-          - available_organizations.each do |organization|
-            = link_to organization.name, organization, class: 'dropdown-item'
-    - elsif available_organizations&.any?
-      .dropdown.show
-        = link_to 'Timetable', root_path, id: 'navbar-brand', class: 'dropdown-toggle navbar-brand btn btn-outline-primary', data: { toggle: 'dropdown' }
-        .dropdown-menu
-          = link_to 'New Organization', new_organization_path, class: 'dropdown-item'
-          .dropdown-divider
-          - available_organizations.each do |organization|
-            = link_to organization.name, organization, class: 'dropdown-item'
+      = render 'layouts/application/navbar_brand', name: current_organization.name, path: organization_path, \
+               organizations: available_organizations.select { |o| o != current_organization }
     - else
-      = link_to 'Timetable', root_path, class: 'navbar-brand'
+      = render 'layouts/application/navbar_brand', name: 'Timetable', path: root_path, \
+               organizations: available_organizations
     button.navbar-toggler(type='button' data-toggle='collapse' data-target='#navbar-supported-content' \
                           aria-controls="navbar-supported-content" aria-expanded='false' aria-label='Toggle navigation')
       span.navbar-toggler-icon
