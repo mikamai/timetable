@@ -5,6 +5,10 @@ class TimeView
 
   ID_FORMAT = '%Y-%m-%d'
 
+  attr_accessor :date, :organization, :user
+
+  delegate :id, to: :organization, prefix: true
+
   class << self
     def today organization, user
       new date: Date.today, organization: organization, user: user
@@ -18,10 +22,6 @@ class TimeView
       Organized::TimeViewPolicy
     end
   end
-
-  attr_accessor :date, :organization, :user
-
-  delegate :id, to: :organization, prefix: true
 
   def time_entries
     TimeEntry.in_organization(organization)

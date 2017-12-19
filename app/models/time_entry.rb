@@ -26,8 +26,6 @@ class TimeEntry < ApplicationRecord
             }
   validate  :validate_task_in_user_organization, on: :create
 
-  after_validation :copy_errors_to_minutes_in_distance
-
   delegate :name, to: :project, prefix: true, allow_nil: true
   delegate :name, to: :client, prefix: true, allow_nil: true
   delegate :name, to: :task, prefix: true, allow_nil: true
@@ -59,7 +57,7 @@ class TimeEntry < ApplicationRecord
 
   def minutes_in_distance= val
     @minutes_in_distance = val
-    match = val.match(/\A(\d+)(:(\d+))?\z/)
+    match = val.to_s.match(/\A(\d+)(:(\d+))?\z/)
     val = match[1].to_i * 60 + (match[3] || '').to_i if match
     assign_attributes amount: val
   end
@@ -67,11 +65,7 @@ class TimeEntry < ApplicationRecord
   private
 
   def validate_task_in_user_organization
-    return if user.nil? || user.organizations.find_by(id: task.organization.id).present?
+    return if user.nil? || task.nil? || user.organizations.find_by(id: task.organization.id).present?
     errors.add :task, :not_found
-  end
-
-  def copy_errors_to_minutes_in_distance
-    errors[:amount].each { |e| errors.add :minutes_in_distance, e }
   end
 end
