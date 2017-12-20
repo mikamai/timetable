@@ -26,19 +26,17 @@ class WeekView
 
   def total_amount
     TimeEntry.in_organization(organization)
-             .executed_since(beginning_of_week)
-             .executed_until(end_of_week)
+             .executed_since(beginning_date)
+             .executed_until(end_date)
              .executed_by(user)
              .total_amount
   end
 
-  private
-
-  def beginning_of_week
-    selected_time_view.date.beginning_of_week
+  def beginning_date
+    time_views.first.date
   end
 
-  def end_of_week
-    selected_time_view.date.end_of_week
+  def end_date
+    time_views.last.date
   end
 end

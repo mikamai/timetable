@@ -55,7 +55,7 @@ class ApplicationPolicy
     def user_admin?
       return true if user.admin?
       organization_id = scope.where_values_hash['organization_id']
-      organization_id && user.admin_in?(organization_id)
+      organization_id && user.admin_in_organization?(organization_id)
     end
   end
 end
