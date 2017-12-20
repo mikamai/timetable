@@ -24,6 +24,12 @@ RSpec.describe OrganizationMember, type: :model do
       subject.organization = build :organization
       expect(subject).to have(0).errors_on :user
     end
+
+    it 'pass when all constraints are met' do
+      subject.organization = build :organization
+      subject.user = build :user
+      expect(subject).to be_valid
+    end
   end
 
   it 'cannot be destroyed if the user is referenced in any project' do

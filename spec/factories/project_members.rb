@@ -2,7 +2,7 @@
 
 FactoryBot.define do
   factory :project_member do
-    user
     project
+    user { create :user, :organized, organization: project.organization }
   end
 end

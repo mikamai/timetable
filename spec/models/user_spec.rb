@@ -15,6 +15,14 @@ RSpec.describe User, type: :model do
       subject.last_name = 'asd'
       expect(subject).to have(0).errors_on :last_name
     end
+
+    it 'pass when all constraints are met' do
+      subject.first_name = 'asd'
+      subject.last_name = 'asd'
+      subject.email = 'asd@bar.it'
+      subject.password = 'asd123$$$'
+      expect(subject).to be_valid
+    end
   end
 
   describe '#membership_in' do

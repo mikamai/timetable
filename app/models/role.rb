@@ -16,7 +16,7 @@ class Role < ApplicationRecord
             presence: true,
             uniqueness: { scope: :organization_id }
 
-  before_destroy :validate_references
+  before_destroy :ensure_no_references
 
   def self.policy_class
     Organized::RolePolicy
@@ -28,7 +28,7 @@ class Role < ApplicationRecord
 
   private
 
-  def validate_references
+  def ensure_no_references
     return if destroyable?
     errors.add :base, 'is referenced by users'
     throw :abort

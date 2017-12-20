@@ -24,7 +24,8 @@ class TimeEntry < ApplicationRecord
               greater_than: 0,
               allow_nil:    true
             }
-  validate  :validate_task_in_user_organization, on: :create
+  validate  :validate_project_in_user_organization, on: :create
+  validate  :validate_task_in_project, on: :create
 
   delegate :name, to: :project, prefix: true, allow_nil: true
   delegate :name, to: :client, prefix: true, allow_nil: true
@@ -64,8 +65,13 @@ class TimeEntry < ApplicationRecord
 
   private
 
-  def validate_task_in_user_organization
-    return if user.nil? || task.nil? || user.organizations.find_by(id: task.organization.id).present?
-    errors.add :task, :not_found
+  def validate_project_in_user_organization
+    return if user.nil? || project.nil? || user.membership_in(project.organization)
+    errors.add :project, :forbidden
+  end
+
+  def validate_task_in_project
+    return if task.nil? || project.nil? || project.task_ids.include?(task.id)
+    errors.add :task, :forbidden
   end
 end

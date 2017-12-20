@@ -36,12 +36,32 @@ RSpec.describe TimeEntry, type: :model do
       expect(subject).to have(0).errors_on :amount
     end
 
-    it 'require the user to be able to work in the given task' do
+    it 'require the user to be in the same project organization' do
       subject.user = create :user
+      subject.project = create :project
+      expect(subject).to have(1).error_on :project
+    end
+
+    it 'require the task to be one of the project tasks' do
       subject.task = create :task
+      subject.project = create :project
       expect(subject).to have(1).error_on :task
-      subject.user.organization_memberships.create organization: subject.task.organization
-      expect(subject).to have(0).errors_on :task
+    end
+
+    it 'pass when all constraints are met' do
+      subject.user = create :user, :organized
+      subject.project = create :project, :with_tasks, organization: subject.user.organizations.first
+      subject.task = subject.project.tasks.first
+      subject.executed_on = Date.today
+      subject.amount = 1
+      expect(subject).to be_valid
+    end
+
+    it 'does not require organization integrity on update' do
+      subject = create :time_entry
+      subject.project = create :project
+      subject.task = create :task
+      expect(subject).to be_valid
     end
   end
 

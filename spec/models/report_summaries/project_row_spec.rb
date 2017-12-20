@@ -16,9 +16,11 @@ RSpec.describe ReportSummaries::ProjectRow do
     end
 
     it 'sums all entries of the same project' do
-      te = create :time_entry, amount: 1
-      create :time_entry, amount: 2, organization: te.organization,
-             project: te.project
+      p = create :project, :with_tasks, tasks_count: 2
+      create :time_entry, amount: 1, organization: p.organization,
+             project: p, task: p.tasks.first
+      create :time_entry, amount: 2, organization: p.organization,
+             project: p, task: p.tasks.last
       res = described_class.build_from_scope TimeEntry
       expect(res.length).to eq 1
       expect(res[0].amount).to eq 3

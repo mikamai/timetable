@@ -24,6 +24,12 @@ RSpec.describe Role, type: :model do
       subject.name = 'asd'
       expect(subject).to have(0).errors_on :name
     end
+
+    it 'pass when all constraints are met' do
+      subject.organization = create :organization
+      subject.name = 'asd'
+      expect(subject).to be_valid
+    end
   end
 
   it 'cannot be destroyed if the role is referenced by any user' do

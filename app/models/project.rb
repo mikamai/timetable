@@ -19,6 +19,7 @@ class Project < ApplicationRecord
   validates :name,
             presence: true,
             uniqueness: { scope: :organization_id }
+  validate :validate_organization_references, on: :create
 
   delegate :name, to: :client, prefix: true
 
@@ -31,5 +32,12 @@ class Project < ApplicationRecord
       only: %i[id organization_id name],
       include: { tasks: { only: %i[id name] } }
     )
+  end
+
+  private
+
+  def validate_organization_references
+    return if client.nil? || organization.nil? || client.organization == organization
+    errors.add :client, :forbidden
   end
 end

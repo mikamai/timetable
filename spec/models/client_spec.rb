@@ -24,6 +24,12 @@ RSpec.describe Client, type: :model do
       subject.organization = build :organization
       expect(subject).to have(0).error_on :organization
     end
+
+    it 'pass when all constraints are met' do
+      subject.name = 'asd'
+      subject.organization = build :organization
+      expect(subject).to be_valid
+    end
   end
 
   it 'cannot be destroyed if it is referenced in any project' do

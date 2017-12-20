@@ -17,5 +17,10 @@ RSpec.describe Organization, type: :model do
       subject.name = 'asd'
       expect(subject).to have(0).error_on :name
     end
+
+    it 'pass when all constraints are met' do
+      subject.name = 'asd'
+      expect(subject).to be_valid
+    end
   end
 end
