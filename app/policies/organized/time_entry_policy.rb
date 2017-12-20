@@ -10,12 +10,11 @@ module Organized
     end
 
     def create?
-      return true if user == record.user
-      admin?
+      admin? || user == record.user
     end
 
     def update?
-      create?
+      create? && record_in_scope?
     end
   end
 end

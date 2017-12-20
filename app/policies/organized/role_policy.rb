@@ -3,7 +3,7 @@
 module Organized
   class RolePolicy < BasePolicy
     def index?
-      organization_membership.admin?
+      admin?
     end
 
     def create?
@@ -11,11 +11,11 @@ module Organized
     end
 
     def update?
-      index?
+      index? && record_in_scope?
     end
 
     def show?
-      index?
+      update?
     end
   end
 end

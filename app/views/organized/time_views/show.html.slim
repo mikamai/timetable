@@ -14,7 +14,7 @@
     = link_to organization_time_view_path(current_organization, ':time_view'), \
               class: 'btn btn-secondary ml-2 seek-time-view', data: { current: @time_view.date.to_json } do
       i.icon-calendar
-    - if policy(TimeView).show_for_others?
+    - if policy(TimeView).show?
       span.dropdown.ml-2
         button.btn.btn-secondary.dropdown-toggle(data-toggle='dropdown') Change team member
         .dropdown-menu

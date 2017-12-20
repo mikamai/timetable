@@ -3,7 +3,7 @@
 module Organized
   class OrganizationMemberPolicy < BasePolicy
     def index?
-      organization_membership.admin?
+      admin?
     end
 
     def create?
@@ -11,15 +11,15 @@ module Organized
     end
 
     def show?
-      index?
+      index? && record_in_scope?
     end
 
     def destroy?
-      index? && record.destroyable?
+      show? && record.destroyable?
     end
 
     def toggle_admin?
-      index?
+      show?
     end
   end
 end
