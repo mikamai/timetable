@@ -34,7 +34,8 @@ class TimeView
   end
 
   def == other
-    self.class == other.class && id == other.id
+    self.class == other.class && id == other.id &&
+      organization == other.organization && user == other.user
   end
 
   def persisted?
