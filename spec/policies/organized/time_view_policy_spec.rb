@@ -15,11 +15,6 @@ RSpec.describe Organized::TimeViewPolicy do
       expect(subject).to permit(organization_member, resource)
     end
 
-    it 'grants access if user is global admin' do
-      user.update_column :admin, true
-      expect(subject).to permit(organization_member, resource)
-    end
-
     it 'grants access if user is organization admin' do
       organization_member.update_column :admin, true
       expect(subject).to permit(organization_member, resource)
@@ -37,11 +32,6 @@ RSpec.describe Organized::TimeViewPolicy do
 
   permissions :create? do
     let(:resource) { TimeView.today organization, user }
-
-    it 'grants access if user is a global admin' do
-      user.update_column :admin, true
-      expect(subject).to permit(organization_member, resource)
-    end
 
     it 'grants access if user is an organization admin' do
       organization_member.update_column :admin, true

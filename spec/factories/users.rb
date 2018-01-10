@@ -9,6 +9,7 @@ FactoryBot.define do
     last_name { generate :user_last_name }
     email { generate :user_email }
     password 'password'
+    confirmed_at { 1.day.ago }
 
     trait :admin do
       admin true

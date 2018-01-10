@@ -12,7 +12,7 @@ module Organized
     end
 
     def admin?
-      organization_membership.admin? || user.admin?
+      organization_membership.admin?
     end
 
     def record_in_scope?

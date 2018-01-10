@@ -17,5 +17,9 @@ module Organized
     def show?
       update?
     end
+
+    def destroy?
+      update? && record.destroyable?
+    end
   end
 end

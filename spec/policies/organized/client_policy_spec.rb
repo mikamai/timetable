@@ -14,11 +14,6 @@ RSpec.describe Organized::ClientPolicy do
       expect(subject).not_to permit(organization_member, resource)
     end
 
-    it 'grants access if user is a global admin' do
-      user.update_column :admin, true
-      expect(subject).to permit(organization_member, resource)
-    end
-
     it 'grants access if user is an organization admin' do
       organization_member.update_column :admin, true
       expect(subject).to permit(organization_member, resource)
@@ -30,11 +25,6 @@ RSpec.describe Organized::ClientPolicy do
 
     it 'denies access if user is not an admin' do
       expect(subject).not_to permit(organization_member, resource)
-    end
-
-    it 'grants access if user is a global admin' do
-      user.update_column :admin, true
-      expect(subject).to permit(organization_member, resource)
     end
 
     it 'grants access if user is an organization admin' do
@@ -56,14 +46,34 @@ RSpec.describe Organized::ClientPolicy do
       expect(subject).not_to permit(organization_member, resource)
     end
 
-    it 'grants access if user is a global admin' do
-      user.update_column :admin, true
+    it 'grants access if user is an organization admin' do
+      organization_member.update_column :admin, true
       expect(subject).to permit(organization_member, resource)
+    end
+  end
+
+  permissions :destroy? do
+    let(:resource) { create :client, organization: organization_member.organization }
+
+    it 'denies access if user is not an admin' do
+      expect(subject).not_to permit(organization_member, resource)
+    end
+
+    it 'denies access if client is in different organization' do
+      resource.update_attribute :organization, create(:organization)
+      organization_member.update_column :admin, true
+      expect(subject).not_to permit(organization_member, resource)
     end
 
     it 'grants access if user is an organization admin' do
       organization_member.update_column :admin, true
       expect(subject).to permit(organization_member, resource)
+    end
+
+    it 'denies access if client has active projects' do
+      organization_member.update_column :admin, true
+      create :project, client: resource, organization: resource.organization
+      expect(subject).not_to permit(organization_member, resource)
     end
   end
 end

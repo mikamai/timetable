@@ -14,11 +14,6 @@ RSpec.describe Organized::RolePolicy do
       expect(subject).not_to permit(organization_member, resource)
     end
 
-    it 'grants access if user is a global admin' do
-      user.update_column :admin, true
-      expect(subject).to permit(organization_member, resource)
-    end
-
     it 'grants access if user is an organization admin' do
       organization_member.update_column :admin, true
       expect(subject).to permit(organization_member, resource)
@@ -30,11 +25,6 @@ RSpec.describe Organized::RolePolicy do
 
     it 'denies access if user is not an admin' do
       expect(subject).not_to permit(organization_member, resource)
-    end
-
-    it 'grants access if user is a global admin' do
-      user.update_column :admin, true
-      expect(subject).to permit(organization_member, resource)
     end
 
     it 'grants access if user is an organization admin' do
@@ -54,11 +44,6 @@ RSpec.describe Organized::RolePolicy do
       resource.update_attribute :organization, create(:organization)
       organization_member.update_column :admin, true
       expect(subject).not_to permit(organization_member, resource)
-    end
-
-    it 'grants access if user is a global admin' do
-      user.update_column :admin, true
-      expect(subject).to permit(organization_member, resource)
     end
 
     it 'grants access if user is an organization admin' do

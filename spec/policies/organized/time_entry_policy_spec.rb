@@ -14,11 +14,6 @@ RSpec.describe Organized::TimeEntryPolicy do
       expect(subject).not_to permit(organization_member, resource)
     end
 
-    it 'grants access if user is a global admin' do
-      user.update_column :admin, true
-      expect(subject).to permit(organization_member, resource)
-    end
-
     it 'grants access if user is an organization admin' do
       organization_member.update_column :admin, true
       expect(subject).to permit(organization_member, resource)
@@ -41,11 +36,6 @@ RSpec.describe Organized::TimeEntryPolicy do
       resource = create :time_entry
       organization_member.update_column :admin, true
       expect(subject).not_to permit(organization_member, resource)
-    end
-
-    it 'grants access if user is a global admin' do
-      user.update_column :admin, true
-      expect(subject).to permit(organization_member, resource)
     end
 
     it 'grants access if user is an organization admin' do

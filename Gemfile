@@ -70,8 +70,10 @@ end
 
 group :test do
   gem 'database_cleaner'
+  gem 'rails-controller-testing'
   gem 'rspec-collection_matchers'
   gem 'timecop'
+  gem 'shoulda-matchers'
 end
 
 # Windows does not include zoneinfo files, so bundle the tzinfo-data gem
