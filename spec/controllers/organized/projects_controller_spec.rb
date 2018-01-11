@@ -127,35 +127,36 @@ RSpec.describe Organized::ProjectsController do
     let(:project) { create :project, organization: organization }
 
     def call_action
-      get :edit, params: { organization_id: organization.id, id: project.id }
+      get :show, format: 'json', params: { organization_id: organization.id, id: project.id }
     end
 
-    include_examples 'authentication'
+    context 'when user is not logged in' do
+      before { call_action }
 
-    context 'when org admin accesses' do
+      it { is_expected.to respond_with :unauthorized }
+    end
+
+    context 'when user has no access to the current project' do
+      it 'forbids access' do
+        user = create :user, :organized, organization: organization
+        sign_in user
+        expect { call_action }.to raise_error Pundit::NotAuthorizedError
+      end
+    end
+
+    context 'when project user accesses' do
       let(:user) { create :user, :organized, organization: organization, org_admin: true }
 
       before do
+        project.members.create user: user
         sign_in user
         call_action
       end
 
       it { is_expected.to respond_with :ok }
-      it { is_expected.to render_template :edit }
 
       it 'assigns the project' do
         expect(assigns[:project]).to eq project
-      end
-    end
-
-    context 'prevents access to other organizations' do
-      let(:user) { create :user, :organized, organization: organization, org_admin: true }
-      let(:project) { create :project }
-
-      before { sign_in user }
-
-      it 'raises a 404' do
-        expect { call_action }.to raise_error ActiveRecord::RecordNotFound
       end
     end
   end
