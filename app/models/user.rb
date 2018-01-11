@@ -24,6 +24,10 @@ class User < ApplicationRecord
     "#{first_name} #{last_name}"
   end
 
+  def projects_in_organization organization
+    projects.in_organization(organization)
+  end
+
   def organizations?
     organizations.any?
   end

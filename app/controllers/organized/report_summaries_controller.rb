@@ -40,7 +40,8 @@ module Organized
     end
 
     def set_week_range
-      @beginning_of_week = Date.strptime(params[:id], TimeEntry::WEEK_ID_FORMAT).beginning_of_week
+      year, week = params[:id].split('-').map &:to_i
+      @beginning_of_week = Date.commercial(year, week, 1)
       @end_of_week = @beginning_of_week.end_of_week
     rescue ArgumentError
       raise ActiveRecord::RecordNotFound, 'dates are not valid'
