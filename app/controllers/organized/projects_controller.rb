@@ -3,6 +3,7 @@
 module Organized
   class ProjectsController < BaseController
     before_action :fetch_project, only: %i[show edit update]
+    before_action :disable_caching, only: :show
 
     def index
       @projects = current_organization.projects.order(:name).page(params[:page])
