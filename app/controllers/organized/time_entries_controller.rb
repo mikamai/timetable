@@ -55,7 +55,7 @@ module Organized
 
     def available_tasks
       project = @time_entry.project || available_projects.first
-      @available_tasks_for_project ||= project.tasks.by_name
+      @available_tasks_for_project ||= project ? project.tasks.by_name : []
     end
 
     def impersonating_user
