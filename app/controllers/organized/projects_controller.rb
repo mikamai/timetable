@@ -2,7 +2,7 @@
 
 module Organized
   class ProjectsController < BaseController
-    before_action :fetch_project, only: %i[show edit update]
+    before_action :fetch_project, only: %i[edit update]
 
     def index
       @projects = current_organization.projects.order(:name).page(params[:page])
@@ -12,11 +12,6 @@ module Organized
 
     def new
       @project = current_organization.projects.build
-      authorize @project
-      respond_with current_organization, @project
-    end
-
-    def show
       authorize @project
       respond_with current_organization, @project
     end

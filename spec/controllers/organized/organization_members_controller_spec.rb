@@ -2,7 +2,7 @@
 
 require 'rails_helper'
 
-RSpec.describe Organized::ClientsController do
+RSpec.describe Organized::OrganizationMembersController do
   let(:organization) { create :organization }
 
   shared_examples 'authentication' do
@@ -50,14 +50,13 @@ RSpec.describe Organized::ClientsController do
       it { is_expected.to render_template :index }
 
       it 'assigns the clients' do
-        expect(assigns[:clients]).to be_a ActiveRecord::Relation
-        expect(assigns[:clients]).to respond_to :total_pages
+        expect(assigns[:organization_members]).to be_a ActiveRecord::Relation
+        expect(assigns[:organization_members]).to respond_to :total_pages
       end
 
-      it 'does not include other clients' do
-        create :client
-        client = create :client, organization: organization
-        expect(assigns[:clients].to_a).to eq [client]
+      it 'does not include members of other organizations' do
+        create :organization_member
+        expect(assigns[:organization_members].to_a).to eq user.organization_memberships
       end
     end
   end
@@ -81,17 +80,17 @@ RSpec.describe Organized::ClientsController do
       it { is_expected.to render_template :new }
 
       it 'assigns a newly built client' do
-        expect(assigns[:client]).to be_a Client
-        expect(assigns[:client]).to be_new_record
+        expect(assigns[:organization_member]).to be_a OrganizationMember
+        expect(assigns[:organization_member]).to be_new_record
       end
     end
   end
 
   describe 'POST create' do
-    let(:client_params) { { name: 'asd' } }
+    let(:organization_member_params) { { user_email: 'foo@mail.com' } }
 
     def call_action
-      post :create, params: { organization_id: organization.id, client: client_params }
+      post :create, params: { organization_id: organization.id, organization_member: organization_member_params }
     end
 
     include_examples 'authentication'
@@ -104,107 +103,33 @@ RSpec.describe Organized::ClientsController do
         call_action
       end
 
-      context 'and client data is valid' do
+      context 'and data is valid' do
         it { is_expected.to respond_with :redirect }
-        it 'creates a new client' do
-          expect(assigns[:client]).to be_persisted
-          expect(organization.clients.count).to eq 1
+
+        it 'creates a new organization member' do
+          expect(assigns[:organization_member]).to be_a OrganizationMember
+          expect(assigns[:organization_member]).to be_persisted
+          expect(organization.organization_members.count).to eq 2
+        end
+
+        it 'invites an user if this does not exist' do
+          expect(User.where.not(invitation_sent_at: nil)).to be_any
         end
       end
 
-      context 'and client data is invalid' do
-        let(:client_params) { { name: '' } }
+      context 'and client is invalid' do
+        let(:organization_member_params) { { name: '' } }
 
         it { is_expected.to render_template 'new' }
       end
     end
   end
 
-  describe 'GET edit' do
-    let(:client) { create :client, organization: organization }
-
-    def call_action
-      get :edit, params: { organization_id: organization.id, id: client.id }
-    end
-
-    include_examples 'authentication'
-
-    context 'when org admin accesses' do
-      let(:user) { create :user, :organized, organization: organization, org_admin: true }
-
-      before do
-        sign_in user
-        call_action
-      end
-
-      it { is_expected.to respond_with :ok }
-      it { is_expected.to render_template :edit }
-
-      it 'assigns the client' do
-        expect(assigns[:client]).to eq client
-      end
-    end
-
-    context 'prevents access to other organizations' do
-      let(:user) { create :user, :organized, organization: organization, org_admin: true }
-      let(:client) { create :client }
-
-      before { sign_in user }
-
-      it 'raises a 404' do
-        expect { call_action }.to raise_error ActiveRecord::RecordNotFound
-      end
-    end
-  end
-
-  describe 'PUT update' do
-    let(:client) { create :client, organization: organization }
-    let(:client_params) { { name: 'asd' } }
-
-    def call_action
-      put :update, params: { organization_id: organization.id, id: client.id, client: client_params }
-    end
-
-    include_examples 'authentication'
-
-    context 'when org admin accesses' do
-      let(:user) { create :user, :organized, organization: organization, org_admin: true }
-
-      before do
-        sign_in user
-        call_action
-      end
-
-      it { is_expected.to redirect_to organization_clients_path(organization) }
-
-      it 'updates the client' do
-        expect { client.reload }.to change(client, :name).to 'asd'
-      end
-
-      context 'and client data is invalid' do
-        let(:client_params) { { name: '' } }
-
-        it { is_expected.to render_template 'edit' }
-      end
-    end
-
-    context 'prevents access to other organizations' do
-      let(:user) { create :user, :organized, organization: organization, org_admin: true }
-      let(:client) { create :client }
-
-      before { sign_in user }
-
-      it 'raises a 404' do
-        expect { call_action }.to raise_error ActiveRecord::RecordNotFound
-      end
-    end
-  end
-
   describe 'DELETE destroy' do
-    let(:client) { create :client, organization: organization }
+    let(:organization_member) { create :organization_member, organization: organization }
 
     def call_action
-      delete :destroy, params: { organization_id: organization.id, id: client.id }
+      delete :destroy, params: { organization_id: organization.id, id: organization_member.id }
     end
 
     include_examples 'authentication'
@@ -217,16 +142,62 @@ RSpec.describe Organized::ClientsController do
         call_action
       end
 
-      it { is_expected.to redirect_to organization_clients_path(organization) }
+      it { is_expected.to redirect_to organization_organization_members_path(organization) }
 
-      it 'removes the client' do
-        expect { client.reload }.to raise_error ActiveRecord::RecordNotFound
+      it 'removes the organization member' do
+        expect { organization_member.reload }.to raise_error ActiveRecord::RecordNotFound
       end
     end
 
     context 'prevents access to other organizations' do
       let(:user) { create :user, :organized, organization: organization, org_admin: true }
-      let(:client) { create :client }
+      let(:organization_member) { create :organization_member }
+
+      before { sign_in user }
+
+      it 'raises a 404' do
+        expect { call_action }.to raise_error ActiveRecord::RecordNotFound
+      end
+    end
+  end
+
+  describe 'PATCH toggle_admin' do
+    let(:organization_member) { create :organization_member, organization: organization }
+
+    def call_action
+      patch :toggle_admin, params: { organization_id: organization.id, id: organization_member.id }
+    end
+
+    include_examples 'authentication'
+
+    context 'when org admin accesses' do
+      let(:user) { create :user, :organized, organization: organization, org_admin: true }
+
+      before do
+        sign_in user
+        call_action
+      end
+
+      it { is_expected.to redirect_to organization_organization_members_path(organization) }
+
+      context 'for a plain organization member' do
+        it 'grants admin privileges' do
+          expect { organization_member.reload }.to change(organization_member, :admin?).to true
+        end
+      end
+
+      context 'for an admin organization member' do
+        let(:organization_member) { create :organization_member, organization: organization, admin: true }
+
+        it 'removes admin privileges' do
+          expect { organization_member.reload }.to change(organization_member, :admin?).to false
+        end
+      end
+    end
+
+    context 'prevents access to other organizations' do
+      let(:user) { create :user, :organized, organization: organization, org_admin: true }
+      let(:organization_member) { create :organization_member }
 
       before { sign_in user }
 

@@ -2,7 +2,7 @@
 
 require 'rails_helper'
 
-RSpec.describe Organized::ClientsController do
+RSpec.describe Organized::ProjectsController do
   let(:organization) { create :organization }
 
   shared_examples 'authentication' do
@@ -49,15 +49,15 @@ RSpec.describe Organized::ClientsController do
       it { is_expected.to respond_with :ok }
       it { is_expected.to render_template :index }
 
-      it 'assigns the clients' do
-        expect(assigns[:clients]).to be_a ActiveRecord::Relation
-        expect(assigns[:clients]).to respond_to :total_pages
+      it 'assigns the projects' do
+        expect(assigns[:projects]).to be_a ActiveRecord::Relation
+        expect(assigns[:projects]).to respond_to :total_pages
       end
 
-      it 'does not include other clients' do
-        create :client
-        client = create :client, organization: organization
-        expect(assigns[:clients].to_a).to eq [client]
+      it 'does not include projects of other organizations' do
+        create :project
+        project = create :project, organization: organization
+        expect(assigns[:projects].to_a).to eq [project]
       end
     end
   end
@@ -80,18 +80,19 @@ RSpec.describe Organized::ClientsController do
       it { is_expected.to respond_with :ok }
       it { is_expected.to render_template :new }
 
-      it 'assigns a newly built client' do
-        expect(assigns[:client]).to be_a Client
-        expect(assigns[:client]).to be_new_record
+      it 'assigns a newly built project' do
+        expect(assigns[:project]).to be_a Project
+        expect(assigns[:project]).to be_new_record
       end
     end
   end
 
   describe 'POST create' do
-    let(:client_params) { { name: 'asd' } }
+    let(:project_client) { create :client, organization: organization }
+    let(:project_params) { { client_id: project_client.id, name: 'asd' } }
 
     def call_action
-      post :create, params: { organization_id: organization.id, client: client_params }
+      post :create, params: { organization_id: organization.id, project: project_params }
     end
 
     include_examples 'authentication'
@@ -104,16 +105,18 @@ RSpec.describe Organized::ClientsController do
         call_action
       end
 
-      context 'and client data is valid' do
+      context 'and project data is valid' do
         it { is_expected.to respond_with :redirect }
-        it 'creates a new client' do
-          expect(assigns[:client]).to be_persisted
-          expect(organization.clients.count).to eq 1
+
+        it 'creates a new project' do
+          expect(assigns[:project]).to be_a Project
+          expect(assigns[:project]).to be_persisted
+          expect(organization.projects.count).to eq 1
         end
       end
 
-      context 'and client data is invalid' do
-        let(:client_params) { { name: '' } }
+      context 'and project data is invalid' do
+        let(:project_params) { { name: '' } }
 
         it { is_expected.to render_template 'new' }
       end
@@ -121,10 +124,10 @@ RSpec.describe Organized::ClientsController do
   end
 
   describe 'GET edit' do
-    let(:client) { create :client, organization: organization }
+    let(:project) { create :project, organization: organization }
 
     def call_action
-      get :edit, params: { organization_id: organization.id, id: client.id }
+      get :edit, params: { organization_id: organization.id, id: project.id }
     end
 
     include_examples 'authentication'
@@ -140,14 +143,14 @@ RSpec.describe Organized::ClientsController do
       it { is_expected.to respond_with :ok }
       it { is_expected.to render_template :edit }
 
-      it 'assigns the client' do
-        expect(assigns[:client]).to eq client
+      it 'assigns the project' do
+        expect(assigns[:project]).to eq project
       end
     end
 
     context 'prevents access to other organizations' do
       let(:user) { create :user, :organized, organization: organization, org_admin: true }
-      let(:client) { create :client }
+      let(:project) { create :project }
 
       before { sign_in user }
 
@@ -158,11 +161,11 @@ RSpec.describe Organized::ClientsController do
   end
 
   describe 'PUT update' do
-    let(:client) { create :client, organization: organization }
-    let(:client_params) { { name: 'asd' } }
+    let(:project) { create :project, organization: organization }
+    let(:project_params) { { name: 'asd' } }
 
     def call_action
-      put :update, params: { organization_id: organization.id, id: client.id, client: client_params }
+      put :update, params: { organization_id: organization.id, id: project.id, project: project_params }
     end
 
     include_examples 'authentication'
@@ -175,14 +178,16 @@ RSpec.describe Organized::ClientsController do
         call_action
       end
 
-      it { is_expected.to redirect_to organization_clients_path(organization) }
+      context 'and project data is valid' do
+        it { is_expected.to redirect_to organization_projects_path(organization) }
 
-      it 'updates the client' do
-        expect { client.reload }.to change(client, :name).to 'asd'
+        it 'updates the project' do
+          expect { project.reload }.to change(project, :name).to 'asd'
+        end
       end
 
-      context 'and client data is invalid' do
-        let(:client_params) { { name: '' } }
+      context 'and project data is invalid' do
+        let(:project_params) { { name: '' } }
 
         it { is_expected.to render_template 'edit' }
       end
@@ -190,43 +195,7 @@ RSpec.describe Organized::ClientsController do
 
     context 'prevents access to other organizations' do
       let(:user) { create :user, :organized, organization: organization, org_admin: true }
-      let(:client) { create :client }
-
-      before { sign_in user }
-
-      it 'raises a 404' do
-        expect { call_action }.to raise_error ActiveRecord::RecordNotFound
-      end
-    end
-  end
-
-  describe 'DELETE destroy' do
-    let(:client) { create :client, organization: organization }
-
-    def call_action
-      delete :destroy, params: { organization_id: organization.id, id: client.id }
-    end
-
-    include_examples 'authentication'
-
-    context 'when org admin accesses' do
-      let(:user) { create :user, :organized, organization: organization, org_admin: true }
-
-      before do
-        sign_in user
-        call_action
-      end
-
-      it { is_expected.to redirect_to organization_clients_path(organization) }
-
-      it 'removes the client' do
-        expect { client.reload }.to raise_error ActiveRecord::RecordNotFound
-      end
-    end
-
-    context 'prevents access to other organizations' do
-      let(:user) { create :user, :organized, organization: organization, org_admin: true }
-      let(:client) { create :client }
+      let(:project) { create :project }
 
       before { sign_in user }
 
