@@ -29,7 +29,7 @@ module Organized
 
     def update
       @task = current_organization.tasks.friendly.find params[:id]
-      authorize @tasks
+      authorize @task
       @task.update_attributes task_params
       respond_with current_organization, @task
     end
