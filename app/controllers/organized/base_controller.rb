@@ -36,7 +36,7 @@ module Organized
     end
 
     def available_projects
-      @available_projects ||= current_user.projects_in_organization.by_name
+      @available_projects ||= current_user.projects_in_organization(current_organization).by_name
     end
 
     def available_tasks
