@@ -32,6 +32,14 @@ module Organized
                    location: -> { after_create_or_update_path @time_entry }
     end
 
+    def destroy
+      @time_entry = current_organization.time_entries.find params[:id]
+      authorize @time_entry
+      @time_entry.destroy
+      respond_with current_organization, @time_entry,
+                   location: -> { after_create_or_update_path @time_entry }
+    end
+
     private
 
     def after_create_or_update_path time_entry
@@ -42,6 +50,7 @@ module Organized
       params.require(:time_entry).permit(:user_id, :project_id, :task_id, :notes,
                                          :minutes_in_distance)
             .merge(executed_on: @time_view.date)
+            .reverse_merge(user_id: current_user.id)
     end
 
     def update_params

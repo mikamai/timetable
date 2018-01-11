@@ -6,8 +6,8 @@ FactoryBot.define do
       organization { create :organization }
     end
 
-    project { create :project, organization: organization }
     user { create :user, :organized, organization: organization }
+    project { create :project, organization: organization, users: [user] }
     task { create :task, organization: organization, projects: [project] }
     executed_on { Date.today }
     amount 1

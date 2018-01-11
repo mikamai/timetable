@@ -25,7 +25,7 @@ RSpec.describe Organized::TimeEntryPolicy do
     end
   end
 
-  permissions :update? do
+  permissions :update?, :destroy? do
     let(:resource) { create :time_entry, organization: organization_member.organization }
 
     it 'denies access if user is not an admin' do

@@ -16,5 +16,9 @@ module Organized
     def update?
       create? && record_in_scope?
     end
+
+    def destroy?
+      update?
+    end
   end
 end
