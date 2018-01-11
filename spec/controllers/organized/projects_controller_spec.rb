@@ -123,7 +123,7 @@ RSpec.describe Organized::ProjectsController do
     end
   end
 
-  describe 'GET edit' do
+  describe 'GET show' do
     let(:project) { create :project, organization: organization }
 
     def call_action

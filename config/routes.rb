@@ -17,7 +17,7 @@ Rails.application.routes.draw do
       resources :organization_members, path: :members, only: %i[index new create destroy] do
         patch :toggle_admin, on: :member
       end
-      resources :projects, except: %i[show destroy]
+      resources :projects, except: :destroy
 
       resources :report_summaries, only: :index do
         member do
