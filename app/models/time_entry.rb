@@ -71,7 +71,7 @@ class TimeEntry < ApplicationRecord
   end
 
   def validate_task_in_project
-    return if task.nil? || project.nil? || project.task_ids.include?(task.id)
+    return if task.nil? || project.nil? || task.project_ids.include?(project.id)
     errors.add :task, :forbidden
   end
 end

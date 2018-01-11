@@ -109,7 +109,7 @@ RSpec.describe Organized::OrganizationMembersController do
         it 'creates a new organization member' do
           expect(assigns[:organization_member]).to be_a OrganizationMember
           expect(assigns[:organization_member]).to be_persisted
-          expect(organization.organization_members.count).to eq 2
+          expect(organization.members.count).to eq 2
         end
 
         it 'invites an user if this does not exist' do

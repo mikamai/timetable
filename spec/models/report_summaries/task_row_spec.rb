@@ -19,6 +19,7 @@ RSpec.describe ReportSummaries::TaskRow do
       te = create :time_entry, amount: 1
       p = create :project, organization: te.organization
       te.task.projects << p
+      te.task.reload
       create :time_entry, amount: 2, organization: te.organization,
              task: te.task, project: p
       res = described_class.build_from_scope TimeEntry
