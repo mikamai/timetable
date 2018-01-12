@@ -8,6 +8,6 @@ module TimeEntriesHelper
   end
 
   def format_distance_of_minutes_as_hours amount
-    (amount.to_f / 60).round 2
+    number_with_precision amount.to_f / 60, precision: 2
   end
 end

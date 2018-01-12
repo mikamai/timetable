@@ -13,14 +13,15 @@
         tr
           th Name
           th Client
+          th Spent
           th &nbsp;
       tbody
         - if @projects.any?
           = render @projects
         - else
           tr
-            td(colspan=2)
+            td(colspan=4)
               p.alert.alert-info.text-center There are no projects to show.
       tfoot
         tr
-          td(colspan=3)= paginate @projects
+          td(colspan=4)= paginate @projects

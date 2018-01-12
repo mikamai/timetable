@@ -34,6 +34,10 @@ class Project < ApplicationRecord
     )
   end
 
+  def total_amount
+    time_entries.sum(:amount)
+  end
+
   private
 
   def validate_organization_references

@@ -3,6 +3,7 @@ tr
     = project.name
     small.text-muted.ml-2= project.slug
   td= project.client_name
+  td= format_distance_of_minutes_as_hours project.total_amount
   td.text-right
     - if policy(project).update?
       = link_to edit_organization_project_path(current_organization, project), class: 'btn btn-outline-secondary' do
