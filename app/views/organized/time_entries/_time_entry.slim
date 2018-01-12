@@ -11,5 +11,5 @@ tr.time-entry-row
       = link_to [:edit, current_organization, time_entry], class: 'btn btn-outline-secondary' do
         i.icon-pencil
     - if policy(time_entry).destroy?
-      = link_to [current_organization, time_entry], class: 'btn btn-outline-danger ml-2', data: { method: 'delete' } do
+      = link_to [current_organization, time_entry], class: 'btn btn-outline-danger ml-2', data: { method: 'delete', confirm: 'Are you sure you want to remove this entry?' } do
         i.icon-cross
