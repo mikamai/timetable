@@ -19,6 +19,13 @@ module Organized
       respond_with current_organization, @organization_member
     end
 
+    def resend_invitation
+      @organization_member = current_organization.members.find params[:id]
+      authorize @organization_member
+      @organization_member.user.deliver_invitation
+      respond_with current_organization, @organization_member
+    end
+
     def toggle_admin
       @organization_member = current_organization.members.find params[:id]
       authorize @organization_member

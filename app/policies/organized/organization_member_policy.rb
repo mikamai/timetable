@@ -21,5 +21,9 @@ module Organized
     def toggle_admin?
       show?
     end
+
+    def resend_invitation?
+      create? && record.awaiting_invitation?
+    end
   end
 end

@@ -15,6 +15,7 @@ Rails.application.routes.draw do
     resources :organizations, only: :show, path: 'orgs', controller: 'home' do
       resources :clients
       resources :organization_members, path: :members, only: %i[index new create destroy] do
+        patch :resend_invitation, on: :member
         patch :toggle_admin, on: :member
       end
       resources :projects, except: :destroy

@@ -7,6 +7,9 @@ tr(class="#{'font-weight-bold' if organization_member.admin?}")
                 class: 'toggle_admin', data: { method: 'patch' } do
         span.icon-check(class='#{organization_member.admin? ? 'active' : 'inactive'}')
   td
+    - if policy(organization_member).resend_invitation?
+      = link_to [:resend_invitation, current_organization, organization_member], class: 'btn btn-outline-success ml-2', data: { method: 'patch' } do
+        i.icon-forward
     - if policy(organization_member).destroy?
-      = link_to [current_organization, organization_member], class: 'btn btn-outline-danger', data: { method: 'delete' } do
+      = link_to [current_organization, organization_member], class: 'btn btn-outline-danger ml-2', data: { method: 'delete' } do
         i.icon-cross

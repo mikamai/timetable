@@ -9,3 +9,6 @@ en:
     profile:
       update:
         notice: Your profile was successfully updated.
+    actions:
+      resend_invitation:
+         notice: Invitation email has been sent again.

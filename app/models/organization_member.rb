@@ -38,6 +38,10 @@ class OrganizationMember < ApplicationRecord
     user.projects.in_organization(organization).empty?
   end
 
+  def awaiting_invitation?
+    !user.confirmed? && user.invitation_token
+  end
+
   private
 
   def validate_references

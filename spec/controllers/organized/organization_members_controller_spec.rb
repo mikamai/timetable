@@ -206,4 +206,41 @@ RSpec.describe Organized::OrganizationMembersController do
       end
     end
   end
+
+  describe 'PATCH resend_invitation' do
+    let(:organization_member) { create :organization_member, organization: organization }
+
+    def call_action
+      patch :resend_invitation, params: { organization_id: organization.id, id: organization_member.id }
+    end
+
+    include_examples 'authentication'
+
+    context 'when org admin accesses' do
+      let(:user) { create :user, :organized, organization: organization, org_admin: true }
+
+      before do
+        sign_in user
+        ActionMailer::Base.deliveries.clear
+        call_action
+      end
+
+      it { is_expected.to redirect_to organization_organization_members_path(organization) }
+
+      it 'sends a new invitation to the user' do
+        expect(ActionMailer::Base.deliveries.length).to eq 1
+      end
+    end
+
+    context 'prevents access to other organizations' do
+      let(:user) { create :user, :organized, organization: organization, org_admin: true }
+      let(:organization_member) { create :organization_member }
+
+      before { sign_in user }
+
+      it 'raises a 404' do
+        expect { call_action }.to raise_error ActiveRecord::RecordNotFound
+      end
+    end
+  end
 end
