@@ -14,6 +14,7 @@ module Organized
     private
 
     def impersonating_user
+      return current_user unless params[:as]
       @impersonating_user ||= current_organization.users.find params[:as]
     rescue ActiveRecord::RecordNotFound
       current_user
