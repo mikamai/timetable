@@ -4,6 +4,10 @@ module Organized
   class TimeViewsController < BaseController
     helper_method :impersonatable_users, :impersonating_user
 
+    def index
+      redirect_to [current_organization, TimeView.today(current_organization, current_user)]
+    end
+
     def show
       @week_view = WeekView.find_by_time_view_id params[:id], current_organization,
                                                  impersonating_user
