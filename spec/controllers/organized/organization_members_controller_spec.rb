@@ -208,7 +208,8 @@ RSpec.describe Organized::OrganizationMembersController do
   end
 
   describe 'PATCH resend_invitation' do
-    let(:organization_member) { create :organization_member, organization: organization }
+    let(:invited_user) { create :user, :invited }
+    let(:organization_member) { create :organization_member, user: invited_user, organization: organization }
 
     def call_action
       patch :resend_invitation, params: { organization_id: organization.id, id: organization_member.id }
@@ -221,6 +222,7 @@ RSpec.describe Organized::OrganizationMembersController do
 
       before do
         sign_in user
+        organization_member
         ActionMailer::Base.deliveries.clear
         call_action
       end

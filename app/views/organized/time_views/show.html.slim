@@ -18,8 +18,11 @@
       span.dropdown.ml-2
         button.btn.btn-secondary.dropdown-toggle(data-toggle='dropdown') Change team member
         .dropdown-menu
-          - available_users.each do |user|
-            = link_to user.name, url_for(as: user), class: "dropdown-item #{'active' if user == @week_view.user}"
+          - if impersonating_user != current_user
+            = link_to current_user.name, url_for(as: nil), class: 'dropdown-item'
+            .dropdown-divider
+          - impersonatable_users.each do |user|
+            = link_to user.name, url_for(as: user), class: 'dropdown-item'
 
 .row.mt-2
   .col
@@ -48,5 +51,5 @@
             = format_distance_of_minutes @time_view.time_entries.total_amount
           td.align-middle.text-right
             - if policy(@time_view).create?
-              = link_to new_organization_time_view_time_entry_path(time_view_id: @time_view, as: @time_view.user), class: 'btn btn-primary', role: 'button' do
+              = link_to new_organization_time_view_time_entry_path(time_view_id: @time_view), class: 'btn btn-primary', role: 'button' do
                 i.icon-plus
