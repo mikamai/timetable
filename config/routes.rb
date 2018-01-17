@@ -10,9 +10,11 @@ Rails.application.routes.draw do
   namespace :admin do
     resources :users, only: :index
 
-    authenticate :user, lambda { |u| u.admin? } do
-      require 'sidekiq/web'
-      mount Sidekiq::Web, at: '/sidekiq'
+    if Rails.env.production?
+      authenticate :user, lambda { |u| u.admin? } do
+        require 'sidekiq/web'
+        mount Sidekiq::Web, at: '/sidekiq'
+      end
     end
   end
 

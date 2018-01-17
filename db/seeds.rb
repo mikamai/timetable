@@ -1,10 +1,26 @@
 # frozen_string_literal: true
-# This file should contain all the record creation needed to seed the database with its
-#   default values.
-# The data can then be loaded with the rails db:seed command (or created alongside the database
-#   with db:setup).
-#
-# Examples:
-#
-#   movies = Movie.create([{ name: 'Star Wars' }, { name: 'Lord of the Rings' }])
-#   Character.create(name: 'Luke', movie: movies.first)
+
+# Inspired by errbit db/seeds.rb
+
+require 'securerandom'
+
+puts "Seeding database"
+puts "-------------------------------"
+
+# Create an initial Admin User
+admin_email    = ENV['TIMETABLE_ADMIN_EMAIL'] || "admin@timetable.mikamai.com"
+admin_pass     = ENV['TIMETABLE_ADMIN_PASSWORD'] || SecureRandom.urlsafe_base64(12)[0, 12]
+
+puts "Creating an initial admin user:"
+puts "-- email:    #{admin_email}"
+puts "-- password: #{admin_pass}"
+puts ""
+puts "Be sure to note down these credentials now!"
+
+user = User.find_or_initialize_by(email: admin_email)
+user.first_name = 'Timetable'
+user.last_name = 'Admin'
+user.password = admin_pass
+user.password_confirmation = admin_pass
+user.admin = true
+user.save!

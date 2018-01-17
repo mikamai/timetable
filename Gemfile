@@ -12,6 +12,7 @@ gem 'rails', '~> 5.1.4'
 
 # DB
 gem 'pg', '~> 0.18'
+gem 'sidekiq', '~> 5.0'
 
 # App Server
 gem 'puma', '~> 3.7'

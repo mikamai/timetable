@@ -1,24 +1,33 @@
-# README
+# Mikamai Timetable
 
-This README would normally document whatever steps are necessary to get the
-application up and running.
+## Required
 
-Things you may want to cover:
+- redis >= 4 (only in production)
+- postgresql >= 9.6
 
-* Ruby version
+## Setup
 
-* System dependencies
+After cloning the repo:
 
-* Configuration
+```bash
+> bundle install
+...
+> bundle exec rake db:seed
+Seeding database
+-------------------------------
+Creating an initial admin user:
+-- email:    admin@timetable.mikamai.com
+-- password: password
 
-* Database creation
+Be sure to note down these credentials now!
+```
 
-* Database initialization
+You can now visit the app and log in as an admin.
 
-* How to run the test suite
+## Async jobs
 
-* Services (job queues, cache servers, search engines, etc.)
+ActiveJob is used for async jobs.
 
-* Deployment instructions
+In development and test envs activejob is left in :inline mode (so it stores data in memory and uses a background thread to handle jobs).
 
-* ...
+In production sidekiq is used. The web console is also available in production on `/admin/sidekiq`
