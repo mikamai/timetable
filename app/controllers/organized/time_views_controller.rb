@@ -2,7 +2,7 @@
 
 module Organized
   class TimeViewsController < BaseController
-    before_filter :fetch_impersonating_user
+    before_action :fetch_impersonating_user
     helper_method :impersonatable_users, :impersonating_user
 
     def index
