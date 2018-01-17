@@ -2,6 +2,7 @@
 
 module Organized
   class TimeViewsController < BaseController
+    before_filter :fetch_impersonating_user
     helper_method :impersonatable_users, :impersonating_user
 
     def index
@@ -18,10 +19,7 @@ module Organized
     private
 
     def impersonating_user
-      return current_user unless params[:as]
-      @impersonating_user ||= current_organization.users.find params[:as]
-    rescue ActiveRecord::RecordNotFound
-      current_user
+      @impersonating_user || current_user
     end
 
     def default_url_options
@@ -34,6 +32,13 @@ module Organized
 
     def impersonatable_users
       available_users.where.not id: [impersonating_user.id, current_user.id].uniq
+    end
+
+    def fetch_impersonating_user
+      return unless params[:as].present?
+      @impersonating_user = current_organization.users.find params[:as]
+    rescue ActiveRecord::RecordNotFound
+      nil
     end
   end
 end
