@@ -9,6 +9,11 @@ Rails.application.routes.draw do
 
   namespace :admin do
     resources :users, only: :index
+
+    authenticate :user, lambda { |u| u.admin? } do
+      require 'sidekiq/web'
+      mount Sidekiq::Web, at: '/sidekiq'
+    end
   end
 
   scope module: 'organized' do
