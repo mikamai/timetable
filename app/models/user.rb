@@ -48,4 +48,8 @@ class User < ApplicationRecord
     membership = organization_memberships.find_by(organization_id: organization_id)
     membership&.admin?
   end
+
+  def send_devise_notification(notification, *args)
+    devise_mailer.send(notification, self, *args).deliver_later
+  end
 end
