@@ -11,7 +11,7 @@
       = link_to 'Today', today_time_view_url, class: 'btn btn-secondary'
       = link_to next_week_time_view_url, class: 'btn btn-secondary' do
         i.icon-chevron-right
-    = link_to organization_time_view_path(current_organization, ':time_view'), \
+    = link_to organization_time_view_path(current_organization, ':time_view', as: impersonating_user), \
               class: 'btn btn-secondary ml-2 seek-time-view', data: { current: @time_view.date.to_json } do
       i.icon-calendar
     - if policy(TimeView).show?
@@ -51,5 +51,5 @@
             = format_distance_of_minutes @time_view.time_entries.total_amount
           td.align-middle.text-right
             - if policy(@time_view).create?
-              = link_to new_organization_time_view_time_entry_path(time_view_id: @time_view), class: 'btn btn-primary', role: 'button' do
+              = link_to new_organization_time_view_time_entry_path(time_view_id: @time_view, as: impersonating_user), class: 'btn btn-primary', role: 'button' do
                 i.icon-plus

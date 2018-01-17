@@ -5,7 +5,7 @@ module Organized
     before_action :set_time_view, only: %i[new create]
 
     def new
-      @time_entry = TimeEntry.new executed_on: @time_view.date, user: impersonating_user
+      @time_entry = TimeEntry.new executed_on: @time_view.date, user: impersonating_or_current_user
       authorize @time_entry
       respond_with current_organization, @time_entry
     end
@@ -43,7 +43,10 @@ module Organized
     private
 
     def after_create_or_update_path time_entry
-      organization_time_view_path current_organization, time_entry.time_view, as: time_entry.user
+      options = {
+        as: time_entry.user != current_user ? time_entry.user.id : nil
+      }
+      organization_time_view_path current_organization, time_entry.time_view, options
     end
 
     def create_params
@@ -68,9 +71,14 @@ module Organized
     end
 
     def impersonating_user
+      return nil unless params[:as]
       @impersonating_user ||= current_organization.users.find params[:as]
     rescue ActiveRecord::RecordNotFound
-      current_user
+      nil
+    end
+
+    def impersonating_or_current_user
+      impersonating_user || current_user
     end
   end
 end

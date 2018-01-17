@@ -4,6 +4,6 @@ li.time-view-nav.nav-item
       strong.day_name= l time_view.date, format: :time_view
       span.total= format_distance_of_minutes time_view.time_entries.total_amount
   - else
-    = link_to [current_organization, time_view], class: 'nav-link' do
+    = link_to organization_time_view_path(current_organization, time_view, as: impersonating_user), class: 'nav-link' do
       strong.day_name= l time_view.date, format: :time_view
       span.total= format_distance_of_minutes time_view.time_entries.total_amount

@@ -3,4 +3,6 @@
     h4 New Entry
 
 .row
-  .col= render 'form'
+  .col
+    = form_for [current_organization, @time_view, @time_entry] do |f|
+      = render 'form', f: f

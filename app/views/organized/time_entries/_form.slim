@@ -1,42 +1,41 @@
-= form_for [current_organization, @time_view, @time_entry] do |f|
-  = f.hidden_field :user_id
-  - if f.object.user != current_user
-    .row.form-group
-      = f.label :user_name, class: 'col-sm-2 col-form-label'
-      .col-sm-10
-        = f.text_field :user_name, class: 'form-control-plaintext', readonly: ''
+= f.hidden_field :user_id
+- if f.object.user != current_user
   .row.form-group
-    = f.label :executed_on, class: 'col-sm-2 col-form-label'
+    = f.label :user_name, class: 'col-sm-2 col-form-label'
     .col-sm-10
-      - if f.object.persisted?
-        = f.date_field :executed_on, class: 'form-control'
-        small.form-text.text-danger= f.object.errors[:executed_on].join ', '
-      - else
-        = f.date_field :executed_on, class: 'form-control-plaintext', readonly: ''
-  .row.form-group
-    = f.label :project_id, class: 'col-sm-2 col-form-label'
-    .col-sm-10
-      = f.collection_select :project_id, available_projects, :id, :name, {}, \
-                            class: 'form-control', \
-                            data: { fetch_api: organization_project_path(current_organization, ':project') }
-      small.form-text.text-danger= f.object.errors[:project_id].join ', '
-  .row.form-group
-    = f.label :task_id, class: 'col-sm-2 col-form-label'
-    .col-sm-10
-      = f.collection_select :task_id, available_tasks, :id, :name, {}, \
-                            class: 'form-control'
-      small.form-text.text-danger= f.object.errors[:task_id].join ', '
-  .row.form-group
-    = f.label :notes, class: 'col-sm-2 col-form-label'
-    .col-sm-10
-      = f.text_area :notes, class: 'form-control'
-      small.form-text.text-danger= f.object.errors[:notes].join ', '
-  .row.form-group
-    = f.label :minutes_in_distance, class: 'col-sm-2 col-form-label'
-    .col-sm-10
-      = f.text_field :minutes_in_distance, class: 'form-control', placeholder: '0:00', autocomplete: 'off'
-      small.form-text.text-danger= f.object.errors[:amount].join ', '
-  .row.justify-content-end
-    .col-sm-10
-      = f.submit class: 'btn btn-primary'
+      = f.text_field :user_name, class: 'form-control-plaintext', readonly: ''
+.row.form-group
+  = f.label :executed_on, class: 'col-sm-2 col-form-label'
+  .col-sm-10
+    - if f.object.persisted?
+      = f.date_field :executed_on, class: 'form-control'
+      small.form-text.text-danger= f.object.errors[:executed_on].join ', '
+    - else
+      = f.date_field :executed_on, class: 'form-control-plaintext', readonly: ''
+.row.form-group
+  = f.label :project_id, class: 'col-sm-2 col-form-label'
+  .col-sm-10
+    = f.collection_select :project_id, available_projects, :id, :name, {}, \
+                          class: 'form-control', \
+                          data: { fetch_api: organization_project_path(current_organization, ':project') }
+    small.form-text.text-danger= f.object.errors[:project_id].join ', '
+.row.form-group
+  = f.label :task_id, class: 'col-sm-2 col-form-label'
+  .col-sm-10
+    = f.collection_select :task_id, available_tasks, :id, :name, {}, \
+                          class: 'form-control'
+    small.form-text.text-danger= f.object.errors[:task_id].join ', '
+.row.form-group
+  = f.label :notes, class: 'col-sm-2 col-form-label'
+  .col-sm-10
+    = f.text_area :notes, class: 'form-control'
+    small.form-text.text-danger= f.object.errors[:notes].join ', '
+.row.form-group
+  = f.label :minutes_in_distance, class: 'col-sm-2 col-form-label'
+  .col-sm-10
+    = f.text_field :minutes_in_distance, class: 'form-control', placeholder: '0:00', autocomplete: 'off'
+    small.form-text.text-danger= f.object.errors[:amount].join ', '
+.row.justify-content-end
+  .col-sm-10
+    = f.submit class: 'btn btn-primary'
 
