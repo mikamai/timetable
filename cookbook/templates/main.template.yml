@@ -1,0 +1,48 @@
+---
+Description: Mikatimetable AWS resources
+
+Resources:
+  AssetsBucket:
+    Type: AWS::S3::Bucket
+    Properties:
+      BucketName: mikatimetable
+      BucketEncryption:
+        ServerSideEncryptionConfiguration:
+          - ServerSideEncryptionByDefault:
+              SSEAlgorithm: aws:kms
+
+  User:
+    Type: AWS::IAM::User
+    Properties:
+      Path: /
+      UserName: mikatimetable
+      Policies:
+        - PolicyName: AssetsAccess
+          PolicyDocument:
+            Version: '2012-10-17'
+            Statement:
+              - Effect: Allow
+                Action:
+                  - s3:*
+                Resource:
+                  - !GetAtt AssetsBucket.Arn
+                  - !Sub
+                      - ${bucket}/*
+                      - bucket: !GetAtt AssetsBucket.Arn
+
+  AccessKey:
+    Type: AWS::IAM::AccessKey
+    Properties:
+      Serial: 0
+      UserName: !Ref User
+
+Outputs:
+  AssetsBucket:
+    Description: Assets bucket
+    Value: !Ref AssetsBucket
+  AccessKeyId:
+    Description: AWS Access Key ID
+    Value: !Ref AccessKey
+  SecretAccessKey:
+    Description: AWS Secret Access Key
+    Value: !GetAtt AccessKey.SecretAccessKey

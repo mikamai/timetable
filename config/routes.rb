@@ -37,6 +37,7 @@ Rails.application.routes.draw do
       end
 
       get 'report_entries' => 'report_entries#index', as: :report_entries
+      resources :report_entries_exports, path: 'report_entries/exports', only: %w[create show]
 
       resources :roles
       resources :tasks, only: %i[index new create edit update]

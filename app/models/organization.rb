@@ -10,6 +10,7 @@ class Organization < ApplicationRecord
   has_many :tasks, inverse_of: :organization
   has_many :clients, inverse_of: :organization
   has_many :roles, inverse_of: :organization
+  has_many :report_entries_exports, inverse_of: :organization
 
   accepts_nested_attributes_for :members, reject_if: :all_blank, allow_destroy: true
 

@@ -1,0 +1,12 @@
+.row.justify-content-md-center
+  #download-report-entries-export.col.col-md-auto.text-center(class="#{'invisible' unless @export.completed?}")
+    p Report has been generated, and download should start shortly.
+    p
+      = link_to 'Click here', @export.file_url
+      | &nbsp;if the download doesn't start automatically.
+- unless @export.completed?
+  .row.justify-content-md-center
+    #waiting-report-entries-export.col.col-md-auto.text-center(data-url=url_for)
+      p Generating
+    #unknown-error-during-report-entries-watch.col.invisible
+      .alert.alert-danger An error occurred while watching for the job to complete. Please refresh the page.

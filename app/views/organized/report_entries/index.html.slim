@@ -38,6 +38,13 @@
           = link_to 'Reset', organization_report_entries_path, class: 'btn btn-secondary ml-2'
 
 .row.mt-2
+  .col.text-right
+    = form_for [current_organization, @report_entries_export] do |f|
+      = f.hidden_field :export_query
+      = f.button do
+        i.icon-download
+
+.row.mt-1
   .col
     table.table.table-sm
       thead

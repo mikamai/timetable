@@ -11,6 +11,7 @@ class User < ApplicationRecord
   has_many :project_memberships, class_name: 'ProjectMember', inverse_of: :user
   has_many :projects, through: :project_memberships
   has_many :time_entries, inverse_of: :user
+  has_many :report_entries_exports, inverse_of: :user
   has_and_belongs_to_many :roles, inverse_of: :users
 
   scope :by_name, -> { order :first_name, :last_name }

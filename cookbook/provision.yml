@@ -1,0 +1,17 @@
+#!/usr/bin/env ansible-playbook
+---
+- name: Provision
+  hosts: localhost
+  connection: local
+  gather_facts: False
+  environment:
+    AWS_REGION: eu-west-1
+  tasks:
+    - name: Provision AWS
+      cloudformation:
+        stack_name: mikatimetable
+        state: present
+        template: templates/main.template.yml
+      register: stack
+
+    - debug: msg={{ stack.stack_outputs }}

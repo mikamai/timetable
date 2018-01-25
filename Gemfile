@@ -8,14 +8,14 @@ git_source(:github) do |repo_name|
   "https://github.com/#{repo_name}.git"
 end
 
-gem 'rails', '~> 5.1.4'
-
-# DB
 gem 'pg', '~> 0.18'
+gem 'puma', '~> 3.7'
+gem 'rails', '~> 5.1.4'
 gem 'sidekiq', '~> 5.0'
 
-# App Server
-gem 'puma', '~> 3.7'
+# Uploads
+gem 'carrierwave'
+gem 'fog-aws'
 
 # Other
 gem 'cocoon'
@@ -27,6 +27,7 @@ gem 'kaminari'
 gem 'pundit'
 gem 'ransack', github: 'activerecord-hackery/ransack'
 gem 'responders'
+gem 'rubyXL'
 
 # Rollbar
 gem 'oj'
