@@ -27,3 +27,4 @@ config/environments/*.local.yml
 .vscode/
 vendor/assets/bower_components
 public/uploads
+public/exports
