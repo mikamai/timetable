@@ -2,7 +2,7 @@
   .col.col-md-auto.text-center
     p Report has been generated, and download should start shortly.
     p
-      = link_to 'Click here', @export.file_url
+      = link_to 'Click here', @export.file_url, class: 'download-link'
       | &nbsp;if the download doesn't start automatically.
 - unless @export.completed?
   #waiting-report-entries-export.row.justify-content-md-center(data-url=url_for)

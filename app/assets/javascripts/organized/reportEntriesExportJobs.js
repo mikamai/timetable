@@ -5,8 +5,9 @@ const showError = ($el) => {
   $('#unknown-error-during-report-entries-watch').removeClass('invisible');
 };
 
-const showExportResult = ($el, _data) => {
+const showExportResult = ($el, data) => {
   $el.addClass('invisible');
+  $('#download-report-entries-export .download-link').attr('href', data.file_url);
   $('#download-report-entries-export').removeClass('invisible');
 };
 
