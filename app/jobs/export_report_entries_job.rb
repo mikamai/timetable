@@ -1,4 +1,6 @@
 class ExportReportEntriesJob < ApplicationJob
+  queue_as :exports
+
   def perform report_entries_export
     report = create_report report_entries_export
     report_entries_export.file = report_to_file(report)
