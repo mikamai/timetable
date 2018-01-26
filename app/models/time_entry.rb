@@ -48,6 +48,10 @@ class TimeEntry < ApplicationRecord
     TimeView.find executed_on.strftime(TimeView::ID_FORMAT), organization, user
   end
 
+  def minutes_as_hours
+    amount.to_f / 60
+  end
+
   def minutes_in_distance
     return @minutes_in_distance if @minutes_in_distance
     return nil unless amount

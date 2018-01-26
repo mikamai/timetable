@@ -8,6 +8,8 @@ class ExportReportEntriesJob < ApplicationJob
     report_entries_export.save!
   end
 
+  private
+
   def report_to_file report
     report.stream.tap do |stream|
       stream.define_singleton_method(:original_filename) { 'report.xlsx' }
@@ -20,12 +22,16 @@ class ExportReportEntriesJob < ApplicationJob
       sheet.sheet_name = 'Entries'
       add_row_to_sheet sheet, 0, %w[Date Client Project Task Person Hours Notes]
       report_entries_for(report_entries_export).find_each.with_index do |time_entry, i|
-        add_row_to_sheet sheet, i + 1, [time_entry.executed_on, time_entry.client_name,
-                                        time_entry.project_name, time_entry.task_name,
-                                        time_entry.user_name, time_entry.amount,
-                                        time_entry.notes]
+        add_row_to_sheet sheet, i + 1, time_entry_row(time_entry)
       end
     end
+  end
+
+  def time_entry_row time_entry
+    [
+      time_entry.executed_on, time_entry.client_name, time_entry.project_name, time_entry.task_name,
+      time_entry.user_name, time_entry.minutes_as_hours, time_entry.notes
+    ]
   end
 
   def report_entries_for report_entries_export
@@ -44,7 +50,11 @@ class ExportReportEntriesJob < ApplicationJob
   def add_row_to_sheet sheet, row, cells
     cells.each_with_index do |v, i|
       c = sheet.add_cell row, i
-      c.set_number_format 'dd-mm-yy' if v.is_a? Date
+      if v.is_a? Date # Date column
+        c.set_number_format 'dd-mm-yy'
+      elsif i.is_a? Float # Hours column
+        c.set_number_format '0.00'
+      end
       c.change_contents v
     end
   end
