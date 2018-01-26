@@ -21,7 +21,7 @@ class ExportReportEntriesJob < ApplicationJob
       sheet = workbook.worksheets[0]
       sheet.sheet_name = 'Entries'
       add_row_to_sheet sheet, 0, %w[Date Client Project Task Person Hours Notes]
-      report_entries_for(report_entries_export).find_each.with_index do |time_entry, i|
+      report_entries_for(report_entries_export).each_with_index do |time_entry, i|
         add_row_to_sheet sheet, i + 1, time_entry_row(time_entry)
       end
     end
@@ -35,12 +35,18 @@ class ExportReportEntriesJob < ApplicationJob
   end
 
   def report_entries_for report_entries_export
+    # Note: ActiveRecord #find_each and #find_in_batches ignore scoped ordering
+    # making impossible to use it.
+    # For this reason we have to rely on a plain #each, and limit the query to
+    # the first 10_000 rows (just because we don't want to degrade performances)
     entries = TimeEntry.in_organization report_entries_export.organization
     scoped = policy_scope report_entries_export.organization_membership, entries
     q = scoped.ransack(report_entries_export.export_query).tap do |q|
       q.sorts = 'executed_on asc' if q.sorts.empty?
+      q.executed_on_gteq = 30.days.ago if q.executed_on_gteq.blank?
+      q.executed_on_lteq = Date.today if q.executed_on_lteq.blank?
     end
-    q.result.includes :project, :client, :task, :user
+    q.result.includes(:project, :client, :task, :user).limit 10_000
   end
 
   def policy_scope user, collection
