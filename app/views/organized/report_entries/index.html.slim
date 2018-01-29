@@ -19,7 +19,7 @@
       .row.form-group
         = f.label :project_id_in, 'Projects', class: 'col-sm-2 col-form-label'
         .col-sm-10
-          = f.collection_select :project_id_in, available_projects, :id, :name, {}, multiple: true, class: 'form-control chippable'
+          = f.collection_select :project_id_in, organization_projects, :id, :name, {}, multiple: true, class: 'form-control chippable'
       .row.form-group
         = f.label :task_id_in, 'Tasks', class: 'col-sm-2 col-form-label'
         .col-sm-10

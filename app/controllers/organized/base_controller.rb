@@ -6,7 +6,8 @@ module Organized
     before_action :set_current_organization
 
     helper_method :available_clients, :available_projects, :available_tasks,
-                  :available_users, :available_roles, :pundit_user
+                  :available_users, :available_roles, :pundit_user,
+                  :organization_projects
 
     private
 
@@ -33,6 +34,10 @@ module Organized
 
     def available_clients
       @available_clients ||= current_organization.clients.by_name
+    end
+
+    def organization_projects
+      @organization_projects ||= current_organization.projects.by_name
     end
 
     def available_projects
