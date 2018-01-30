@@ -1,5 +1,7 @@
 # Mikamai Timetable
 
+[![CircleCI](https://circleci.com/gh/mikamai/timetable.svg?style=svg&circle-token=f162cc4c45f8a0452a430b7c9f22f7163410be40)](https://circleci.com/gh/mikamai/timetable)
+
 ## Required
 
 - redis >= 4 (only in production)
