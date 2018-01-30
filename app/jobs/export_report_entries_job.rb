@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 class ExportReportEntriesJob < ApplicationJob
   queue_as :exports
 

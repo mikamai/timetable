@@ -23,8 +23,11 @@ RSpec.describe Organized::ReportEntriesExportsController do
   end
 
   describe 'POST create' do
-    def call_action
-      post :create, params: { organization_id: organization.id }
+    def call_action export_query = 'null'
+      post :create, params: {
+        organization_id:       organization.id,
+        report_entries_export: { export_query: export_query }
+      }
     end
 
     include_examples 'authentication'
@@ -38,6 +41,19 @@ RSpec.describe Organized::ReportEntriesExportsController do
         call_action
         expect(assigns[:export]).to be_a ReportEntriesExport
         expect(assigns[:export]).to be_persisted
+      end
+
+      it 'raises an error if the export_query param is not a json' do
+        expect {
+          call_action 'asd'
+        }.to raise_error BadJsonProvidedError
+      end
+
+      it 'sets the export_query param into the model' do
+        project = create :project, organization: organization
+        data = { project_id_in: [project.id] }
+        call_action data.to_json
+        expect(assigns[:export].export_query).to eq "project_id_in" => [project.id.to_s]
       end
 
       it 'enqueues the actual export' do

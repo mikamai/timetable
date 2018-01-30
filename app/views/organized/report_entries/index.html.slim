@@ -40,7 +40,7 @@
 .row.mt-2
   .col.text-right
     = form_for [current_organization, @report_entries_export] do |f|
-      = f.hidden_field :export_query
+      = f.hidden_field :export_query, value: f.object.export_query.to_json
       = f.button do
         i.icon-download
 
