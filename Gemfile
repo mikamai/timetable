@@ -70,6 +70,7 @@ group :development do
 end
 
 group :test do
+  gem 'codacy-coverage', require: false
   gem 'database_cleaner'
   gem 'rails-controller-testing'
   gem 'rspec-collection_matchers'
