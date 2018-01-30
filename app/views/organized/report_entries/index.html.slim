@@ -59,7 +59,7 @@
         - if @time_entries.any?
           - @time_entries.each do |time_entry|
             tr
-              td= l time_entry.executed_on
+              td= l time_entry.executed_on, format: :report
               td= time_entry.client_name
               td= time_entry.project_name
               td= time_entry.task_name
