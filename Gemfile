@@ -19,7 +19,6 @@ gem 'fog-aws'
 
 # Other
 gem 'cocoon'
-gem 'config'
 gem 'devise'
 gem 'devise_invitable'
 gem 'friendly_id'

@@ -1,3 +1,0 @@
----
-domain: <%= ENV.fetch 'APP_DOMAIN', 'localhost' %>
-web_port: <%= ENV.fetch 'APP_WEB_PORT', '3000' %>

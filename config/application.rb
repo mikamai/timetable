@@ -18,10 +18,5 @@ module Timetable
     config.generators do |g|
       g.orm :active_record, primary_key_type: :uuid
     end
-
-    config.action_mailer.default_url_options = {
-      host: Settings.domain,
-      port: Settings.web_port
-    }
   end
 end

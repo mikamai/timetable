@@ -18,12 +18,50 @@ Seeding database
 -------------------------------
 Creating an initial admin user:
 -- email:    admin@timetable.mikamai.com
--- password: password
+-- password: random password
 
 Be sure to note down these credentials now!
 ```
 
 You can now visit the app and log in as an admin.
+
+**Note**: You can customize the first admin username and password using the following env variables: `TIMETABLE_ADMIN_EMAIL`, `TIMETABLE_ADMIN_PASSWORD`.
+
+### Configuration
+
+The following are all the ENV variables the app uses:
+
+#### Application
+
+- `RAILS_ENV`: Rails environment.
+- `RAILS_SERVE_STATIC_FILES`: If set, Rails will serve static files. Production only.
+- `RAILS_LOG_TO_STDOUT`: If set, Rails will log to STDOUT. Production only.
+- `ROLLBAR_ACCESS_TOKEN`: If set, Rails will enable Rollbar for error reporting.
+- `ROLLBAR_ENV`: Rollbar env name. If not set Rollbar will use the Rails env name.
+- `PORT`: Server port.
+- `WEB_DOMAIN`: Web domain, used when the domain is not available (e.g. async jobs, emails). Default: localhost:3000.
+- `SECRET_KEY_BASE`: secret key used to verify integrity of signed cookies and to hash passwords.
+
+#### Database
+
+- `RAILS_MAX_THREADS`: This affects the size of the connection pool for the database. Default: 5.
+- `POSTGRES_USER`: DB username.
+- `POSTGRES_PASS`: DB password.
+- `POSTGRES_DB`: DB name. Default: timetable_ENV (e.g. timetable_development, timetable_test, ...).
+
+#### File Storage
+
+- `S3_BUCKET`: Name of the S3 bucket where to store assets. If not set, the app will use the filesystem.
+- `AWS_ACCESS_KEY_ID`: AWS access key. Needed only if the app is using S3.
+- `AWS_SECRET_ACCESS_KEY`: AWS secret access key. Needed only if the app is using S3.
+- `AWS_REGION`: AWS region. Needed only if the app is using S3. Default: eu-west-1.
+
+#### Mail settings
+
+By default no setting is needed and the app will rely on sendmail. If you wish to use sendgrid, you have to set:
+
+- `SENDGRID_USERNAME`: Sendgrid username
+- `SENDGRID_PASSWORD`: Sendgrid password
 
 ## Async jobs
 
