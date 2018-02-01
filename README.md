@@ -1,6 +1,9 @@
 # Mikamai Timetable
 
 [![CircleCI](https://circleci.com/gh/mikamai/timetable.svg?style=svg&circle-token=f162cc4c45f8a0452a430b7c9f22f7163410be40)](https://circleci.com/gh/mikamai/timetable) [![Codacy Badge](https://api.codacy.com/project/badge/Grade/0c495851473542cdbf452a7277f7a886)](https://www.codacy.com?utm_source=github.com&amp;utm_medium=referral&amp;utm_content=mikamai/timetable&amp;utm_campaign=Badge_Grade)
+
+Mikamai's Time tracking tool.
+
 ## Required
 
 - redis >= 4 (only in production)
