@@ -15,7 +15,7 @@
 .row.form-group
   = f.label :project_id, class: 'col-sm-2 col-form-label'
   .col-sm-10
-    = f.collection_select :project_id, available_projects, :id, :name, {}, \
+    = f.collection_select :project_id, available_projects, :id, :full_name, {}, \
                           class: 'form-control', \
                           data: { fetch_api: organization_project_path(current_organization, ':project') }
     small.form-text.text-danger= f.object.errors[:project_id].join ', '
