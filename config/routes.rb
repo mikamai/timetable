@@ -13,6 +13,7 @@ Rails.application.routes.draw do
     if Rails.env.production?
       authenticate :user, lambda { |u| u.admin? } do
         require 'sidekiq/web'
+        require 'sidekiq-scheduler/web'
         mount Sidekiq::Web, at: '/sidekiq'
       end
     end
