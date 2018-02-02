@@ -54,4 +54,9 @@ class Project < ApplicationRecord
     return if client.nil? || organization.nil? || client.organization == organization
     errors.add :client, :forbidden
   end
+
+  def should_generate_new_friendly_id?
+    key_fields_changed = name_changed? || client_id_changed?
+    super || (persisted? && key_fields_changed)
+  end
 end

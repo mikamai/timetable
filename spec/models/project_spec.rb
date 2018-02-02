@@ -57,5 +57,17 @@ RSpec.describe Project, type: :model do
       subject = Project.new client: client, organization: client.organization, name: 'Baz'
       expect { subject.save }.to change(subject, :slug).to 'foo-bar-baz'
     end
+
+    it 'is regenerated when name changes' do
+      client = create :client, name: 'foo'
+      subject = create :project, organization: client.organization, client: client
+      expect { subject.update_attributes! name: 'asd' }.to change(subject, :slug).to 'foo-asd'
+    end
+
+    it 'is regenerated when client changes' do
+      subject = create :project, name: 'asd'
+      subject.client = create :client, organization: subject.organization, name: 'foo'
+      expect { subject.save! }.to change(subject, :slug).to 'foo-asd'
+    end
   end
 end

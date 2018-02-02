@@ -31,4 +31,12 @@ RSpec.describe Task, type: :model do
       expect(subject).to be_valid
     end
   end
+
+  describe 'slug' do
+    it 'is regenerated when name changes' do
+      subject = create :task
+      subject.name = 'asd'
+      expect { subject.save! }.to change(subject, :slug).to 'asd'
+    end
+  end
 end

@@ -34,4 +34,8 @@ class Client < ApplicationRecord
     errors.add :base, 'is referenced by projects'
     throw :abort
   end
+
+  def should_generate_new_friendly_id?
+    super || (persisted? && name_changed?)
+  end
 end

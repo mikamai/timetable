@@ -20,4 +20,10 @@ class Task < ApplicationRecord
   def self.policy_class
     Organized::TaskPolicy
   end
+
+  private
+
+  def should_generate_new_friendly_id?
+    super || (persisted? && name_changed?)
+  end
 end

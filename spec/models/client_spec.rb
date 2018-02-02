@@ -39,4 +39,12 @@ RSpec.describe Client, type: :model do
     p.destroy
     expect(subject.destroy).to be_truthy
   end
+
+  describe 'slug' do
+    it 'is regenerated when name changes' do
+      subject = create :task
+      subject.name = 'asd'
+      expect { subject.save! }.to change(subject, :slug).to 'asd'
+    end
+  end
 end
