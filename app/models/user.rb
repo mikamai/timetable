@@ -11,6 +11,7 @@ class User < ApplicationRecord
   has_many :project_memberships, class_name: 'ProjectMember', inverse_of: :user
   has_many :projects, through: :project_memberships
   has_many :time_entries, inverse_of: :user
+  has_many :this_week_time_entries, class_name: 'Views::ThisWeekTimeEntry'
   has_many :report_entries_exports, inverse_of: :user
   has_and_belongs_to_many :roles, inverse_of: :users
 
@@ -20,6 +21,14 @@ class User < ApplicationRecord
   validates :first_name,
             :last_name,
             presence: true
+
+  def self.without_enough_entries_this_week
+    users = left_joins(:projects, :this_week_time_entries)
+    users
+      .group('users.id')
+      .having('COUNT(projects.id) > 0')
+      .having('COALESCE(SUM(this_week_time_entries.amount), 0) < 2400')
+  end
 
   def name
     "#{first_name} #{last_name}"

@@ -11,7 +11,9 @@ end
 gem 'pg', '~> 0.18'
 gem 'puma', '~> 3.7'
 gem 'rails', '~> 5.1.4'
+gem 'scenic'
 gem 'sidekiq', '~> 5.0'
+gem 'sidekiq-scheduler'
 
 # Uploads
 gem 'carrierwave'

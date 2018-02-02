@@ -3,3 +3,9 @@
 :queues:
   - mailers
   - exports
+  - schedulers
+:schedule:
+  user_activity_remind_scheduler:
+    cron: '0 17 * * 5'
+    class: UserActivityRemindScheduler
+    queue: schedulers

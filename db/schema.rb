@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20180119075144) do
+ActiveRecord::Schema.define(version: 20180202144847) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -172,4 +172,19 @@ ActiveRecord::Schema.define(version: 20180119075144) do
   add_foreign_key "time_entries", "tasks"
   add_foreign_key "time_entries", "users"
   add_foreign_key "users", "users", column: "invited_by_id"
+
+  create_view "this_week_time_entries",  sql_definition: <<-SQL
+      SELECT time_entries.id,
+      time_entries.user_id,
+      time_entries.task_id,
+      time_entries.executed_on,
+      time_entries.amount,
+      time_entries.notes,
+      time_entries.created_at,
+      time_entries.updated_at,
+      time_entries.project_id
+     FROM time_entries
+    WHERE ((time_entries.executed_on >= (date_trunc('week'::text, now()))::date) AND (time_entries.executed_on <= ((date_trunc('week'::text, now()) + '6 days'::interval))::date));
+  SQL
+
 end

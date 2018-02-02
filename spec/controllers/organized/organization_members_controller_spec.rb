@@ -223,15 +223,14 @@ RSpec.describe Organized::OrganizationMembersController do
       before do
         sign_in user
         organization_member
-        ActiveJob::Base.queue_adapter.enqueued_jobs.clear
-        ActionMailer::Base.deliveries.clear
         call_action
       end
 
       it { is_expected.to redirect_to organization_organization_members_path(organization) }
 
       it 'sends a new invitation to the user' do
-        expect(ActiveJob::Base.queue_adapter.enqueued_jobs.length).to eq 1
+        # one is sent at the user creation
+        expect(ActiveJob::Base.queue_adapter.enqueued_jobs.length).to eq 2
       end
     end
 

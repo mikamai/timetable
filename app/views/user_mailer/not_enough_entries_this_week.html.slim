@@ -1,0 +1,9 @@
+p= "Hello #{@user.name}!"
+
+p
+  = "This week you tracked only #{format_distance_of_minutes_as_hours @amount_this_week} hours."
+  br/
+  = link_to 'Click here', root_url
+  | &nbsp; to track the rest of the time.
+
+p See you!

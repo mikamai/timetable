@@ -79,4 +79,44 @@ RSpec.describe User, type: :model do
       expect(subject).not_to be_admin_in_organization create(:organization)
     end
   end
+
+  describe '::without_enough_entries_this_week' do
+    subject { described_class }
+
+    it 'returns the list of users assigned to a project who have tracked less than 40 hours' do
+      pm = create :project_member
+      create :time_entry, project: pm.project, organization: pm.project.organization, user: pm.user
+      expect(subject.without_enough_entries_this_week).to eq [pm.user]
+    end
+
+    it 'returns the list of users assigned to a project who did not track hours' do
+      pm = create :project_member
+      expect(subject.without_enough_entries_this_week).to eq [pm.user]
+    end
+
+    it 'ignores users not assigned to a project' do
+      pm = create :project_member
+      create :time_entry, project: pm.project, organization: pm.project.organization, user: pm.user
+      pm.destroy
+      expect(subject.without_enough_entries_this_week).to be_empty
+    end
+
+    it 'ignores users with more than 40 hours this week' do
+      pm = create :project_member
+      create :time_entry, project: pm.project, organization: pm.project.organization, user: pm.user,
+             executed_on: Date.today.beginning_of_week, amount: 1800
+      create :time_entry, project: pm.project, organization: pm.project.organization, user: pm.user,
+             executed_on: Date.today.end_of_week, amount: 601
+      expect(subject.without_enough_entries_this_week).to be_empty
+    end
+
+    it 'ignores entries made outside of this week' do
+      pm = create :project_member
+      create :time_entry, project: pm.project, organization: pm.project.organization, user: pm.user,
+             executed_on: Date.today.beginning_of_week - 1.day, amount: 2401
+      create :time_entry, project: pm.project, organization: pm.project.organization, user: pm.user,
+             executed_on: Date.today.end_of_week + 1.day, amount: 2401
+      expect(subject.without_enough_entries_this_week).to eq [pm.user]
+    end
+  end
 end
