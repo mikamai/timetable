@@ -22,9 +22,9 @@ RSpec.describe Project, type: :model do
       expect(subject).to have(0).errors_on :name
     end
 
-    it 'require a unique name against the belonging organization' do
+    it 'require a unique name against the belonging client' do
       existing = create :project
-      subject.organization = existing.organization
+      subject.client = existing.client
       subject.name = existing.name
       expect(subject).to have(1).error_on :name
       subject.name = 'asd'
@@ -48,6 +48,14 @@ RSpec.describe Project, type: :model do
       subject = create :project
       subject.client = create :client
       expect(subject).to be_valid
+    end
+  end
+
+  describe 'slug' do
+    it 'is composed by client name and project name' do
+      client = create :client, name: 'Foo Bar'
+      subject = Project.new client: client, organization: client.organization, name: 'Baz'
+      expect { subject.save }.to change(subject, :slug).to 'foo-bar-baz'
     end
   end
 end

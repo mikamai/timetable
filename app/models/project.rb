@@ -11,17 +11,17 @@ class Project < ApplicationRecord
   has_and_belongs_to_many :tasks, inverse_of: :projects
 
   accepts_nested_attributes_for :members, reject_if: :all_blank, allow_destroy: true
-  friendly_id :name, use: :scoped, scope: :organization
+  friendly_id :slug_candidates, use: %i[slugged scoped], scope: :organization
 
   scope :by_name, -> { order :name }
   scope :in_organization, ->(organization) { where organization_id: organization.id }
 
   validates :name,
             presence: true,
-            uniqueness: { scope: :organization_id }
+            uniqueness: { scope: %i[client_id] }
   validate :validate_organization_references, on: :create
 
-  delegate :name, to: :client, prefix: true
+  delegate :name, to: :client, prefix: true, allow_nil: true
 
   def self.policy_class
     Organized::ProjectPolicy
@@ -32,6 +32,16 @@ class Project < ApplicationRecord
       only: %i[id organization_id name],
       include: { tasks: { only: %i[id name] } }
     )
+  end
+
+  def full_name
+    "#{client_name} / #{name}"
+  end
+
+  def slug_candidates
+    [
+      %i[client_name name]
+    ]
   end
 
   def total_amount

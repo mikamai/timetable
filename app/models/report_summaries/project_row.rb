@@ -7,5 +7,9 @@ module ReportSummaries
       projects = Project.where(id: group.keys)
       build_from_grouped_amount group, projects
     end
+
+    def name
+      resource.full_name
+    end
   end
 end

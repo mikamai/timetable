@@ -15,11 +15,13 @@ module ReportSummaries
 
     attr_reader :resource, :amount
 
-    delegate :name, to: :resource
-
     def initialize resource, amount
       @resource = resource
       @amount = amount
+    end
+
+    def name
+      resource.name
     end
   end
 end

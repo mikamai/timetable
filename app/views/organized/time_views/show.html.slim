@@ -51,5 +51,8 @@
             = format_distance_of_minutes @time_view.time_entries.total_amount
           td.align-middle.text-right
             - if policy(@time_view).create?
-              = link_to new_organization_time_view_time_entry_path(time_view_id: @time_view, as: impersonating_user), class: 'btn btn-primary', role: 'button' do
-                i.icon-plus
+              - if available_projects.empty?
+                span.alert.alert-secondary You cannot track your time because you have no project assigned.
+              - else
+                = link_to new_organization_time_view_time_entry_path(time_view_id: @time_view, as: impersonating_user), class: 'btn btn-primary', role: 'button' do
+                  i.icon-plus

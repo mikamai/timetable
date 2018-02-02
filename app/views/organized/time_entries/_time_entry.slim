@@ -1,6 +1,6 @@
 tr.time-entry-row
   td.align-middle
-    = time_entry.project_name
+    = time_entry.project.full_name
     - if time_entry.notes?
       .description.text-muted
         small= time_entry.notes

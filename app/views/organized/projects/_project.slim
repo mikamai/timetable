@@ -1,8 +1,8 @@
 tr
+  td= project.client_name
   td
     = project.name
     small.text-muted.ml-2= project.slug
-  td= project.client_name
   td= format_distance_of_minutes_as_hours project.total_amount
   td.text-right
     - if policy(project).update?
