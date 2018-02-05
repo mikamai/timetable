@@ -65,6 +65,7 @@ By default no setting is needed and the app will rely on sendmail. If you wish t
 
 - `SENDGRID_USERNAME`: Sendgrid username
 - `SENDGRID_PASSWORD`: Sendgrid password
+- `MAIL_FROM`: Email address to use to send emails
 
 ## Async jobs
 
