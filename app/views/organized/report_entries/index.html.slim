@@ -38,10 +38,10 @@
           = link_to 'Reset', organization_report_entries_path, class: 'btn btn-secondary ml-2'
 
 .row.mt-2
-  .col.text-right
+  .col.mr-3.text-right
     = form_for [current_organization, @report_entries_export] do |f|
       = f.hidden_field :export_query, value: f.object.export_query.to_json
-      = f.button do
+      = f.button class: 'btn btn-primary' do
         i.icon-download
 
 .row.mt-1

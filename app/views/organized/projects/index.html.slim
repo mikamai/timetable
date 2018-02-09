@@ -1,7 +1,25 @@
 .row.align-items-center
   .col
     h4 Projects
-  .col.text-right
+
+.row.mt-2
+  .col
+    = search_form_for @q, url: organization_projects_path do |f|
+      .row.form-group
+        = f.label :client_id_in, 'Clients', class: 'col-sm-2 col-form-label'
+        .col-sm-10
+          = f.collection_select :client_id_in, available_clients, :id, :name, {}, multiple: true, class: 'form-control chippable'
+      .row.form-group
+        = f.label :client_id_in, 'Name', class: 'col-sm-2 col-form-label'
+        .col-sm-10
+          = f.text_field :name_cont, class: 'form-control'
+      .row.justify-content-end
+        .col-sm-10
+          = f.submit class: 'btn btn-primary'
+          = link_to 'Reset', organization_projects_path, class: 'btn btn-secondary ml-2'
+
+.row.mt-2
+  .col.mr-3.text-right
     - if policy(current_organization.projects.build).create?
       = link_to new_organization_project_path, class: 'btn btn-primary' do
         i.icon-plus
@@ -11,9 +29,9 @@
     table.table
       thead
         tr
-          th Client
-          th Name
-          th Spent
+          th= sort_link @q, :client_name, 'Client'
+          th= sort_link @q, :name, 'Name'
+          th= sort_link @q, :total_amount, 'Spent'
           th &nbsp;
       tbody
         - if @projects.any?

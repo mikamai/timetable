@@ -6,7 +6,8 @@ module Organized
     before_action :disable_caching, only: :show
 
     def index
-      @projects = current_organization.projects.order(:name).page(params[:page])
+      @q = search_projects
+      @projects = @q.result.includes(:client).page(params[:page])
       authorize Project
       respond_with current_organization, @projects
     end
@@ -50,6 +51,12 @@ module Organized
       params.require(:project).permit :client_id, :name,
                                       task_ids: [],
                                       members_attributes: %i[id user_id _destroy]
+    end
+
+    def search_projects
+      current_organization.projects.ransack(params[:q]).tap do |q|
+        q.sorts = 'name asc' if q.sorts.empty?
+      end
     end
   end
 end
