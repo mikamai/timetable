@@ -7,6 +7,7 @@ module Organized
     def new
       @time_entry = TimeEntry.new executed_on: @time_view.date, user: impersonating_or_current_user
       authorize @time_entry
+      fill_available_projects_and_tasks @time_entry
       respond_with current_organization, @time_entry
     end
 
@@ -14,6 +15,7 @@ module Organized
       @time_entry = TimeEntry.new create_params
       authorize @time_entry
       @time_entry.save
+      fill_available_projects_and_tasks(@time_entry) unless @time_entry.valid?
       respond_with current_organization, @time_entry,
                    location: -> { after_create_or_update_path @time_entry }
     end
@@ -21,6 +23,7 @@ module Organized
     def edit
       @time_entry = current_organization.time_entries.find params[:id]
       authorize @time_entry
+      fill_available_projects_and_tasks(@time_entry)
       respond_with current_organization, @time_entry
     end
 
@@ -28,6 +31,7 @@ module Organized
       @time_entry = current_organization.time_entries.find params[:id]
       authorize @time_entry
       @time_entry.update_attributes update_params
+      fill_available_projects_and_tasks(@time_entry) unless @time_entry.valid?
       respond_with current_organization, @time_entry,
                    location: -> { after_create_or_update_path @time_entry }
     end
@@ -65,11 +69,6 @@ module Organized
       @time_view = TimeView.find params[:time_view_id], current_organization, current_user
     end
 
-    def available_tasks
-      project = @time_entry.project || available_projects.first
-      @available_tasks_for_project ||= project ? project.tasks.by_name : []
-    end
-
     def impersonating_user
       return nil unless params[:as]
       @impersonating_user ||= current_organization.users.find params[:as]
@@ -79,6 +78,12 @@ module Organized
 
     def impersonating_or_current_user
       impersonating_user || current_user
+    end
+
+    def fill_available_projects_and_tasks time_entry
+      @projects = available_projects_for time_entry.user
+      project_for_tasks = time_entry.project || @projects.first
+      @tasks = project_for_tasks ? project_for_tasks.tasks.by_name : []
     end
   end
 end

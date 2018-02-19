@@ -13,10 +13,10 @@ RSpec.describe Organized::TimeEntriesController do
     end
 
     context 'when user has no access to the current organization' do
-      let(:user) { create :user, admin: true }
+      let(:no_user) { create :user, admin: true }
 
       it 'raises a 404' do
-        sign_in user
+        sign_in no_user
         expect { call_action }.to raise_error ActiveRecord::RecordNotFound
       end
     end
@@ -32,7 +32,9 @@ RSpec.describe Organized::TimeEntriesController do
     include_examples 'authentication'
 
     context 'when org user accesses' do
-      let(:user) { create :user, :organized, organization: organization }
+      let!(:user) { create :user, :organized, organization: organization }
+      let!(:project) { create :project, organization: organization, users: [user] }
+      let!(:task) { create :task, projects: [project], organization: organization }
 
       before do
         sign_in user
@@ -46,14 +48,20 @@ RSpec.describe Organized::TimeEntriesController do
         expect(assigns[:time_entry]).to be_a TimeEntry
         expect(assigns[:time_entry]).to be_new_record
       end
+
+      it 'sets projects and tasks' do
+        expect(assigns[:projects]).to be_present
+        expect(assigns[:tasks]).to be_present
+      end
     end
   end
 
   describe 'POST create' do
+    let!(:user) { create :user, :organized, organization: organization }
+    let!(:project) { create :project, organization: organization, users: [user] }
+    let!(:task) { create :task, organization: organization, projects: [project] }
+
     let(:time_view_id) { Date.today.strftime TimeView::ID_FORMAT }
-    let(:project) { create :project, organization: organization }
-    let(:task) { create :task, organization: organization, projects: [project] }
-    let(:user) { create :user, :organized, organization: organization }
     let(:time_entry_params) { {
       project_id:          project.id,
       task_id:             task.id,
@@ -80,9 +88,15 @@ RSpec.describe Organized::TimeEntriesController do
 
       context 'and time_entry data is valid' do
         it { is_expected.to respond_with :redirect }
+
         it 'creates a new time_entry' do
           expect(assigns[:time_entry]).to be_persisted
           expect(organization.time_entries.count).to eq 1
+        end
+
+        it 'does not set projects and tasks' do
+          expect(assigns[:projects]).to be_nil
+          expect(assigns[:tasks]).to be_nil
         end
       end
 
@@ -90,6 +104,11 @@ RSpec.describe Organized::TimeEntriesController do
         let(:time_entry_params) { { name: '' } }
 
         it { is_expected.to render_template 'new' }
+
+        it 'sets projects and tasks' do
+          expect(assigns[:projects]).to be_present
+          expect(assigns[:tasks]).to be_present
+        end
       end
     end
   end
@@ -117,6 +136,11 @@ RSpec.describe Organized::TimeEntriesController do
       it 'assigns the time_entry' do
         expect(assigns[:time_entry]).to eq time_entry
       end
+
+      it 'sets projects and tasks' do
+        expect(assigns[:projects]).to be_present
+        expect(assigns[:tasks]).to be_present
+      end
     end
 
     context 'when org user accesses other user entry' do
@@ -135,6 +159,14 @@ RSpec.describe Organized::TimeEntriesController do
       it 'grants access' do
         sign_in user
         expect { call_action }.not_to raise_error
+      end
+
+      it 'sets projects and tasks of time_entry projects' do
+        project = create :project, organization: organization
+        sign_in user
+        call_action
+        expect(assigns[:projects]).not_to include project
+        expect(assigns[:tasks]).to be_present
       end
     end
   end
@@ -169,12 +201,22 @@ RSpec.describe Organized::TimeEntriesController do
           expect(assigns[:time_entry]).to be_persisted
           expect { time_entry.reload }.to change(time_entry, :amount).to 600
         end
+
+        it 'does not set projects and tasks' do
+          expect(assigns[:projects]).to be_nil
+          expect(assigns[:tasks]).to be_nil
+        end
       end
 
       context 'and time_entry data is invalid' do
         let(:time_entry_params) { { minutes_in_distance: '' } }
 
         it { is_expected.to render_template 'edit' }
+
+        it 'sets projects and tasks' do
+          expect(assigns[:projects]).to be_present
+          expect(assigns[:tasks]).to be_present
+        end
       end
     end
   end

@@ -15,14 +15,14 @@
 .row.form-group
   = f.label :project_id, class: 'col-sm-2 col-form-label'
   .col-sm-10
-    = f.collection_select :project_id, available_projects, :id, :full_name, {}, \
+    = f.collection_select :project_id, @projects, :id, :full_name, {}, \
                           class: 'form-control', \
                           data: { fetch_api: organization_project_path(current_organization, ':project') }
     small.form-text.text-danger= f.object.errors[:project_id].join ', '
 .row.form-group
   = f.label :task_id, class: 'col-sm-2 col-form-label'
   .col-sm-10
-    = f.collection_select :task_id, available_tasks, :id, :name, {}, \
+    = f.collection_select :task_id, @tasks, :id, :name, {}, \
                           class: 'form-control'
     small.form-text.text-danger= f.object.errors[:task_id].join ', '
 .row.form-group

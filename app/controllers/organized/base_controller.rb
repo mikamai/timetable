@@ -5,7 +5,7 @@ module Organized
     before_action :authenticate_user!
     before_action :set_current_organization
 
-    helper_method :available_clients, :available_projects, :available_tasks,
+    helper_method :available_clients, :available_projects_for, :available_tasks,
                   :available_users, :available_roles, :pundit_user,
                   :organization_projects
 
@@ -40,8 +40,8 @@ module Organized
       @organization_projects ||= current_organization.projects.by_name
     end
 
-    def available_projects
-      @available_projects ||= current_user.projects_in_organization(current_organization).by_name
+    def available_projects_for user
+      user.projects_in_organization(current_organization).by_name
     end
 
     def available_tasks
