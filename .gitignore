@@ -29,3 +29,4 @@ vendor/assets/bower_components
 public/uploads
 public/exports
 /coverage
+cookbook/*.retry

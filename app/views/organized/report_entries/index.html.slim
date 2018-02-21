@@ -71,4 +71,8 @@
               p.alert.alert-info.text-center There are no entries to show.
       tfoot
         tr
-          td(colspan=6)= paginate @time_entries
+          td.align-middle(colspan=2)
+            span Total Hours:&nbsp;
+            span= format_distance_of_minutes_as_hours @total_time_entries_amount
+          td(colspan=4)
+            = paginate @time_entries

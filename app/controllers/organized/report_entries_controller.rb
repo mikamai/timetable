@@ -10,6 +10,7 @@ module Organized
       )
       @time_entries = @q.result.includes(:project, :client, :task, :user)
                         .page(params[:page])
+      @total_time_entries_amount = @q.result.sum(:amount)
     end
 
     private
