@@ -15,7 +15,7 @@ module Organized
     end
 
     def show?
-      update?
+      user.membership_in(record).present?
     end
   end
 end
