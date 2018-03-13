@@ -32,7 +32,7 @@ class ExportReportEntriesJob < ApplicationJob
   def time_entry_row time_entry
     [
       time_entry.executed_on, time_entry.client_name, time_entry.project_name, time_entry.task_name,
-      time_entry.user_name, time_entry.minutes_as_hours, time_entry.notes
+      time_entry.user_name, time_entry.hours, time_entry.notes
     ]
   end
 

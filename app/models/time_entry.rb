@@ -48,20 +48,20 @@ class TimeEntry < ApplicationRecord
     TimeView.find executed_on.strftime(TimeView::ID_FORMAT), organization, user
   end
 
-  def minutes_as_hours
+  def hours
     amount.to_f / 60
   end
 
-  def minutes_in_distance
-    return @minutes_in_distance if @minutes_in_distance
+  def time_amount
+    return @time_amount if @time_amount
     return nil unless amount
     hours = amount / 60
     minutes = amount % 60
     "#{hours}:#{minutes.to_s.rjust 2, '0'}"
   end
 
-  def minutes_in_distance= val
-    @minutes_in_distance = val
+  def time_amount= val
+    @time_amount = val
     match = val.to_s.match(/\A(\d+)(:(\d+))?\z/)
     val = match[1].to_i * 60 + (match[3] || '').to_i if match
     assign_attributes amount: val

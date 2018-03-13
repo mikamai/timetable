@@ -19,7 +19,7 @@ $(() => {
     });
   });
 
-  $('input#time_entry_minutes_in_distance').on('focusout', (e) => {
+  $('input#time_entry_time_amount').on('focusout', (e) => {
     const $el = $(e.target);
     const val = $el.val();
     const match = val.match(/^(\d+)(:(\d+))?$/);

@@ -55,13 +55,13 @@ module Organized
 
     def create_params
       params.require(:time_entry).permit(:user_id, :project_id, :task_id, :notes,
-                                         :minutes_in_distance)
+                                         :time_amount)
             .merge(executed_on: @time_view.date)
             .reverse_merge(user_id: current_user.id)
     end
 
     def update_params
-      params.require(:time_entry).permit(:project_id, :task_id, :notes, :minutes_in_distance,
+      params.require(:time_entry).permit(:project_id, :task_id, :notes, :time_amount,
                                          :executed_on)
     end
 

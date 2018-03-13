@@ -63,11 +63,11 @@ RSpec.describe Organized::TimeEntriesController do
 
     let(:time_view_id) { Date.today.strftime TimeView::ID_FORMAT }
     let(:time_entry_params) { {
-      project_id:          project.id,
-      task_id:             task.id,
-      executed_on:         Date.today,
-      user_id:             user.id,
-      minutes_in_distance: '1'
+      project_id:  project.id,
+      task_id:     task.id,
+      executed_on: Date.today,
+      user_id:     user.id,
+      time_amount: '1'
     } }
 
     def call_action
@@ -175,7 +175,7 @@ RSpec.describe Organized::TimeEntriesController do
     let(:time_view_id) { Date.today.strftime TimeView::ID_FORMAT }
     let(:time_entry_user) { create :user, :organized, organization: organization }
     let(:time_entry) { create :time_entry, organization: organization, user: time_entry_user }
-    let(:time_entry_params) { { minutes_in_distance: '10' } }
+    let(:time_entry_params) { { time_amount: '10' } }
 
     def call_action
       put :update, params: {
@@ -209,7 +209,7 @@ RSpec.describe Organized::TimeEntriesController do
       end
 
       context 'and time_entry data is invalid' do
-        let(:time_entry_params) { { minutes_in_distance: '' } }
+        let(:time_entry_params) { { time_amount: '' } }
 
         it { is_expected.to render_template 'edit' }
 
