@@ -62,9 +62,7 @@ class TimeEntry < ApplicationRecord
 
   def time_amount= val
     @time_amount = val
-    match = val.to_s.match(/\A(\d+)(:(\d+))?\z/)
-    val = match[1].to_i * 60 + (match[3] || '').to_i if match
-    assign_attributes amount: val
+    assign_attributes amount: parse_time_amount(val)
   end
 
   private
@@ -77,5 +75,19 @@ class TimeEntry < ApplicationRecord
   def validate_task_in_project
     return if task.nil? || project.nil? || task.project_ids.include?(project.id)
     errors.add :task, :forbidden
+  end
+
+  def parse_time_amount val
+    parse_time_float(val) || parse_time_string(val) || val
+  end
+
+  def parse_time_float val
+    return nil unless val.to_s.match?(/^\d+([\.,]?\d+)$/)
+    (val.to_s.sub(',', '.').to_f * 60).to_i
+  end
+
+  def parse_time_string val
+    match = val.to_s.match(/\A(\d+)(:(\d+))?\z/)
+    return match[1].to_i * 60 + (match[3] || '').to_i if match
   end
 end

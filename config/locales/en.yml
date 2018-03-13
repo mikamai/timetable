@@ -12,3 +12,8 @@ en:
     actions:
       resend_invitation:
          notice: Invitation email has been sent again.
+
+  activerecord:
+    attributes:
+      time_entry:
+        time_amount: Hours

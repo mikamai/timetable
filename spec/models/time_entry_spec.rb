@@ -99,6 +99,16 @@ RSpec.describe TimeEntry, type: :model do
       expect(subject.amount).to eq 60
     end
 
+    it 'accepts the value as a float' do
+      subject.time_amount = 1.2
+      expect(subject.amount).to eq 72
+    end
+
+    it 'accepts the value as a float string' do
+      subject.time_amount = '1,2'
+      expect(subject.amount).to eq 72
+    end
+
     it 'sends to the underlying attribute anything else' do
       expect(subject).to receive(:assign_attributes).with(amount: 'asd')
       subject.time_amount = 'asd'
