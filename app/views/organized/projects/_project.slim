@@ -3,6 +3,7 @@ tr
   td
     = project.name
     small.text-muted.ml-2= project.slug
+  td= format_distance_of_minutes_as_hours project.budget if project.budget?
   td= format_distance_of_minutes_as_hours project.total_amount
   td.text-right
     - if policy(project).update?

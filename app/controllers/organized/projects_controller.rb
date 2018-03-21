@@ -48,7 +48,7 @@ module Organized
     end
 
     def project_params
-      params.require(:project).permit :client_id, :name,
+      params.require(:project).permit :client_id, :name, :time_budget,
                                       task_ids: [],
                                       members_attributes: %i[id user_id _destroy]
     end

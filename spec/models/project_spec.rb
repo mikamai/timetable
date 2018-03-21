@@ -70,4 +70,54 @@ RSpec.describe Project, type: :model do
       expect { subject.save! }.to change(subject, :slug).to 'foo-asd'
     end
   end
+
+  describe '#time_budget' do
+    it 'returns the previously set value' do
+      subject.instance_variable_set '@time_budget', 'asd'
+      expect(subject.time_budget).to eq 'asd'
+    end
+
+    it 'returns nil if there is no amount' do
+      expect(subject.time_budget).to be_nil
+    end
+
+    it 'returns the amount formatted as hours:minutes' do
+      subject.amount = 0
+      expect(subject.time_budget).to eq '0:00'
+      subject.amount = 95
+      expect(subject.time_budget).to eq '1:35'
+    end
+  end
+
+  describe '#time_budget=' do
+    it 'stores the value in memory' do
+      subject.time_budget = 'asd'
+      expect(subject.instance_variable_get('@time_budget')).to eq 'asd'
+    end
+
+    it 'sets the value as the amount in minutes' do
+      subject.time_budget = '1:35'
+      expect(subject.amount).to eq 95
+    end
+
+    it 'accepts the value as the number of hours' do
+      subject.time_budget = 1
+      expect(subject.amount).to eq 60
+    end
+
+    it 'accepts the value as a float' do
+      subject.time_budget = 1.2
+      expect(subject.amount).to eq 72
+    end
+
+    it 'accepts the value as a float string' do
+      subject.time_budget = '1,2'
+      expect(subject.amount).to eq 72
+    end
+
+    it 'sends to the underlying attribute anything else' do
+      expect(subject).to receive(:assign_attributes).with(amount: 'asd')
+      subject.time_budget = 'asd'
+    end
+  end
 end

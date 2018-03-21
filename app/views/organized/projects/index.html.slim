@@ -31,6 +31,7 @@
         tr
           th= sort_link @q, :client_name, 'Client'
           th= sort_link @q, :name, 'Name'
+          th= sort_link @q, :budget, 'Budget'
           th= sort_link @q, :total_amount, 'Spent'
           th &nbsp;
       tbody
@@ -38,7 +39,7 @@
           = render @projects
         - else
           tr
-            td(colspan=4)
+            td(colspan=5)
               p.alert.alert-info.text-center There are no projects to show.
       tfoot
         tr

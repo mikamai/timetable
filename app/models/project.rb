@@ -2,6 +2,9 @@
 
 class Project < ApplicationRecord
   extend FriendlyId
+  include HoursAmount
+
+  add_hours_amount_to :budget
 
   belongs_to :organization, inverse_of: :projects
   belongs_to :client, inverse_of: :projects
@@ -32,6 +35,10 @@ class Project < ApplicationRecord
       only: %i[id organization_id name],
       include: { tasks: { only: %i[id name] } }
     )
+  end
+
+  def budget?
+    budget.present?
   end
 
   def full_name
