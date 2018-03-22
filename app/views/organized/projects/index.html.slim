@@ -33,7 +33,7 @@
           th= sort_link @q, :name, 'Name'
           th= sort_link @q, :budget, 'Budget'
           th Spent
-          th &nbsp;
+          th(style="width: 20%") &nbsp;
           th Remaining Budget
           th &nbsp;
       tbody
@@ -41,8 +41,8 @@
           = render @projects
         - else
           tr
-            td(colspan=6)
+            td(colspan=7)
               p.alert.alert-info.text-center There are no projects to show.
       tfoot
         tr
-          td(colspan=6)= paginate @projects
+          td(colspan=7)= paginate @projects

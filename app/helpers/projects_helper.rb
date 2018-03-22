@@ -20,7 +20,7 @@ module ProjectsHelper
 
   def project_progress_out_of_budget project
     progress_amount = 100 * project.budget / project.total_amount
-    progress_bar(:info, progress_amount) + progress_bar(:danger, 100 - progress_amount)
+    progress_bar(:info, progress_amount) + progress_bar(:danger, 101 - progress_amount) # 101 to ensure we cover all the space
   end
 
   def progress_bar style, amount
