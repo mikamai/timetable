@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 module HoursAmount
   extend ActiveSupport::Concern
 
@@ -39,5 +41,4 @@ module HoursAmount
     match = val.to_s.match(/\A(\d+)(:(\d+))?\z/)
     return match[1].to_i * 60 + (match[3] || '').to_i if match
   end
-
 end

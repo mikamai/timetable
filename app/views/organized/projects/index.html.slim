@@ -32,15 +32,17 @@
           th= sort_link @q, :client_name, 'Client'
           th= sort_link @q, :name, 'Name'
           th= sort_link @q, :budget, 'Budget'
-          th= sort_link @q, :total_amount, 'Spent'
+          th Spent
+          th &nbsp;
+          th Remaining Budget
           th &nbsp;
       tbody
         - if @projects.any?
           = render @projects
         - else
           tr
-            td(colspan=5)
+            td(colspan=6)
               p.alert.alert-info.text-center There are no projects to show.
       tfoot
         tr
-          td(colspan=4)= paginate @projects
+          td(colspan=6)= paginate @projects

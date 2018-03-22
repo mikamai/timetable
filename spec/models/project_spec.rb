@@ -82,9 +82,9 @@ RSpec.describe Project, type: :model do
     end
 
     it 'returns the amount formatted as hours:minutes' do
-      subject.amount = 0
+      subject.budget = 0
       expect(subject.time_budget).to eq '0:00'
-      subject.amount = 95
+      subject.budget = 95
       expect(subject.time_budget).to eq '1:35'
     end
   end
@@ -97,26 +97,26 @@ RSpec.describe Project, type: :model do
 
     it 'sets the value as the amount in minutes' do
       subject.time_budget = '1:35'
-      expect(subject.amount).to eq 95
+      expect(subject.budget).to eq 95
     end
 
     it 'accepts the value as the number of hours' do
       subject.time_budget = 1
-      expect(subject.amount).to eq 60
+      expect(subject.budget).to eq 60
     end
 
     it 'accepts the value as a float' do
       subject.time_budget = 1.2
-      expect(subject.amount).to eq 72
+      expect(subject.budget).to eq 72
     end
 
     it 'accepts the value as a float string' do
       subject.time_budget = '1,2'
-      expect(subject.amount).to eq 72
+      expect(subject.budget).to eq 72
     end
 
     it 'sends to the underlying attribute anything else' do
-      expect(subject).to receive(:assign_attributes).with(amount: 'asd')
+      expect(subject).to receive(:assign_attributes).with(budget: 'asd')
       subject.time_budget = 'asd'
     end
   end

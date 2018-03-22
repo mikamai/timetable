@@ -5,6 +5,8 @@ tr
     small.text-muted.ml-2= project.slug
   td= format_distance_of_minutes_as_hours project.budget if project.budget?
   td= format_distance_of_minutes_as_hours project.total_amount
+  td= project_progress project
+  td= format_distance_of_minutes_as_hours project.remaining_budget if project.budget?
   td.text-right
     - if policy(project).update?
       = link_to edit_organization_project_path(current_organization, project), class: 'btn btn-outline-secondary' do

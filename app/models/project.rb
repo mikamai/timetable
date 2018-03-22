@@ -41,6 +41,11 @@ class Project < ApplicationRecord
     budget.present?
   end
 
+  def remaining_budget
+    return nil unless budget?
+    budget - total_amount
+  end
+
   def full_name
     "#{client_name} / #{name}"
   end

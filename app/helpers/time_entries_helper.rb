@@ -8,6 +8,10 @@ module TimeEntriesHelper
   end
 
   def format_distance_of_minutes_as_hours amount
-    number_with_precision amount.to_f / 60, precision: 2
+    hours = amount.to_f / 60
+    return number_with_precision hours, precision: 2 if amount >= 0
+    content_tag :span, class: 'text-danger' do
+      number_with_precision hours, precision: 2
+    end
   end
 end
