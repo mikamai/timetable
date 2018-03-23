@@ -9,9 +9,6 @@
     "AWS_SECRET_ACCESS_KEY": {
       "required": true
     },
-    "MAIL": {
-      "required": true
-    },
     "MAIL_FROM": {
       "required": true
     },
