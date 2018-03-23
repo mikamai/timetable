@@ -14,6 +14,7 @@ gem 'rails', '~> 5.1.4'
 gem 'scenic'
 gem 'sidekiq', '~> 5.0'
 gem 'sidekiq-scheduler'
+gem 'webpacker'
 
 # Uploads
 gem 'carrierwave'
@@ -43,7 +44,6 @@ gem 'jquery-rails'
 gem 'sass-rails', '~> 5.0'
 gem 'slim-rails'
 gem 'uglifier', '>= 1.3.0'
-gem 'webpacker'
 # Use Redis adapter to run Action Cable in production
 # gem 'redis', '~> 3.0'
 # Use ActiveModel has_secure_password
@@ -61,6 +61,7 @@ group :development, :test do
 end
 
 group :development do
+  gem 'foreman'
   gem 'rubocop'
   # Access an IRB console on exception pages or by using <%= console %> anywhere in the code.
   gem 'listen', '>= 3.0.5', '< 3.2'
