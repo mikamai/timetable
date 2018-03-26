@@ -1,6 +1,7 @@
 {
   "name": "timetable",
   "scripts": {
+    "postdeploy": "bin/bootstrap"
   },
   "env": {
     "AWS_ACCESS_KEY_ID": {
@@ -35,7 +36,9 @@
     },
     "WEB_DOMAIN": {
       "required": true
-    }
+    },
+    "TIMETABLE_ADMIN_EMAIL": "timetable@mikamai.com",
+    "TIMETABLE_ADMIN_PASSWORD": "password"
   },
   "formation": {
     "sidekiq": {
