@@ -2,8 +2,11 @@
   "name": "timetable",
   "private": true,
   "dependencies": {
-    "@rails/webpacker": "^3.0.2",
-    "bower": "^1.8.2"
+    "bower": "^1.8.2",
+    "@rails/webpacker": "^3.3.1",
+    "vue": "^2.5.16",
+    "vue-loader": "^14.2.1",
+    "vue-template-compiler": "^2.5.16"
   },
   "devDependencies": {
     "babel-eslint": "^8.0.3",
@@ -12,7 +15,7 @@
     "eslint-plugin-import": "^2.7.0",
     "eslint-plugin-jsx-a11y": "^6.0.2",
     "eslint-plugin-react": "^7.4.0",
-    "webpack-dev-server": "^2.9.5"
+    "webpack-dev-server": "^2.11.2"
   },
   "scripts": {
     "postinstall": "bundle exec rails bower:install:deployment"
