@@ -9,5 +9,12 @@ tr
   td= format_distance_of_minutes_as_hours project.remaining_budget if project.budget?
   td.text-right
     - if policy(project).update?
-      = link_to edit_organization_project_path(current_organization, project), class: 'btn btn-outline-secondary' do
+      = link_to edit_organization_project_path(current_organization, project), class: 'btn btn-outline-secondary', title: 'Edit' do
         i.icon-pencil
+    - if policy(project).destroy?
+      - if project.deleted?
+        = link_to organization_project_path(current_organization, project), class: 'btn btn-outline-secondary', data: { method: 'delete' }, title: 'Unarchive' do
+          i.icon-upload
+      - else
+        = link_to organization_project_path(current_organization, project), class: 'btn btn-outline-secondary', data: { method: 'delete' }, title: 'Archive' do
+          i.icon-download

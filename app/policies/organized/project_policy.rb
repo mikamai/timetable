@@ -11,6 +11,10 @@ module Organized
     end
 
     def update?
+      index? && record_in_scope? && !record.deleted?
+    end
+
+    def destroy?
       index? && record_in_scope?
     end
 

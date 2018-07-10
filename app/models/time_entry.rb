@@ -7,7 +7,7 @@ class TimeEntry < ApplicationRecord
   add_hours_amount_to :amount
 
   belongs_to :user, inverse_of: :time_entries
-  belongs_to :project, inverse_of: :time_entries
+  belongs_to :project, -> { with_deleted }, inverse_of: :time_entries
   belongs_to :task, inverse_of: :time_entries
   has_one :organization, through: :project
   has_one :client, through: :project

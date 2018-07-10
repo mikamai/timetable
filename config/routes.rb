@@ -26,7 +26,7 @@ Rails.application.routes.draw do
         patch :resend_invitation, on: :member
         patch :toggle_admin, on: :member
       end
-      resources :projects, except: :destroy
+      resources :projects
 
       resources :report_summaries, only: :index do
         member do

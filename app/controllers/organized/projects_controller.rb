@@ -2,7 +2,7 @@
 
 module Organized
   class ProjectsController < BaseController
-    before_action :fetch_project, only: %i[show edit update]
+    before_action :fetch_project, only: %i[show edit update destroy]
     before_action :disable_caching, only: :show
 
     def index
@@ -41,10 +41,16 @@ module Organized
       respond_with current_organization, @project
     end
 
+    def destroy
+      authorize @project
+      @project.deleted? ? @project.restore : @project.destroy
+      redirect_to action: :index
+    end
+
     private
 
     def fetch_project
-      @project = current_organization.projects.friendly.find params[:id]
+      @project = current_organization.projects.with_deleted.friendly.find params[:id]
     end
 
     def project_params

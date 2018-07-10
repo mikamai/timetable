@@ -4,6 +4,8 @@ class Project < ApplicationRecord
   extend FriendlyId
   include HoursAmount
 
+  acts_as_paranoid column: :archived_at
+
   add_hours_amount_to :budget
 
   belongs_to :organization, inverse_of: :projects
@@ -28,6 +30,10 @@ class Project < ApplicationRecord
 
   def self.policy_class
     Organized::ProjectPolicy
+  end
+
+  def self.ransackable_scopes auth_object=nil
+    %i[with_deleted]
   end
 
   def as_json opts = {}

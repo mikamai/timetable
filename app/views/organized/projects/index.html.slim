@@ -13,6 +13,10 @@
         = f.label :client_id_in, 'Name', class: 'col-sm-2 col-form-label'
         .col-sm-10
           = f.text_field :name_cont, class: 'form-control'
+      .row.form-check
+        .col-sm-10.offset-sm-2
+          = f.check_box :with_deleted, class: 'form-check-input'
+          = f.label :with_deleted, 'Include archived', class: 'col-sm-2 form-check-label'
       .row.justify-content-end
         .col-sm-10
           = f.submit class: 'btn btn-primary'
