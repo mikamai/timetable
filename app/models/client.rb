@@ -24,7 +24,7 @@ class Client < ApplicationRecord
   end
 
   def destroyable?
-    projects.empty?
+    projects.with_deleted.empty?
   end
 
   private

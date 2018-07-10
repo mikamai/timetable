@@ -36,7 +36,7 @@ RSpec.describe Client, type: :model do
     p = create :project
     subject = p.client
     expect(subject.destroy).to be_falsey
-    p.destroy
+    p.really_destroy!
     expect(subject.destroy).to be_truthy
   end
 

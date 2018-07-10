@@ -32,7 +32,7 @@ class Project < ApplicationRecord
     Organized::ProjectPolicy
   end
 
-  def self.ransackable_scopes auth_object=nil
+  def self.ransackable_scopes _auth_object = nil
     %i[with_deleted]
   end
 
