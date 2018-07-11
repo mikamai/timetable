@@ -61,7 +61,11 @@
             tr
               td= l time_entry.executed_on, format: :report
               td= time_entry.client_name
-              td= time_entry.project_name
+              td
+                - if time_entry.project.deleted?
+                  s= time_entry.project_name
+                - else
+                  = time_entry.project_name
               td= time_entry.task_name
               td= time_entry.user_name
               td= format_distance_of_minutes time_entry.amount

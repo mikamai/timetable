@@ -39,5 +39,9 @@
       tbody
         - @rows.each do |row|
           tr
-            td= row.name
+            td
+              - if row.archived?
+                s= row.name
+              - else
+                = row.name
             td= (row.amount.to_f / 60).round 2

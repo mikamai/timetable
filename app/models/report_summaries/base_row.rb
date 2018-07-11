@@ -23,5 +23,9 @@ module ReportSummaries
     def name
       resource.name
     end
+
+    def archived?
+      false
+    end
   end
 end
