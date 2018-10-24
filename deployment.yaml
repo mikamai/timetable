@@ -1,0 +1,36 @@
+kind: Service
+apiVersion: v1
+metadata:
+  name: mikatimetable-service
+spec:
+  selector:
+    app: mikatimetable
+  type: NodePort
+  ports:
+    - protocol: TCP
+      port: 80
+      targetPort: 80
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: mikatimetable
+  labels:
+    app: mikatimetable
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: mikatimetable
+  template:
+    metadata:
+      labels:
+        app: mikatimetable
+    spec:
+      imagePullSecrets:
+      - name: pipeline-docker-registry
+      containers:
+      - name: mikatimetable
+        image: ${CICD_IMAGE}:${CICD_EXECUTION_SEQUENCE}
+        ports:
+        - containerPort: 80
