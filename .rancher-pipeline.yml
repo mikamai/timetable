@@ -1,0 +1,13 @@
+stages:
+- name: build
+  steps:
+  - publishImageConfig:
+      dockerfilePath: ./Dockerfile
+      buildContext: .
+      tag: mikatimetable/app
+      registry: 127.0.0.1:34750
+- name: deploy
+  steps:
+  - applyYamlConfig:
+      path: ./deployment.yaml
+timeout: 60
