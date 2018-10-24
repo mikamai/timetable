@@ -1,4 +1,4 @@
-FROM ruby:2.4
+FROM ruby:2.4.2
 
 ENV RAILS_ENV production
 ENV SECRET_KEY_BASE "change me at startup"
