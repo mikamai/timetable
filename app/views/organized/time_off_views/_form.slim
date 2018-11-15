@@ -1,0 +1,7 @@
+.row.form-group
+  = f.label 'Type', class: 'col-sm-2 col-form-label'
+  .col-sm-10
+    = f.select :type, options_for_select(['Holiday', 'Sick Leave', 'Paid Leave']), { prompt: 'Select one' }, class: 'form-control'
+.row.justify-content-end
+  .col-sm-10
+    = f.submit class: 'btn btn-primary'

@@ -5,6 +5,12 @@ module Organized
     helper_method :impersonatable_users, :impersonating_user, :impersonating_or_current_user
 
     def index
+      redirect_to [current_organization, TimeOffView.today(current_organization, current_user)]
+    end
+
+    def show
+      @time_off_view = TimeOffView.find(params[:id], current_organization, current_user)
+      authorize @time_off_view
     end
 
     private
