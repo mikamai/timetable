@@ -29,6 +29,12 @@ class TimeView
              .executed_by(user)
   end
 
+  def time_off_entries
+    TimeOffEntry.in_organization(organization)
+                .executed_on(date)
+                .executed_by(user)
+  end
+
   def id
     date.strftime ID_FORMAT
   end

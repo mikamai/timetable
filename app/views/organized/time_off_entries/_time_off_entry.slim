@@ -1,0 +1,15 @@
+tr.time-entry-row
+  td.align-middle
+    = time_off_entry.typology
+    - if time_off_entry.notes?
+      .description.text-muted
+        small= time_off_entry.notes
+  td.amount.align-middle.text-right
+    = format_distance_of_minutes time_off_entry.amount
+  td.text-right.align-middle
+    - if policy(time_off_entry).update?
+      = link_to [:edit, current_organization, time_off_entry], class: 'btn btn-outline-secondary' do
+        i.icon-pencil
+    - if policy(time_off_entry).destroy?
+      = link_to [current_organization, time_off_entry], class: 'btn btn-outline-danger ml-2', data: { method: 'delete', confirm: 'Are you sure you want to remove this entry?' } do
+        i.icon-cross
