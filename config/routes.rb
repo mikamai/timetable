@@ -46,9 +46,7 @@ Rails.application.routes.draw do
         resources :time_entries, only: %i[new create], path: :entries
       end
       resources :time_entries, only: %i[edit update destroy], path: :entries
-      resources :time_off_views, only: %i[index show], path: :time_off do
-        resources :time_entries, only: %i[new create], path: :entries
-      end
+      resources :time_off_entries, only: %i[new create]
     end
   end
 
