@@ -16,7 +16,7 @@ nav.navbar.navbar-expand-lg.navbar-dark.bg-primary
             li.nav-item(class='#{'active' if %w[time_views time_entries].include? controller_name}')
               = link_to 'Time', current_organization, class: 'nav-link'
             li.nav-item(class='#{'active' if %w[time_off_views].include? controller_name}')
-              = link_to 'Time Off', [current_organization, :time_off_views], class: 'nav-link'
+              = link_to 'Time Off', [current_organization, :time_off_entries], class: 'nav-link'
             - if policy(Project).index?
               li.nav-item(class='#{'active' if controller_name == 'projects'}')
                 = link_to 'Projects', [current_organization, :projects], class: 'nav-link'

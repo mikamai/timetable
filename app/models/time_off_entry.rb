@@ -4,7 +4,7 @@ class TimeOffEntry < ApplicationRecord
   add_hours_amount_to :amount
 
   belongs_to :user, inverse_of: :time_entries
-  has_one :organization, through: :user
+  belongs_to :organization
 
   validates :executed_on,
             presence: true
@@ -18,4 +18,12 @@ class TimeOffEntry < ApplicationRecord
             }
 
   delegate :name, to: :user, prefix: true, allow_nil: true
+
+  def self.policy_class
+    Organized::TimeOffEntryPolicy
+  end
+
+  def time_view
+    TimeView.find executed_on.strftime(TimeView::ID_FORMAT), organization, user
+  end
 end
