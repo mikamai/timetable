@@ -46,6 +46,8 @@ class TimeOffView
     id
   end
 
-  def type
-  end
+  def type; end
+  def start_day; end
+  def end_day; end
+  def notes; end
 end
