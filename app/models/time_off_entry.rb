@@ -10,6 +10,8 @@ class TimeOffEntry < ApplicationRecord
   scope :executed_by, ->(user) { where user_id: user.id }
   scope :executed_on, ->(date) { where executed_on: date }
 
+  validates :typology,
+            :presence: true
   validates :executed_on,
             presence: true
   validates :amount,
