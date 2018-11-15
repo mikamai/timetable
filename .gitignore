@@ -30,3 +30,4 @@ public/uploads
 public/exports
 /coverage
 cookbook/*.retry
+.ruby-version
