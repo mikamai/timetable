@@ -4,7 +4,8 @@ class TimeOffEntry < ApplicationRecord
   add_hours_amount_to :amount
 
   belongs_to :user, inverse_of: :time_entries
-  belongs_to :organization
+  belongs_to :organization, inverse_of: :time_entries
+  has_one :time_off_period
 
   scope :in_organization, ->(org) { where organization_id: org.id }
   scope :executed_by, ->(user) { where user_id: user.id }
