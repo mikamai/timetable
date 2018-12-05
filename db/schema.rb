@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20181205105327) do
+ActiveRecord::Schema.define(version: 20181205154003) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -132,6 +132,7 @@ ActiveRecord::Schema.define(version: 20181205105327) do
     t.string "notes"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+    t.uuid "time_off_period_id"
   end
 
   create_table "time_off_periods", id: :uuid, default: -> { "gen_random_uuid()" }, force: :cascade do |t|
