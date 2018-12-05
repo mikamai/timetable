@@ -2,13 +2,14 @@
 
 module Organized
   class TimeOffEntriesController < BaseController
+    before_action :set_time_off_period, only: [:new, :create]
+
     def index
       redirect_to new_organization_time_off_entry_path
     end
 
     def new
       @time_off_entry = TimeOffEntry.new user: impersonating_or_current_user
-      @time_off_period = TimeOffPeriod.new user: impersonating_or_current_user
       authorize @time_off_entry
       respond_with current_organization, @time_off_entry, @time_off_period
     end
@@ -22,6 +23,10 @@ module Organized
     end
 
     private
+
+    def set_time_off_period
+      @time_off_period = TimeOffPeriod.new user: impersonating_or_current_user
+    end
 
     def after_create_or_update_path time_off_entry
       options = {
@@ -44,12 +49,6 @@ module Organized
 
     def impersonating_or_current_user
       impersonating_user || current_user
-    end
-
-    def fill_available_projects_and_tasks time_off_entry
-      @projects = available_projects_for time_off_entry.user
-      project_for_tasks = time_off_entry.project || @projects.first
-      @tasks = project_for_tasks ? project_for_tasks.tasks.by_name : []
     end
   end
 end
