@@ -20,7 +20,6 @@ class TimeOffEntry < ApplicationRecord
             numericality: {
               only_integer: true,
               greater_than: 0,
-              less_than_or_equal_to: 8,
               allow_nil:    true
             }
 
@@ -30,7 +29,19 @@ class TimeOffEntry < ApplicationRecord
     Organized::TimeOffEntryPolicy
   end
 
+  def self.total_amount
+    sum(:amount)
+  end
+
+  def notes?
+    notes.present?
+  end
+
   def time_view
     TimeView.find executed_on.strftime(TimeView::ID_FORMAT), organization, user
+  end
+
+  def hours
+    amount.to_f / 60
   end
 end

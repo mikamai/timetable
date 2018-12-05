@@ -36,7 +36,7 @@ module Organized
     end
 
     def create_params
-      params.require(:time_off_entry).permit(:user_id, :notes, :amount, :executed_on, :typology)
+      params.require(:time_off_entry).permit(:user_id, :notes, :time_amount, :executed_on, :typology)
             .reverse_merge(user_id: current_user.id, organization_id: current_organization.id)
     end
 
