@@ -1,26 +1,26 @@
 /* global $, _ */
 
 $(() => {
-  $('select#time_off_entry_typology').change(e => {
+  $('select#time_off_typology').change(e => {
     const val = e.target.value;
     const isPaidLeave = val => val.toLowerCase() === 'paid leave';
-    const isHolidayOrSickLeave = val =>
-      ['holiday', 'sick leave'].includes(val.toLowerCase());
-    const hide = type => $(`#${type}-fields`).addClass('d-none');
-    const show = type => $(`#${type}-fields`).removeClass('d-none');
+    const isVacationOrSickLeave = val =>
+      ['vacation', 'sick leave'].includes(val.toLowerCase());
+    const hide = type => $(`#new_time_off_${type}`).addClass('d-none');
+    const show = type => $(`#new_time_off_${type}`).removeClass('d-none');
 
     switch (true) {
       case isPaidLeave(val):
-        hide('holiday');
-        show('leave');
+        hide('period');
+        show('entry');
         break;
-      case isHolidayOrSickLeave(val):
-        hide('leave');
-        show('holiday');
+      case isVacationOrSickLeave(val):
+        hide('entry');
+        show('period');
         break;
       default:
-        hide('holiday');
-        hide('leave');
+        hide('period');
+        hide('entry');
         break;
     }
   });
