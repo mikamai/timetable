@@ -2,13 +2,14 @@
 
 module Organized
   class TimeOffPeriodsController < BaseController
-    before_action :set_time_off_entry, only: :create
+    include BusinessDate
 
     def create
       @time_off_period = TimeOffPeriod.new create_params
       if @time_off_period.save
-        array_of_business_dates.each &create_time_off_entries
-        @time_off_entry = @time_off_period.time_off_entries.first
+        business_dates = business_dates_between(@time_off_period.start_date, @time_off_period.end_date)
+        business_dates.each &create_time_off_entries
+        @time_off_entry = @time_off_period.time_off_entries.sort_by(&:executed_on).first
         respond_with current_organization, @time_off_entry,
                      location: -> { after_create_or_update_path @time_off_entry }
       else
@@ -17,33 +18,6 @@ module Organized
     end
 
     private
-
-    def set_time_off_entry
-      @time_off_entry = TimeOffEntry.new user: impersonating_or_current_user, executed_on: Date.current
-    end
-
-    def create_time_off_entries
-      lambda do |date|
-        entry = TimeOffEntry.new
-        entry.user_id = current_user.id
-        entry.organization_id = current_organization.id
-        entry.executed_on = date
-        entry.amount = 8
-        entry.notes = @time_off_period.notes
-        entry.typology = @time_off_period.typology
-        entry.time_off_period_id = @time_off_period.id
-        authorize entry
-        entry.save
-      end
-    end
-
-    def array_of_business_dates
-      (@time_off_period.start_date..@time_off_period.end_date).to_a.reject &is_weekend
-    end
-
-    def is_weekend
-      -> (date) { (date.wday % 7 == 0) || (date.wday % 7 == 6) }
-    end
 
     def after_create_or_update_path time_off_entry
       options = {
@@ -66,6 +40,22 @@ module Organized
 
     def impersonating_or_current_user
       impersonating_user || current_user
+    end
+
+    def create_time_off_entries
+      lambda do |date|
+        entry = TimeOffEntry.new(
+          user_id: current_user.id,
+          organization_id: current_organization.id,
+          executed_on: date,
+          amount: 8,
+          notes: @time_off_period.notes,
+          typology: @time_off_period.typology,
+          time_off_period_id: @time_off_period.id
+        )
+        authorize entry
+        entry.save
+      end
     end
   end
 end
