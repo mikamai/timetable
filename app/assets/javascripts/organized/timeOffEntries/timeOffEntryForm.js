@@ -24,7 +24,7 @@ $(() => {
         show('period');
         set('period', 'vacation');
         break;
-      case isSickLeave():
+      case isSickLeave(val):
         hide('entry');
         show('period');
         set('period', 'sick');
