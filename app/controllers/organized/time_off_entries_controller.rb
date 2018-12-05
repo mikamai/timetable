@@ -8,8 +8,9 @@ module Organized
 
     def new
       @time_off_entry = TimeOffEntry.new user: impersonating_or_current_user
+      @time_off_period = TimeOffPeriod.new user: impersonating_or_current_user
       authorize @time_off_entry
-      respond_with current_organization, @time_off_entry
+      respond_with current_organization, @time_off_entry, @time_off_period
     end
 
     def create
