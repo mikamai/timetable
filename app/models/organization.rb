@@ -7,6 +7,8 @@ class Organization < ApplicationRecord
   has_many :users, through: :members
   has_many :projects, inverse_of: :organization
   has_many :time_entries, through: :projects
+  has_many :time_off_entries, inverse_of: :organization
+  has_many :time_off_periods, inverse_of: :organization
   has_many :tasks, inverse_of: :organization
   has_many :clients, inverse_of: :organization
   has_many :roles, inverse_of: :organization
