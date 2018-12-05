@@ -10,6 +10,7 @@
         = select_tag :time_off_typology,
                   options_for_select(['Vacation', 'Sick Leave', 'Paid Leave']),
                   { prompt: 'Select one', class: 'form-control' }
+    / TODO: turn form_for @time_off_period into form_with
     = form_for [current_organization, @time_off_entry], html: { class: 'd-none' } do |f|
       = render 'form', f: f
     = form_for [current_organization, @time_off_period], html: { class: 'd-none' } do |f|
