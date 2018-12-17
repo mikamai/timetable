@@ -12,5 +12,13 @@ module Organized
     def create?
       admin? || user == record.user
     end
+
+    def approve?
+      admin?
+    end
+
+    def decline?
+      admin?
+    end
   end
 end
