@@ -1,6 +1,8 @@
 tr.time-entry-row
   td.align-middle
     = time_off_period.typology
+    '&nbsp;
+    small.text-muted= "#{time_off_period.status}"
     - if time_off_period.notes?
       .description.text-muted
         small= time_off_period.notes
