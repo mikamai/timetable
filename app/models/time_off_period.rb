@@ -14,6 +14,11 @@ class TimeOffPeriod < ApplicationRecord
 
   delegate :name, to: :user, prefix: true, allow_nil: true
 
+  def add_errors error_params
+    errors = error_params[:errors]
+    errors.keys.each { |k| self.errors.add(k, errors[k].join(', ')) }
+  end
+
   def friendly_typology
     case self.typology
     when 'sick' then 'sick leave'
