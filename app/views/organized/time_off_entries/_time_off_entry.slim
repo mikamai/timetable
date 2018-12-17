@@ -7,6 +7,7 @@ tr.time-entry-row
       'Sick Leave
     - when 'vacation'
       'Vacation
+    small.text-muted= "#{time_off_entry.status}"
     - if time_off_entry.notes?
       .description.text-muted
         small= time_off_entry.notes
