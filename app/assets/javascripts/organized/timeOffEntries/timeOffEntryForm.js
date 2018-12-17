@@ -35,7 +35,8 @@ $(() => {
   };
 
   $('select#time_off_typology').change(e => showForm(e.target.value));
-  showForm($('select#time_off_typology').val());
+  if ($('select#time_off_typology').length)
+    showForm($('select#time_off_typology').val());
 
   $('input#time_off_entry_time_amount').on('focusout', e => {
     const $el = $(e.target);
