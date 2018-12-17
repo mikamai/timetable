@@ -133,7 +133,7 @@ ActiveRecord::Schema.define(version: 20181217151842) do
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.uuid "time_off_period_id"
-    t.boolean "approved"
+    t.string "status"
   end
 
   create_table "time_off_periods", id: :uuid, default: -> { "gen_random_uuid()" }, force: :cascade do |t|
@@ -145,7 +145,7 @@ ActiveRecord::Schema.define(version: 20181217151842) do
     t.string "notes"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
-    t.boolean "approved"
+    t.string "status"
   end
 
   create_table "users", id: :uuid, default: -> { "gen_random_uuid()" }, force: :cascade do |t|
