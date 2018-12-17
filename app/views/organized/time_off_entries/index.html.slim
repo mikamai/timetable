@@ -12,7 +12,12 @@
   .col
     table.time-view-table.table
       tbody
-        = render @time_off_entries, template: 'index'
+        - if @time_off_entries.any?
+          = render @time_off_entries, template: 'index'
+        - else
+          tr
+            td(colspan=3)
+              p.alert.alert-info.text-center There are no paid leave entries to show.
 
 .row
   .col
@@ -21,7 +26,12 @@
   .col
     table.time-view-table.table
       tbody
-        = render @time_off_periods.where(typology: 'vacation')
+        - if @time_off_periods.where(typology: 'vacation').any?
+          = render @time_off_periods.where(typology: 'vacation')
+        - else
+          tr
+            td(colspan=3)
+              p.alert.alert-info.text-center There are no vacation entries to show.
 
 .row
   .col
@@ -30,4 +40,9 @@
   .col
     table.time-view-table.table
       tbody
-        = render @time_off_periods.where(typology: 'sick')
+        - if @time_off_periods.where(typology: 'sick').any?
+          = render @time_off_periods.where(typology: 'sick')
+        - else
+          tr
+            td(colspan=3)
+              p.alert.alert-info.text-center There are no sick leave entries to show.          
