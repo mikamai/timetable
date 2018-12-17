@@ -11,7 +11,7 @@ module Organized
         business_dates = business_dates_between(@time_off_period.start_date, @time_off_period.end_date)
         business_dates.each &create_time_off_entries
         @time_off_entry = @time_off_period.time_off_entries.sort_by(&:executed_on).first
-        TimeOffEntryMailer.request_time_off(@time_off_period).deliver_later
+        TimeOffEntryMailer.request_time_off(current_organization, @time_off_period).deliver_later
         respond_with current_organization, @time_off_entry,
                      location: -> { after_create_or_update_path @time_off_entry }
       else
