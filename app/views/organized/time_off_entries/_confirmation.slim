@@ -1,0 +1,11 @@
+.row.align-items-center
+  .col
+    h4= "Time Off #{status.capitalize}"
+
+.row
+  .col
+    p
+      = "#{@time_off_entry.user.name}'s request for #{@time_off_entry.friendly_typology} has been #{status}. "
+      = "A confirmation email has been sent to #{@time_off_entry.user.email}."
+    p Request details: 
+    = render 'organized/time_off_entries/request', time_off_entry: @time_off_entry
