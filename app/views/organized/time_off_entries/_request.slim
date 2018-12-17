@@ -1,0 +1,11 @@
+ul
+  li
+    strong Date:&nbsp;
+    = time_off_entry.executed_on.strftime('%A, %b %d')
+  li
+    strong Hours:&nbsp;
+    = format_distance_of_minutes_as_hours time_off_entry.amount
+  - unless time_off_entry.notes.nil? || time_off_entry.notes.empty?
+    li
+      strong Notes:&nbsp;
+      = time_off_entry.notes

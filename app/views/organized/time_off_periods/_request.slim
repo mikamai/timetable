@@ -1,0 +1,11 @@
+ul
+  li
+    strong From:&nbsp;
+    = time_off_period.start_date.strftime('%A, %b %d')
+  li
+    strong To:&nbsp;
+    = time_off_period.end_date.strftime('%A, %b %d')
+  - unless time_off_period.notes.nil? || time_off_period.notes.empty?
+    li
+      strong Notes:&nbsp;
+      = time_off_period.notes
