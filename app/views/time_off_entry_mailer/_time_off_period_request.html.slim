@@ -1,0 +1,11 @@
+ul
+  li
+    strong From:&nbsp;
+    = @request.start_date.strftime('%A, %b %d')
+  li
+    strong To:&nbsp;
+    = @request.end_date.strftime('%A, %b %d')
+  - unless @request.notes.nil? || @request.notes.empty?
+    li
+      strong Notes:&nbsp;
+      = @request.notes
