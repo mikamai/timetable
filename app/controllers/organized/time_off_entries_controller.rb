@@ -5,7 +5,8 @@ module Organized
     before_action :set_time_off_period, only: [:new, :create]
 
     def index
-      redirect_to new_organization_time_off_entry_path
+      @time_off_entries = current_user.time_off_entries.where(typology: 'paid')
+      @time_off_periods = current_user.time_off_periods
     end
 
     def new

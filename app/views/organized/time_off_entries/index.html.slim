@@ -1,0 +1,33 @@
+.row.align-items-center
+  .col
+    h4 Time Off Entries
+  .col.text-right
+    = link_to new_organization_time_off_entry_path, class: 'btn btn-primary' do
+      i.icon-plus
+
+.row
+  .col
+    h5 Paid Leaves
+.row
+  .col
+    table.time-view-table.table
+      tbody
+        = render @time_off_entries, template: 'index'
+
+.row
+  .col
+    h5 Vacations
+.row
+  .col
+    table.time-view-table.table
+      tbody
+        = render @time_off_periods.where(typology: 'vacation')
+
+.row
+  .col
+    h5 Sick leaves
+.row
+  .col
+    table.time-view-table.table
+      tbody
+        = render @time_off_periods.where(typology: 'sick')

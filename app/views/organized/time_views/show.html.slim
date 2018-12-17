@@ -41,7 +41,7 @@
         - if @time_view.time_entries.any?
           = render @time_view.time_entries
         - if @time_view.time_off_entries.any?
-          = render @time_view.time_off_entries
+          = render @time_view.time_off_entries, template: 'time-view'
         - else
           tr
             td(colspan=3)
