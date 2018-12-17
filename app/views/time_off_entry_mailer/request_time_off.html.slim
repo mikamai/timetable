@@ -3,8 +3,13 @@ p Hello HR,
 p= "#{@request.user.name} submitted the following time off request:"
 
 - if @request.typology == 'paid'
-  = render 'time_off_entry_request'
+  = render 'organized/time_off_entries/request', time_off_entry: @request
 - else
-  = render 'time_off_period_request'
+  = render 'organized/time_off_periods/request', time_off_period: @request
+
+p
+  = link_to 'Approve', organization_approve_time_off_url(@organization, @request)
+  span &nbsp;
+  = link_to 'Decline', organization_decline_time_off_url(@organization, @request)
 
 p See you!
