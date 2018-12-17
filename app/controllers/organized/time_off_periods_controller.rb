@@ -5,6 +5,8 @@ module Organized
     include BusinessDate
     include HoursAmount
 
+    before_action :find_time_off_period, only: [:approve, :decline]
+
     def create
       @time_off_period = TimeOffPeriod.new create_params
       if @time_off_period.save
@@ -19,7 +21,25 @@ module Organized
       end
     end
 
+    def approve
+      # TODO redirect to confirmation form instead of updating in GET method
+      @time_off_period.update_entries({ status: 'approved' })
+      @time_off_period.update({ status: 'approved' })
+      render template: 'organized/time_off_periods/confirmation', locals: { status: 'approved' }
+    end
+
+    def decline
+      # TODO redirect to confirmation form instead of updating in GET method
+      @time_off_period.update_entries({ status: 'declined' })
+      @time_off_period.update({ status: 'declined' })
+      render template: 'organized/time_off_periods/confirmation', locals: { status: 'declined' }
+    end
+
     private
+
+    def find_time_off_period
+      @time_off_period = current_organization.time_off_periods.find params[:id]
+    end
 
     def after_create_or_update_path time_off_entry
       options = {

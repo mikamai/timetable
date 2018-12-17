@@ -19,6 +19,10 @@ class TimeOffPeriod < ApplicationRecord
     errors.keys.each { |k| self.errors.add(k, errors[k].join(', ')) }
   end
 
+  def update_entries attributes
+    self.time_off_entries.each { |entry| entry.update(attributes) }
+  end
+
   def friendly_typology
     case self.typology
     when 'sick' then 'sick leave'

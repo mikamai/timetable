@@ -34,11 +34,13 @@ module Organized
     def approve
       # TODO redirect to confirmation form instead of updating in GET method
       @time_off_entry.update({ status: 'approved' })
+      render template: 'organized/time_off_entries/confirmation', locals: { status: 'approved' }
     end
 
     def decline
       # TODO redirect to confirmation form instead of updating in GET method
       @time_off_entry.update({ status: 'declined' })
+      render template: 'organized/time_off_entries/confirmation', locals: { status: 'declined' }
     end
 
     private
