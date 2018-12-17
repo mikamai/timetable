@@ -3,6 +3,7 @@
 module Organized
   class TimeOffPeriodsController < BaseController
     include BusinessDate
+    include HoursAmount
 
     def create
       @time_off_period = TimeOffPeriod.new create_params
@@ -49,7 +50,7 @@ module Organized
           user_id: current_user.id,
           organization_id: current_organization.id,
           executed_on: date,
-          amount: 8,
+          amount: parse_hours(8),
           notes: @time_off_period.notes,
           typology: @time_off_period.typology,
           time_off_period_id: @time_off_period.id
