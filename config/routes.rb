@@ -46,7 +46,9 @@ Rails.application.routes.draw do
         resources :time_entries, only: %i[new create], path: :entries
       end
       resources :time_entries, only: %i[edit update destroy], path: :entries
-      resources :time_off_entries, only: %i[index new create]
+      resources :time_off_entries, only: %i[index new create update]
+      get 'time_off_entries/:id/approve', controller: :time_off_entries, action: :approve, as: :approve_time_off
+      get 'time_off_entries/:id/decline', controller: :time_off_entries, action: :decline, as: :decline_time_off
       resources :time_off_periods, only: %i[create]
     end
   end
