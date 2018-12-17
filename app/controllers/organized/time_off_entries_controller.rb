@@ -12,6 +12,7 @@ module Organized
 
     def new
       @time_off_entry = TimeOffEntry.new user: impersonating_or_current_user
+      @typology = @time_off_period.typology
       authorize @time_off_entry
       respond_with current_organization, @time_off_entry, @time_off_period
     end
@@ -44,6 +45,7 @@ module Organized
 
     def set_time_off_period
       @time_off_period = TimeOffPeriod.new user: impersonating_or_current_user
+      @time_off_period.assign_attributes time_off_period_params
     end
 
     def find_time_off_entry
@@ -65,6 +67,10 @@ module Organized
     def update_params
       params.require(:time_off_entry).permit(:user_id, :notes, :time_amount, :executed_on, :typology)
     end
+
+    def time_off_period_params
+      params.permit(:typology, :start_date, :end_date, :notes)
+    end 
 
     def impersonating_user
       return nil unless params[:as]

@@ -15,7 +15,7 @@ module Organized
         respond_with current_organization, @time_off_entry,
                      location: -> { after_create_or_update_path @time_off_entry }
       else
-        redirect_back fallback_location: new_organization_time_off_entry_path
+        redirect_to new_time_off_entry_path_with_params
       end
     end
 
@@ -26,6 +26,11 @@ module Organized
         as: time_off_entry.user != current_user ? time_off_entry.user.id : nil
       }
       organization_time_view_path current_organization, time_off_entry.time_view, options
+    end
+
+    def new_time_off_entry_path_with_params
+      path = { controller: :time_off_entries, action: :new }
+      path.merge(@time_off_period.slice(:typology, :start_date, :end_date, :notes))
     end
 
     def create_params
