@@ -1,12 +1,10 @@
 /* global $, _ */
 
 $(() => {
-  $('select#time_off_typology').change(e => {
-    const val = e.target.value;
-
-    const isPaidLeave = val => val.toLowerCase() === 'paid leave';
+  const showForm = val => {
+    const isPaidLeave = val => val.toLowerCase() === 'paid';
     const isVacation = val => val.toLowerCase() === 'vacation';
-    const isSickLeave = val => val.toLowerCase() === 'sick leave';
+    const isSickLeave = val => val.toLowerCase() === 'sick';
 
     const hide = type => $(`#new_time_off_${type}`).addClass('d-none');
     const show = type => $(`#new_time_off_${type}`).removeClass('d-none');
@@ -34,7 +32,10 @@ $(() => {
         hide('entry');
         break;
     }
-  });
+  };
+
+  $('select#time_off_typology').change(e => showForm(e.target.value));
+  showForm($('select#time_off_typology').val());
 
   $('input#time_off_entry_time_amount').on('focusout', e => {
     const $el = $(e.target);

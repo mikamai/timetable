@@ -16,6 +16,7 @@ module Organized
 
     def create
       @time_off_entry = TimeOffEntry.new create_params
+      @typology = @time_off_entry.typology
       authorize @time_off_entry
       TimeOffEntryMailer.request_time_off(@time_off_entry).deliver_later if @time_off_entry.save
       respond_with current_organization, @time_off_entry,
