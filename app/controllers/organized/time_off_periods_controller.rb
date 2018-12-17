@@ -30,7 +30,10 @@ module Organized
 
     def new_time_off_entry_path_with_params
       path = { controller: :time_off_entries, action: :new }
-      path.merge(@time_off_period.slice(:typology, :start_date, :end_date, :notes))
+      period = @time_off_period.slice(:typology, :start_date, :end_date, :notes)
+      errors = { errors: @time_off_period.errors.messages }
+      new_params = period.merge(errors)
+      path.merge(new_params)
     end
 
     def create_params

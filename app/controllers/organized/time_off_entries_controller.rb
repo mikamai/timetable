@@ -46,6 +46,7 @@ module Organized
     def set_time_off_period
       @time_off_period = TimeOffPeriod.new user: impersonating_or_current_user
       @time_off_period.assign_attributes time_off_period_params
+      error_params.keys.each { |k| @time_off_period.errors.add(k, error_params[k].join(', ')) }
     end
 
     def find_time_off_entry
@@ -71,6 +72,10 @@ module Organized
     def time_off_period_params
       params.permit(:typology, :start_date, :end_date, :notes)
     end 
+
+    def error_params
+      params.require(:errors).permit(start_date: [], end_date: [], notes: '')
+    end
 
     def impersonating_user
       return nil unless params[:as]
