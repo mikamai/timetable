@@ -17,7 +17,7 @@ module Organized
     def create
       @time_off_entry = TimeOffEntry.new create_params
       authorize @time_off_entry
-      @time_off_entry.save
+      TimeOffEntryMailer.request_time_off(@time_off_entry).deliver_later if @time_off_entry.save
       respond_with current_organization, @time_off_entry,
                    location: -> { after_create_or_update_path @time_off_entry }
     end
