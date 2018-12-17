@@ -13,4 +13,11 @@ class TimeOffPeriod < ApplicationRecord
     presence: true
 
   delegate :name, to: :user, prefix: true, allow_nil: true
+
+  def friendly_typology
+    case self.typology
+    when 'sick' then 'sick leave'
+    else 'vacation'
+    end
+  end
 end

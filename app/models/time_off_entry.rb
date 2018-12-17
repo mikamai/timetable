@@ -44,4 +44,12 @@ class TimeOffEntry < ApplicationRecord
   def hours
     amount.to_f / 60
   end
+
+  def friendly_typology
+    case self.typology
+    when 'paid' then 'paid leave'
+    when 'sick' then 'sick leave'
+    else 'vacation'
+    end
+  end
 end

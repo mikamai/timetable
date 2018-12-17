@@ -5,6 +5,6 @@ class TimeOffEntryMailer < ApplicationMailer
 
   def request_time_off request
     @request = request
-    mail to: 'HR@mikamai.com', subject: "[Timetable] New #{@request.friendly_tipology} request from #{@request.user.name}"
+    mail to: 'HR@mikamai.com', subject: "[Timetable] New #{@request.friendly_typology} request from #{@request.user.name}"
   end
 end
