@@ -8,10 +8,8 @@ module Organized
     before_action :find_time_off_period, only: [:approve, :decline]
 
     def create
-      @time_off_period = TimeOffPeriod.new create_params
+      @time_off_period = TimeOffPeriod.new create_params.merge(entries_params)
       if @time_off_period.save
-        business_dates = business_dates_between(@time_off_period.start_date, @time_off_period.end_date)
-        business_dates.each &create_time_off_entries
         @time_off_entry = @time_off_period.time_off_entries.sort_by(&:executed_on).first
         TimeOffEntryMailer.request_time_off(current_organization, @time_off_period).deliver_later
         respond_with current_organization, @time_off_entry,
@@ -60,6 +58,22 @@ module Organized
       params.require(:time_off_period).permit(:user_id, :notes, :start_date, :end_date, :typology)
             .reverse_merge(user_id: current_user.id, organization_id: current_organization.id)
     end
+    
+    def entries_params
+      entries_attrs = {}
+      business_dates = business_dates_between(create_params[:start_date], create_params[:end_date])
+      entries_attrs[:time_off_entries_attributes] = business_dates.map do |date|
+        {
+          user_id: current_user.id,
+          organization_id: current_organization.id,
+          executed_on: date,
+          amount: parse_hours(8),
+          notes: create_params[:notes],
+          typology: create_params[:typology]
+        }
+      end
+      entries_attrs
+    end
 
     def impersonating_user
       return nil unless params[:as]
@@ -70,22 +84,6 @@ module Organized
 
     def impersonating_or_current_user
       impersonating_user || current_user
-    end
-
-    def create_time_off_entries
-      lambda do |date|
-        entry = TimeOffEntry.new(
-          user_id: current_user.id,
-          organization_id: current_organization.id,
-          executed_on: date,
-          amount: parse_hours(8),
-          notes: @time_off_period.notes,
-          typology: @time_off_period.typology,
-          time_off_period_id: @time_off_period.id
-        )
-        authorize entry
-        entry.save
-      end
     end
   end
 end
