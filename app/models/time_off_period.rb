@@ -7,7 +7,8 @@ class TimeOffPeriod < ApplicationRecord
   accepts_nested_attributes_for :time_off_entries
 
   validates :typology,
-    presence: true
+    presence: true,
+    inclusion: { in: %w(paid sick vacation) }
   validates :start_date,
     presence: true
   validates :end_date,

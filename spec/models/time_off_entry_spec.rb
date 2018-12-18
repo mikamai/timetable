@@ -16,6 +16,14 @@ RSpec.describe TimeOffEntry, type: :model do
       expect(subject).to have(0).errors_on :executed_on
     end
 
+    it 'require a typology' do
+      expect(subject).to have(2).error_on :typology
+      subject.typology = 'asd'
+      expect(subject).to have(1).errors_on :typology
+      subject.typology = 'vacation'
+      expect(subject).to have(0).errors_on :typology
+    end
+
     it 'require an organization' do
       expect(subject).to have(1).error_on :organization
       subject.organization = build :organization
