@@ -23,7 +23,8 @@ class TimeOffEntry < ApplicationRecord
               allow_nil:    true
             }
   validates :notes,
-            presence: true
+            presence: true,
+            if: :is_paid_leave?
 
   delegate :name, to: :user, prefix: true, allow_nil: true
 
@@ -33,6 +34,10 @@ class TimeOffEntry < ApplicationRecord
 
   def self.total_amount
     sum(:amount)
+  end
+
+  def is_paid_leave?
+    typology == 'paid'
   end
 
   def notes?
