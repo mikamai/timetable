@@ -12,7 +12,8 @@ class TimeOffEntry < ApplicationRecord
   scope :executed_on, ->(date) { where executed_on: date }
 
   validates :typology,
-            presence: true
+            presence: true,
+            inclusion: { in: %w(paid sick vacation) }
   validates :executed_on,
             presence: true
   validates :amount,
@@ -37,7 +38,7 @@ class TimeOffEntry < ApplicationRecord
   end
 
   def is_paid_leave?
-    typology == 'paid'
+    typology.nil? || typology == 'paid'
   end
 
   def notes?
