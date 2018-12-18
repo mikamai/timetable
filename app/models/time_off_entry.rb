@@ -22,6 +22,8 @@ class TimeOffEntry < ApplicationRecord
               greater_than: 0,
               allow_nil:    true
             }
+  validates :notes,
+            presence: true
 
   delegate :name, to: :user, prefix: true, allow_nil: true
 

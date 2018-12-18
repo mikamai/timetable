@@ -14,6 +14,7 @@
   = f.label :notes, class: 'col-sm-2 col-form-label'
   .col-sm-10
     = f.text_area :notes, class: 'form-control'
+    small.form-text.text-muted Please enter start and end time of your leave
     small.form-text.text-danger= f.object.errors[:notes].join ', '
 .row.justify-content-end
   .col-sm-10

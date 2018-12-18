@@ -32,6 +32,15 @@ $(() => {
         hide('entry');
         break;
     }
+
+    switch (true) {
+      case isSickLeave(val):
+        $('#sick-only').removeClass('d-none');
+        break;
+      default:
+        $('#sick-only').addClass('d-none');
+        break;
+    }
   };
 
   $('select#time_off_typology').change(e => showForm(e.target.value));
