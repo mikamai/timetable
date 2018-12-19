@@ -10,6 +10,7 @@ module Organized
     def create
       @time_off_period = TimeOffPeriod.new create_params.merge(entries_params)
       if @time_off_period.save
+        @time_off_period.time_off_entries.each &:authorize
         @time_off_entry = @time_off_period.time_off_entries.sort_by(&:executed_on).first
         TimeOffEntryMailer.request_time_off(current_organization, @time_off_period).deliver_later
         respond_with current_organization, @time_off_entry,
@@ -20,14 +21,12 @@ module Organized
     end
 
     def approve
-      # TODO redirect to confirmation form instead of updating in GET method
       @time_off_period.update_entries({ status: 'approved' })
       @time_off_period.update({ status: 'approved' })
       render template: 'organized/time_off_periods/confirmation', locals: { status: 'approved' }
     end
 
     def decline
-      # TODO redirect to confirmation form instead of updating in GET method
       @time_off_period.update_entries({ status: 'declined' })
       @time_off_period.update({ status: 'declined' })
       render template: 'organized/time_off_periods/confirmation', locals: { status: 'declined' }
@@ -62,6 +61,7 @@ module Organized
     def entries_params
       entries_attrs = {}
       business_dates = business_dates_between(create_params[:start_date], create_params[:end_date])
+      return unless business_dates
       entries_attrs[:time_off_entries_attributes] = business_dates.map do |date|
         {
           user_id: current_user.id,

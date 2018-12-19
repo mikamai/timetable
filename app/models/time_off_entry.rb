@@ -53,6 +53,10 @@ class TimeOffEntry < ApplicationRecord
     amount.to_f / 60
   end
 
+  def authorize
+    -> { authorize self }
+  end
+
   def friendly_typology
     case self.typology
     when 'paid' then 'paid leave'

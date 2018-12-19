@@ -18,10 +18,6 @@ class TimeOffPeriod < ApplicationRecord
 
   delegate :name, to: :user, prefix: true, allow_nil: true
 
-  def end_date_cannot_come_before_start_date
-    errors.add(:end_date, 'cannot come before start date') if end_date < start_date
-  end
-
   def add_errors error_params
     errors = error_params[:errors]
     errors.keys.each { |k| self.errors.add(k, errors[k].join(', ')) }
@@ -36,5 +32,12 @@ class TimeOffPeriod < ApplicationRecord
     when 'sick' then 'sick leave'
     else 'vacation'
     end
+  end
+
+  private
+
+  def end_date_cannot_come_before_start_date
+    return if start_date.blank? || end_date.blank?
+    errors.add(:end_date, 'cannot come before start date') if end_date < start_date
   end
 end
