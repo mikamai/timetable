@@ -1,6 +1,8 @@
 # frozen_string_literal: true
 
 class TimeOffPeriod < ApplicationRecord
+  attr_accessor :duration
+
   belongs_to :user, inverse_of: :time_off_periods
   belongs_to :organization, inverse_of: :time_off_periods
   has_many :time_off_entries, dependent: :destroy
