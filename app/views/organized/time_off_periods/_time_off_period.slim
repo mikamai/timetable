@@ -7,6 +7,8 @@ tr.time-entry-row
       .description.text-muted
         small= time_off_period.notes
   td.amount.align-middle.text-right
+    = format_distance_of_days time_off_period.duration
+  td.amount.align-middle.text-right
     = time_off_period.start_date.strftime('%A, %b %d')
   td.amount.align-middle.text-left
     = time_off_period.end_date.strftime('%A, %b %d')

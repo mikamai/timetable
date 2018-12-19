@@ -18,6 +18,13 @@
           tr
             td(colspan=3)
               p.alert.alert-info.text-center There are no paid leave entries to show.
+      tfoot
+        tr.time-entry-total-row.time-entry-row
+          th.align-middle.text-right.text-muted Total:
+          td.align-middle.text-right
+            = format_distance_of_minutes @time_off_entries.total_amount
+          td
+          td
 
 .row
   .col
@@ -26,12 +33,19 @@
   .col
     table.time-view-table.table
       tbody
-        - if @time_off_periods.where(typology: 'vacation').any?
-          = render @time_off_periods.where(typology: 'vacation')
+        - if @time_off_periods.vacation.any?
+          = render @time_off_periods.vacation
         - else
           tr
             td(colspan=3)
               p.alert.alert-info.text-center There are no vacation entries to show.
+      tfoot
+        tr.time-entry-total-row.time-entry-row
+          th.align-middle.text-right.text-muted Total:
+          td.align-middle.text-right
+            = format_distance_of_days @time_off_periods.vacation.total_days
+          td
+          td
 
 .row
   .col
@@ -40,9 +54,16 @@
   .col
     table.time-view-table.table
       tbody
-        - if @time_off_periods.where(typology: 'sick').any?
-          = render @time_off_periods.where(typology: 'sick')
+        - if @time_off_periods.sick.any?
+          = render @time_off_periods.sick
         - else
           tr
             td(colspan=3)
               p.alert.alert-info.text-center There are no sick leave entries to show.          
+      tfoot
+        tr.time-entry-total-row.time-entry-row
+          th.align-middle.text-right.text-muted Total:
+          td.align-middle.text-right
+            = format_distance_of_days @time_off_periods.sick.total_days
+          td
+          td

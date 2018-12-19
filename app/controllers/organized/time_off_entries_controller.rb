@@ -6,8 +6,8 @@ module Organized
     before_action :find_time_off_entry, only: [:update, :approve, :decline]
 
     def index
-      @time_off_entries = current_user.time_off_entries.where(typology: 'paid').order(executed_on: :asc)
-      @time_off_periods = current_user.time_off_periods.order(start_date: :asc)
+      @time_off_entries = current_user.time_off_entries.paid.by_executed_on
+      @time_off_periods = current_user.time_off_periods.by_start_date
     end
 
     def new

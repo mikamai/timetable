@@ -10,6 +10,10 @@ class TimeOffEntry < ApplicationRecord
   scope :in_organization, ->(org) { where organization_id: org.id }
   scope :executed_by, ->(user) { where user_id: user.id }
   scope :executed_on, ->(date) { where executed_on: date }
+  scope :by_executed_on, -> { order "executed_on ASC" }
+  scope :paid, -> { where typology: 'paid' }
+  scope :sick, -> { where typology: 'sick' }
+  scope :vacation, -> { where typology: 'vacation' }
 
   validates :typology,
             presence: true,
