@@ -23,7 +23,7 @@ class TimeOffPeriod < ApplicationRecord
 
   delegate :name, to: :user, prefix: true, allow_nil: true
 
-  before_validation :set_duration
+  before_save :set_duration
 
   def self.policy_class
     Organized::TimeOffPeriodPolicy
