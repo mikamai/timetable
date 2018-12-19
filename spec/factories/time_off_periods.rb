@@ -5,7 +5,8 @@ FactoryBot.define do
     end
 
     user { create :user, :organized, organization: organization }
-    executed_on { Date.today }
-    amount 1
+    start_date { Date.today }
+    end_date { Date.tomorrow }
+    typology 'vacation'
   end
 end
