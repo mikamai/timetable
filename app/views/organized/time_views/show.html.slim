@@ -36,16 +36,15 @@
 
 .row
   .col
+    h5.pt-3 Time entries
     table.time-view-table.table
       tbody
         - if @time_view.time_entries.any?
           = render @time_view.time_entries
-        - if @time_view.time_off_entries.any?
-          = render @time_view.time_off_entries, template: 'time-view'
         - else
           tr
             td(colspan=3)
-              p.alert.alert-info.text-center There are no entries to show.
+              p.alert.alert-info.text-center There are no time entries to show.
       tfoot
         tr.time-entry-total-row.time-entry-row
           th.align-middle.text-right.text-muted Total:
@@ -58,3 +57,24 @@
               - else
                 = link_to new_organization_time_view_time_entry_path(time_view_id: @time_view, as: impersonating_user), class: 'btn btn-primary', role: 'button' do
                   i.icon-plus
+
+.row
+  .col
+    h5 Time off entries
+    table.time-view-table.table
+      tbody
+        - if @time_view.time_off_entries.any?
+          = render @time_view.time_off_entries, template: 'time-view'
+        - else
+          tr
+            td(colspan=3)
+              p.alert.alert-info.text-center There are no time off entries to show.
+      tfoot
+        tr.time-entry-total-row.time-entry-row
+          th.align-middle.text-right.text-muted Total:
+          td.align-middle.text-right
+            = format_distance_of_minutes @time_view.time_off_entries.total_amount
+          td.align-middle.text-right
+            - if policy(@time_view).create?
+              = link_to new_organization_time_off_entry_path, class: 'btn btn-primary', role: 'button' do
+                i.icon-plus
