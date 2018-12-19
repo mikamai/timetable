@@ -34,6 +34,7 @@ module Organized
     def approve
       authorize @time_off_entry
       @time_off_entry.approve
+      TimeOffEntryMailer.confirm_to_user(current_organization, @time_off_entry).deliver_later
       render template: 'organized/time_off_entries/confirmation',
              locals: { status: 'approved' }
     end
@@ -41,6 +42,7 @@ module Organized
     def decline
       authorize @time_off_entry
       @time_off_entry.decline
+      TimeOffEntryMailer.confirm_to_user(current_organization, @time_off_entry).deliver_later
       render template: 'organized/time_off_entries/confirmation',
              locals: { status: 'declined' }
     end
