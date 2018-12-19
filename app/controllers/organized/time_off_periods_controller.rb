@@ -9,6 +9,7 @@ module Organized
 
     def create
       @time_off_period = TimeOffPeriod.new create_params.merge(entries_params)
+      authorize @time_off_period
       if @time_off_period.save
         @time_off_period.time_off_entries.each &:authorize
         @time_off_entry = @time_off_period.time_off_entries.sort_by(&:executed_on).first
@@ -21,12 +22,14 @@ module Organized
     end
 
     def approve
+      authorize @time_off_period
       @time_off_period.update_entries({ status: 'approved' })
       @time_off_period.update({ status: 'approved' })
       render template: 'organized/time_off_periods/confirmation', locals: { status: 'approved' }
     end
 
     def decline
+      authorize @time_off_period
       @time_off_period.update_entries({ status: 'declined' })
       @time_off_period.update({ status: 'declined' })
       render template: 'organized/time_off_periods/confirmation', locals: { status: 'declined' }

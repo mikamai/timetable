@@ -15,7 +15,7 @@ tr.time-entry-row
     = format_distance_of_minutes time_off_entry.amount
   - if template == 'index'
     td.amount.align-middle.text-left
-      = time_off_entry.executed_on
+      = time_off_entry.executed_on.strftime('%A, %b %d')
   td.text-right.align-middle
     - if policy(time_off_entry).update?
       = link_to [:edit, current_organization, time_off_entry], class: 'btn btn-outline-secondary' do

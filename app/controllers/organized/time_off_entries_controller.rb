@@ -32,11 +32,13 @@ module Organized
     end
 
     def approve
+      authorize @time_off_entry
       @time_off_entry.update({ status: 'approved' })
       render template: 'organized/time_off_entries/confirmation', locals: { status: 'approved' }
     end
 
     def decline
+      authorize @time_off_entry
       @time_off_entry.update({ status: 'declined' })
       render template: 'organized/time_off_entries/confirmation', locals: { status: 'declined' }
     end
