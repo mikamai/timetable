@@ -57,6 +57,14 @@ class TimeOffEntry < ApplicationRecord
     amount.to_f / 60
   end
 
+  def approve
+    update_status 'approved'
+  end
+
+  def decline
+    update_status 'declined'
+  end
+
   def authorize
     -> { authorize self }
   end
@@ -67,5 +75,11 @@ class TimeOffEntry < ApplicationRecord
     when 'sick' then 'sick leave'
     else 'vacation'
     end
+  end
+
+  private
+
+  def update_status status
+    self.update({ status: status })    
   end
 end

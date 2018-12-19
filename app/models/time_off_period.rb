@@ -25,6 +25,10 @@ class TimeOffPeriod < ApplicationRecord
 
   before_validation :set_duration
 
+  def self.policy_class
+    Organized::TimeOffPeriodPolicy
+  end
+
   def self.total_days
     sum(:duration)
   end
@@ -45,6 +49,14 @@ class TimeOffPeriod < ApplicationRecord
     end
   end
 
+  def approve
+    update_status_to_self_and_children 'approved'
+  end
+
+  def decline
+    update_status_to_self_and_children 'declined'
+  end
+
   private
 
   def end_date_cannot_come_before_start_date
@@ -54,5 +66,10 @@ class TimeOffPeriod < ApplicationRecord
 
   def set_duration
     self.duration = self.time_off_entries.length
+  end
+
+  def update_status_to_self_and_children status
+    self.update_entries({ status: status })
+    self.update({ status: status })
   end
 end
