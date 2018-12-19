@@ -26,11 +26,6 @@ module Organized
                    location: -> { after_create_or_update_path @time_off_entry }
     end
 
-    def update
-      authorize @time_off_entry
-      @time_off_entry.update_attributes update_params
-    end
-
     def approve
       authorize @time_off_entry
       @time_off_entry.approve

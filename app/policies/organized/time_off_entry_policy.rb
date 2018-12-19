@@ -13,12 +13,20 @@ module Organized
       admin? || user == record.user
     end
 
+    def update?
+      admin? && record_in_scope?
+    end
+
+    def destroy?
+      update?
+    end
+
     def approve?
-      admin?
+      update?
     end
 
     def decline?
-      admin?
+      update?
     end
   end
 end
