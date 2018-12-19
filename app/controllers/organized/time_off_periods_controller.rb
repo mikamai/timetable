@@ -30,7 +30,7 @@ module Organized
     end
 
     def decline
-      # authorize @time_off_period
+      authorize @time_off_period
       @time_off_period.decline
       TimeOffEntryMailer.confirm_to_user(current_organization, @time_off_period).deliver_later
       render template: 'organized/time_off_periods/confirmation',

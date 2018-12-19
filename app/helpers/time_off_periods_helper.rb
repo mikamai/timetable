@@ -2,6 +2,6 @@
 
 module TimeOffPeriodsHelper
   def format_distance_of_days amount
-    "#{amount} days"
+    "#{amount} day#{'s' if amount > 1}"
   end
 end
