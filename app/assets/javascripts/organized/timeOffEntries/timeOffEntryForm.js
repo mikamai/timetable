@@ -2,27 +2,25 @@
 
 $(() => {
   const showForm = val => {
-    const isPaidLeave = val => val.toLowerCase() === 'paid';
-    const isVacation = val => val.toLowerCase() === 'vacation';
-    const isSickLeave = val => val.toLowerCase() === 'sick';
-
     const hide = type => $(`#new_time_off_${type}`).addClass('d-none');
     const show = type => $(`#new_time_off_${type}`).removeClass('d-none');
     const set = (type, typology) =>
       $(`#time_off_${type}_typology`).val(typology);
 
-    switch (true) {
-      case isPaidLeave(val):
+    const typology = val.toLowerCase();
+
+    switch (typology) {
+      case 'paid':
         hide('period');
         show('entry');
         set('entry', 'paid');
         break;
-      case isVacation(val):
+      case 'vacation':
         hide('entry');
         show('period');
         set('period', 'vacation');
         break;
-      case isSickLeave(val):
+      case 'sick':
         hide('entry');
         show('period');
         set('period', 'sick');
@@ -33,13 +31,10 @@ $(() => {
         break;
     }
 
-    switch (true) {
-      case isSickLeave(val):
-        $('#sick-only').removeClass('d-none');
-        break;
-      default:
-        $('#sick-only').addClass('d-none');
-        break;
+    if (typology === 'sick') {
+      $('#sick-only').removeClass('d-none');
+    } else {
+      $('#sick-only').addClass('d-none');
     }
   };
 
