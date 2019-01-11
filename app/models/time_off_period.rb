@@ -43,9 +43,10 @@ class TimeOffPeriod < ApplicationRecord
   end
 
   def friendly_typology
-    case self.typology
-    when 'sick' then 'sick leave'
-    else 'vacation'
+    if self.typology == 'sick'
+      'sick leave'
+    else
+      'vacation'
     end
   end
 
