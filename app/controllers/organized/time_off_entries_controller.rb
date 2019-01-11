@@ -80,9 +80,7 @@ module Organized
 
     def impersonating_user
       return nil unless params[:as]
-      @impersonating_user ||= current_organization.users.find params[:as]
-    rescue ActiveRecord::RecordNotFound
-      nil
+      @impersonating_user ||= current_organization.users.find_by(id: params[:as])
     end
 
     def impersonating_or_current_user
