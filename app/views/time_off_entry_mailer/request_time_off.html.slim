@@ -1,0 +1,12 @@
+p Hello HR,
+
+p= "#{@request.user.name} submitted the following time off request:"
+
+- if @request.typology == 'paid'
+  = render 'organized/time_off_entries/request', time_off_entry: @request
+  = render 'organized/time_off_entries/request_links', time_off_entry: @request
+- else
+  = render 'organized/time_off_periods/request', time_off_period: @request
+  = render 'organized/time_off_periods/request_links', time_off_entry: @request
+
+p See you!

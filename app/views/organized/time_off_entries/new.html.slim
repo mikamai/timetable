@@ -1,0 +1,16 @@
+.row
+  .col
+    h4 New Time Off Entry
+
+.row
+  .col
+    .row.form-group
+      = label_tag :time_off_typology, 'Typology', class: 'col-sm-2 col-form-label'
+      .col-sm-10
+        = select_tag :time_off_typology,
+                  options_for_select({'Vacation' => 'vacation', 'Sick Leave' => 'sick', 'Paid Leave' => 'paid'}, @typology),
+                  { prompt: 'Select one', class: 'form-control' }
+    = form_for [current_organization, @time_off_entry], html: { class: 'd-none' } do |f|
+      = render 'form', f: f
+    = form_for [current_organization, @time_off_period], html: { class: 'd-none' } do |f|
+      = render 'organized/time_off_periods/form', f: f

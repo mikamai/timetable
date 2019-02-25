@@ -1,0 +1,23 @@
+tr.time-entry-row
+  td.align-middle
+    = time_off_period.friendly_typology.capitalize
+    '&nbsp;
+    small.text-muted= "#{time_off_period.status}"
+    - if time_off_period.notes?
+      .description.text-muted
+        small= time_off_period.notes
+  td.amount.align-middle.text-right
+    = format_distance_of_days time_off_period.duration
+  td.amount.align-middle.text-right
+    = time_off_period.start_date.strftime('%A, %b %d')
+  td.amount.align-middle.text-left
+    = time_off_period.end_date.strftime('%A, %b %d')
+
+/!
+  td.text-right.align-middle
+    - if policy(time_off_period).update?
+      = link_to [:edit, current_organization, time_off_period], class: 'btn btn-outline-secondary' do
+        i.icon-pencil
+    - if policy(time_off_period).destroy?
+      = link_to [current_organization, time_off_period], class: 'btn btn-outline-danger ml-2', data: { method: 'delete', confirm: 'Are you sure you want to remove this entry?' } do
+        i.icon-cross

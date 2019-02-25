@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20180710193019) do
+ActiveRecord::Schema.define(version: 20181217151842) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -121,6 +121,32 @@ ActiveRecord::Schema.define(version: 20180710193019) do
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.uuid "project_id", null: false
+  end
+
+  create_table "time_off_entries", id: :uuid, default: -> { "gen_random_uuid()" }, force: :cascade do |t|
+    t.uuid "user_id", null: false
+    t.uuid "organization_id", null: false
+    t.uuid "time_off_period_id"
+    t.date "executed_on", null: false
+    t.integer "amount", null: false
+    t.string "typology", null: false
+    t.string "status", default: "pending"
+    t.string "notes"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+  end
+
+  create_table "time_off_periods", id: :uuid, default: -> { "gen_random_uuid()" }, force: :cascade do |t|
+    t.date "start_date", null: false
+    t.date "end_date", null: false
+    t.uuid "user_id", null: false
+    t.uuid "organization_id", null: false
+    t.integer "duration", null: false
+    t.string "typology", null: false
+    t.string "status", default: "pending"
+    t.string "notes"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
   end
 
   create_table "users", id: :uuid, default: -> { "gen_random_uuid()" }, force: :cascade do |t|

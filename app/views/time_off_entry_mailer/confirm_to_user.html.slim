@@ -1,0 +1,15 @@
+p= "Hello #{@request.user.first_name},"
+
+p= "Your #{@request.friendly_typology} request has been #{@request.status}."
+
+- if @request.typology == 'paid'
+  = render 'organized/time_off_entries/request', time_off_entry: @request
+- else
+  = render 'organized/time_off_periods/request', time_off_period: @request
+
+p
+  'If you have any questions feel free to reach out to
+  = mail_to 'HR@mikamai.com'
+  '.
+
+p Thank you

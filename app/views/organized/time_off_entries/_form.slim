@@ -1,0 +1,21 @@
+= f.hidden_field :typology
+.row.form-group
+  = f.label :executed_on, 'Taken on', class: 'col-sm-2 col-form-label'
+  .col-sm-10
+    = f.date_field :executed_on, class: 'form-control'
+    small.form-text.text-danger= f.object.errors[:executed_on].join ', '
+.row.form-group
+  = f.label :time_amount, class: 'col-sm-2 col-form-label'
+  .col-sm-10
+    = f.text_field :time_amount, class: 'form-control', placeholder: '0:00', autocomplete: 'off'
+    small.form-text.text-muted <code>1</code> for 1 hours, <code>1.5</code> or <code>1:30</code> for 1.5 hours
+    small.form-text.text-danger= f.object.errors[:amount].join ', '
+.row.form-group
+  = f.label :notes, class: 'col-sm-2 col-form-label'
+  .col-sm-10
+    = f.text_area :notes, class: 'form-control'
+    small.form-text.text-muted Please enter start and end time of your leave
+    small.form-text.text-danger= f.object.errors[:notes].join ', '
+.row.justify-content-end
+  .col-sm-10
+    = f.submit class: 'btn btn-primary'

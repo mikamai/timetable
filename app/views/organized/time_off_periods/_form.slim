@@ -1,0 +1,21 @@
+= f.hidden_field :typology
+.row.form-group
+  = f.label :start_date, class: 'col-sm-2 col-form-label'
+  .col-sm-10
+    = f.date_field :start_date, class: 'form-control'
+    small.form-text.text-danger= f.object.errors[:start_date].join ', '
+.row.form-group
+  = f.label :end_date, class: 'col-sm-2 col-form-label'
+  .col-sm-10
+    = f.date_field :end_date, class: 'form-control'
+    small.form-text.text-danger= f.object.errors[:end_date].join ', '
+.row.form-group
+  = f.label :notes, class: 'col-sm-2 col-form-label'
+  .col-sm-10
+    = f.text_area :notes, class: 'form-control'
+    small#sick-only.form-text.text-muted.d-none Please enter your protocol number
+    small.form-text.text-danger= f.object.errors[:notes].join ', '
+.row.justify-content-end
+  .col-sm-10
+    = f.submit class: 'btn btn-primary'
+    

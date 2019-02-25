@@ -1,0 +1,69 @@
+.row.align-items-center
+  .col
+    h4 Time Off Entries
+  .col.text-right
+    = link_to new_organization_time_off_entry_path, class: 'btn btn-primary', role: 'button' do
+      i.icon-plus
+
+.row
+  .col
+    h5 Paid Leaves
+.row
+  .col
+    table.time-view-table.table
+      tbody
+        - if @time_off_entries.any?
+          = render @time_off_entries, template: 'index'
+        - else
+          tr
+            td(colspan=3)
+              p.alert.alert-info.text-center There are no paid leave entries to show.
+      tfoot
+        tr.time-entry-total-row.time-entry-row
+          th.align-middle.text-right.text-muted Total:
+          td.align-middle.text-right
+            = format_distance_of_minutes @time_off_entries.total_amount
+          td
+          td
+
+.row
+  .col
+    h5 Vacations
+.row
+  .col
+    table.time-view-table.table
+      tbody
+        - if @time_off_periods.vacation.any?
+          = render @time_off_periods.vacation
+        - else
+          tr
+            td(colspan=3)
+              p.alert.alert-info.text-center There are no vacation entries to show.
+      tfoot
+        tr.time-entry-total-row.time-entry-row
+          th.align-middle.text-right.text-muted Total:
+          td.align-middle.text-right
+            = format_distance_of_days @time_off_periods.vacation.total_days
+          td
+          td
+
+.row
+  .col
+    h5 Sick leaves
+.row
+  .col
+    table.time-view-table.table
+      tbody
+        - if @time_off_periods.sick.any?
+          = render @time_off_periods.sick
+        - else
+          tr
+            td(colspan=3)
+              p.alert.alert-info.text-center There are no sick leave entries to show.          
+      tfoot
+        tr.time-entry-total-row.time-entry-row
+          th.align-middle.text-right.text-muted Total:
+          td.align-middle.text-right
+            = format_distance_of_days @time_off_periods.sick.total_days
+          td
+          td
