@@ -19,5 +19,8 @@
   },
   "scripts": {
     "postinstall": "bundle exec rails bower:install:deployment"
+  },
+  "engines": {
+    "node": "8.12.0"
   }
 }

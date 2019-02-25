@@ -22,6 +22,7 @@ user.first_name = 'Timetable'
 user.last_name = 'Admin'
 user.password = admin_pass
 user.password_confirmation = admin_pass
+user.confirmed_at = Time.now
 user.admin = true
 user.skip_confirmation!
 user.save!
