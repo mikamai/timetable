@@ -128,7 +128,7 @@ class User < ApplicationRecord
         first_name: auth.info.first_name,
         last_name:  auth.info.last_name,
         openid_uid: auth.uid,
-      ) unless user.external_provider?
+      )
     end
   end
 end
