@@ -31,3 +31,4 @@ public/exports
 /coverage
 cookbook/*.retry
 .ruby-version
+.env
