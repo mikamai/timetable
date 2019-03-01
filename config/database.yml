@@ -2,8 +2,12 @@ default: &default
   adapter: postgresql
   encoding: unicode
   pool: <%= ENV.fetch("RAILS_MAX_THREADS") { 5 } %>
-  username: <%= ENV['POSTGRES_USER'] %>
-  password: <%= ENV['POSTGRES_PASS'] %>
+#  host: <%= ENV['POSTGRES_HOST'] %>
+  host: localhost
+#  username: <%= ENV['POSTGRES_USER'] %>
+#  password: <%= ENV['POSTGRES_PASS'] %>
+  username: timetable
+  password: timetable
 
 development:
   <<: *default

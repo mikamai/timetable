@@ -7,3 +7,4 @@
       p.lead
         = link_to 'Sign in', new_user_session_path, class: 'btn btn-primary btn-lg'
         = link_to 'Sign up', new_user_registration_path, class: 'btn btn-primary btn-lg ml-2'
+        = link_to 'Sign in with your Mikamai account', user_keycloak_omniauth_authorize_path, class: 'btn btn-primary btn-lg ml-2'

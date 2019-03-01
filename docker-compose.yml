@@ -1,0 +1,35 @@
+version: '3.1'
+
+services:
+  postgres:
+    image: postgres:10.5-alpine
+    ports:
+    - "5432:5432"
+    environment:
+      POSTGRES_PASSWORD: timetable
+      POSTGRES_USER: timetable
+      POSTGRES_DB: timetable_development
+    volumes:
+    - "timetable_db:/var/lib/postgresql/data"
+  keycloak_server:
+    image: jboss/keycloak:4.8.3.Final
+    environment:
+      KEYCLOAK_USER: admin
+      KEYCLOAK_PASSWORD: admin
+      DB_VENDOR: postgres
+      DB_ADDR: database
+    ports:
+      - "80:8080"
+    links:
+      - database
+  database:
+    image: postgres:10.5-alpine
+    volumes:
+      - "keycloak_db:/var/lib/postgresql/data"
+    environment:
+      POSTGRES_PASSWORD: password
+      POSTGRES_USER: keycloak
+      POSTGRES_DB: keycloak
+volumes:
+  timetable_db:
+  keycloak_db:

@@ -16,6 +16,7 @@ gem 'scenic'
 gem 'sidekiq', '~> 5.0'
 gem 'sidekiq-scheduler'
 gem 'webpacker'
+gem 'omniauth_openid_connect'
 
 # Uploads
 gem 'carrierwave'
@@ -85,3 +86,5 @@ end
 
 # Windows does not include zoneinfo files, so bundle the tzinfo-data gem
 gem 'tzinfo-data', platforms: %i[mingw mswin x64_mingw jruby]
+
+gem "annotate", "~> 2.7"

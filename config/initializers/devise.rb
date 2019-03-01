@@ -304,6 +304,26 @@ Devise.setup do |config|
   # up on your models and hooks.
   # config.omniauth :github, 'APP_ID', 'APP_SECRET', scope: 'user,public_repo'
 
+  issuer     = ENV.fetch('OP_ISSUER', 'http://localhost')
+  issuer_uri = URI(issuer)
+
+  config.omniauth :openid_connect, {
+    name:           :keycloak,
+    scope:          %i[openid email profile],
+    response_type:  :code,
+    discovery:      true,
+    issuer:         issuer,
+    uid_field:      'preferred_username',
+    client_options: {
+      port:         issuer_uri.port,
+      scheme:       issuer_uri.scheme,
+      host:         issuer_uri.host,
+      identifier:   ENV['OP_CLIENT_ID'],
+      secret:       ENV['OP_SECRET_KEY'],
+      redirect_uri: "#{Rails.env.production? ? 'https' : 'http'}://#{Rails.application.secrets.web_domain}/users/auth/keycloak/callback"
+    },
+  }
+
   # ==> Warden configuration
   # If you want to use other strategies, that are not supported by Devise, or
   # change the failure app, you can configure them inside the config.warden block.
