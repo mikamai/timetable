@@ -163,5 +163,22 @@ RSpec.describe User, type: :model do
              executed_on: Date.today.end_of_week + 1.day, amount: 2401
       expect(subject.without_enough_entries_this_week).to eq [pm.user]
     end
+
+  end
+
+  describe 'omniauth' do
+    subject { create :user }
+    let(:info) { double email: subject.email, first_name: 'openid', last_name: 'openid' }
+    let(:auth) { double uid: SecureRandom.uuid, info: info }
+
+    it 'updates the user if logged in via OpenID' do
+      user = User.from_omniauth(auth)
+      subject.reload
+      expect(subject.email).to eq user.email
+      expect(subject.first_name).to eq 'openid'
+      expect(subject.last_name).to eq 'openid'
+      expect(subject.openid_uid).to eq auth.uid
+    end
+
   end
 end
