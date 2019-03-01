@@ -304,7 +304,7 @@ Devise.setup do |config|
   # up on your models and hooks.
   # config.omniauth :github, 'APP_ID', 'APP_SECRET', scope: 'user,public_repo'
 
-  issuer     = ENV.fetch('OP_ISSUER', 'http://localhost')
+  issuer     = ENV['OP_ISSUER']
   issuer_uri = URI(issuer)
 
   config.omniauth :openid_connect, {
