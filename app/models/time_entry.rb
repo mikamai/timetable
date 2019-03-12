@@ -1,5 +1,27 @@
 # frozen_string_literal: true
 
+# == Schema Information
+#
+# Table name: time_entries
+#
+#  id          :uuid             not null, primary key
+#  amount      :integer          not null
+#  executed_on :date             not null
+#  notes       :string
+#  created_at  :datetime         not null
+#  updated_at  :datetime         not null
+#  project_id  :uuid             not null
+#  task_id     :uuid             not null
+#  user_id     :uuid             not null
+#
+# Foreign Keys
+#
+#  fk_rails_...  (project_id => projects.id)
+#  fk_rails_...  (task_id => tasks.id)
+#  fk_rails_...  (user_id => users.id)
+#
+
+
 class TimeEntry < ApplicationRecord
   include HoursAmount
   WEEK_ID_FORMAT = '%G-%V'

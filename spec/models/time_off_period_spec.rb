@@ -1,3 +1,20 @@
+# == Schema Information
+#
+# Table name: time_off_periods
+#
+#  id              :uuid             not null, primary key
+#  duration        :integer          not null
+#  end_date        :date             not null
+#  notes           :string
+#  start_date      :date             not null
+#  status          :string           default("pending")
+#  typology        :string           not null
+#  created_at      :datetime         not null
+#  updated_at      :datetime         not null
+#  organization_id :uuid             not null
+#  user_id         :uuid             not null
+#
+
 require 'rails_helper'
 
 RSpec.describe TimeOffPeriod, type: :model do
