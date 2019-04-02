@@ -1,11 +1,10 @@
 # frozen_string_literal: true
-
 # == Schema Information
 #
 # Table name: organization_members
 #
 #  id              :bigint(8)        not null, primary key
-#  admin           :boolean          default(FALSE), not null
+#  role            :integer          default(0), not null
 #  organization_id :uuid             not null
 #  user_id         :uuid             not null
 #
@@ -32,6 +31,10 @@ class OrganizationMember < ApplicationRecord
   before_destroy :validate_references
 
   delegate :name, to: :user, prefix: true, allow_nil: true
+
+  # super_user can CRUD over timeEntries (+ timeOffEntries/Periods) for ALL users in organization
+  # this role exists only at the organization level.
+  enum role: %i[user super_user admin]
 
   def self.policy_class
     Organized::OrganizationMemberPolicy

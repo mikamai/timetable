@@ -1,11 +1,10 @@
 # frozen_string_literal: true
-
 # == Schema Information
 #
 # Table name: organization_members
 #
 #  id              :bigint(8)        not null, primary key
-#  admin           :boolean          default(FALSE), not null
+#  role            :integer          default(0), not null
 #  organization_id :uuid             not null
 #  user_id         :uuid             not null
 #
@@ -18,7 +17,6 @@
 #  fk_rails_...  (organization_id => organizations.id)
 #  fk_rails_...  (user_id => users.id)
 #
-
 
 FactoryBot.define do
   factory :organization_member do

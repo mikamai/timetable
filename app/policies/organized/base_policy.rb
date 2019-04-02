@@ -15,6 +15,10 @@ module Organized
       organization_membership.admin?
     end
 
+    def super_user?
+      organization_membership.super_user?
+    end
+
     def record_in_scope?
       return true if user.admin?
       if record.respond_to?(:organization) && record.organization.present?

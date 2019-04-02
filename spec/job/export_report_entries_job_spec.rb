@@ -80,7 +80,7 @@ RSpec.describe ExportReportEntriesJob do
       end
 
       context 'when the user is an admin' do
-        let(:user) { create :user, :organized, organization: organization, org_admin: true }
+        let(:user) { create :user, :organized, organization: organization, org_role: 'admin' }
 
         it 'includes other user entries' do
           create :time_entry, organization: report_entries_export.organization

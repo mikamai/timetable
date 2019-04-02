@@ -17,6 +17,7 @@ module Organized
     def create
       @role = current_organization.roles.build client_params
       authorize @role
+      @role.save
       respond_with current_organization, @role
     end
 
