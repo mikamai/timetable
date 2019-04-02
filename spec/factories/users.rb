@@ -69,12 +69,12 @@ FactoryBot.define do
 
     trait :organized do
       transient do
-        org_admin false
+        org_role 'user'
         organization { create :organization }
       end
 
       after :build do |user, e|
-        user.organization_memberships.build organization: e.organization, admin: e.org_admin
+        user.organization_memberships.build organization: e.organization, role: e.org_role
       end
     end
   end

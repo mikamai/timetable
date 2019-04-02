@@ -153,7 +153,7 @@ RSpec.describe Organized::TimeEntriesController do
     end
 
     context 'when org admin accesses other user entry' do
-      let(:user) { create :user, :organized, organization: organization, org_admin: true }
+      let(:user) { create :user, :organized, organization: organization, org_role: 'admin' }
       let(:time_entry) { create :time_entry, organization: organization }
 
       it 'grants access' do

@@ -9,13 +9,13 @@ RSpec.describe Organized::TimeOffEntryPolicy do
 
   permissions :create? do
     let(:resource) { create :time_off_entry, organization_id: organization_member.organization.id }
-    
+
     it 'denies access if user is not an admin' do
       expect(subject).not_to permit(organization_member, resource)
     end
 
     it 'grants access if user is an organization admin' do
-      organization_member.update_column :admin, true
+      organization_member.update_column :role, 'admin'
       expect(subject).to permit(organization_member, resource)
     end
 
@@ -35,12 +35,12 @@ RSpec.describe Organized::TimeOffEntryPolicy do
     it 'denies access if resource is not in the same organization' do
       organization = create :organization
       resource = create :time_off_entry, organization_id: organization.id
-      organization_member.update_column :admin, true
+      organization_member.update_column :role, 'admin'
       expect(subject).not_to permit(organization_member, resource)
     end
 
     it 'grants access if user is an organization admin' do
-      organization_member.update_column :admin, true
+      organization_member.update_column :role, 'admin'
       expect(subject).to permit(organization_member, resource)
     end
   end

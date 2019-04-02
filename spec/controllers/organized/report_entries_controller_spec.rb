@@ -56,7 +56,7 @@ RSpec.describe Organized::ReportEntriesController do
     end
 
     context 'when org admin accesses' do
-      let(:user) { create :user, :organized, organization: organization, org_admin: true }
+      let(:user) { create :user, :organized, organization: organization, org_role: 'admin' }
 
       before do
         sign_in user

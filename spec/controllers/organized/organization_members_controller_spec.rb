@@ -39,7 +39,7 @@ RSpec.describe Organized::OrganizationMembersController do
     include_examples 'authentication'
 
     context 'when org admin accesses' do
-      let(:user) { create :user, :organized, organization: organization, org_admin: true }
+      let(:user) { create :user, :organized, organization: organization, org_role: 'admin' }
 
       before do
         sign_in user
@@ -69,7 +69,7 @@ RSpec.describe Organized::OrganizationMembersController do
     include_examples 'authentication'
 
     context 'when org admin accesses' do
-      let(:user) { create :user, :organized, organization: organization, org_admin: true }
+      let(:user) { create :user, :organized, organization: organization, org_role: 'admin' }
 
       before do
         sign_in user
@@ -96,7 +96,7 @@ RSpec.describe Organized::OrganizationMembersController do
     include_examples 'authentication'
 
     context 'when org admin accesses' do
-      let(:user) { create :user, :organized, organization: organization, org_admin: true }
+      let(:user) { create :user, :organized, organization: organization, org_role: 'admin' }
 
       before do
         sign_in user
@@ -135,7 +135,7 @@ RSpec.describe Organized::OrganizationMembersController do
     include_examples 'authentication'
 
     context 'when org admin accesses' do
-      let(:user) { create :user, :organized, organization: organization, org_admin: true }
+      let(:user) { create :user, :organized, organization: organization, org_role: 'admin' }
 
       before do
         sign_in user
@@ -150,7 +150,7 @@ RSpec.describe Organized::OrganizationMembersController do
     end
 
     context 'prevents access to other organizations' do
-      let(:user) { create :user, :organized, organization: organization, org_admin: true }
+      let(:user) { create :user, :organized, organization: organization, org_role: 'admin' }
       let(:organization_member) { create :organization_member }
 
       before { sign_in user }
@@ -171,7 +171,7 @@ RSpec.describe Organized::OrganizationMembersController do
     include_examples 'authentication'
 
     context 'when org admin accesses' do
-      let(:user) { create :user, :organized, organization: organization, org_admin: true }
+      let(:user) { create :user, :organized, organization: organization, org_role: 'admin' }
 
       before do
         sign_in user
@@ -182,21 +182,21 @@ RSpec.describe Organized::OrganizationMembersController do
 
       context 'for a plain organization member' do
         it 'grants admin privileges' do
-          expect { organization_member.reload }.to change(organization_member, :admin?).to true
+          expect { organization_member.reload }.to change(organization_member, :role).to 'admin'
         end
       end
 
       context 'for an admin organization member' do
-        let(:organization_member) { create :organization_member, organization: organization, admin: true }
+        let(:organization_member) { create :organization_member, organization: organization, role: 'admin' }
 
         it 'removes admin privileges' do
-          expect { organization_member.reload }.to change(organization_member, :admin?).to false
+          expect { organization_member.reload }.to change(organization_member, :role).to 'user'
         end
       end
     end
 
     context 'prevents access to other organizations' do
-      let(:user) { create :user, :organized, organization: organization, org_admin: true }
+      let(:user) { create :user, :organized, organization: organization, org_role: 'admin' }
       let(:organization_member) { create :organization_member }
 
       before { sign_in user }
@@ -218,7 +218,7 @@ RSpec.describe Organized::OrganizationMembersController do
     include_examples 'authentication'
 
     context 'when org admin accesses' do
-      let(:user) { create :user, :organized, organization: organization, org_admin: true }
+      let(:user) { create :user, :organized, organization: organization, org_role: 'admin' }
 
       before do
         sign_in user
@@ -235,7 +235,7 @@ RSpec.describe Organized::OrganizationMembersController do
     end
 
     context 'prevents access to other organizations' do
-      let(:user) { create :user, :organized, organization: organization, org_admin: true }
+      let(:user) { create :user, :organized, organization: organization, org_role: 'admin' }
       let(:organization_member) { create :organization_member }
 
       before { sign_in user }

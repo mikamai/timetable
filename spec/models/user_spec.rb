@@ -105,17 +105,17 @@ RSpec.describe User, type: :model do
 
   describe '#admin_in_organization?' do
     it 'returns true if the user is admin for the given organization' do
-      subject = create :user, :organized, org_admin: true
+      subject = create :user, :organized, org_role: 'admin'
       expect(subject).to be_admin_in_organization subject.organizations.first
     end
 
     it 'returns false if the user is admin for the given organization' do
-      subject = create :user, :organized, org_admin: false
+      subject = create :user, :organized, org_role: 'user'
       expect(subject).not_to be_admin_in_organization subject.organizations.first
     end
 
     it 'manages to work if just the organization id is provided' do
-      subject = create :user, :organized, org_admin: true
+      subject = create :user, :organized, org_role: 'admin'
       expect(subject).to be_admin_in_organization subject.organizations.first.id
     end
 

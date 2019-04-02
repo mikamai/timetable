@@ -16,7 +16,7 @@ RSpec.describe Organized::OrganizationMemberPolicy do
     end
 
     it 'grants access if user is an organization admin' do
-      organization_member.update_column :admin, true
+      organization_member.update_column :role, 'admin'
       expect(subject).to permit(organization_member, resource)
     end
   end
@@ -29,7 +29,7 @@ RSpec.describe Organized::OrganizationMemberPolicy do
     end
 
     it 'grants access if user is an organization admin' do
-      organization_member.update_column :admin, true
+      organization_member.update_column :role, 'admin'
       expect(subject).to permit(organization_member, resource)
     end
   end
@@ -43,12 +43,12 @@ RSpec.describe Organized::OrganizationMemberPolicy do
 
     it 'denies access if organization_member belongs to different organization' do
       resource.update_attribute :organization, create(:organization)
-      organization_member.update_column :admin, true
+      organization_member.update_column :role, 'admin'
       expect(subject).not_to permit(organization_member, resource)
     end
 
     it 'grants access if user is an organization admin' do
-      organization_member.update_column :admin, true
+      organization_member.update_column :role, 'admin'
       expect(subject).to permit(organization_member, resource)
     end
   end
@@ -58,13 +58,13 @@ RSpec.describe Organized::OrganizationMemberPolicy do
 
     it 'denies access if resource is not destroyable' do
       expect(resource).to receive(:destroyable?).and_return false
-      organization_member.update_column :admin, true
+      organization_member.update_column :role, 'admin'
       expect(subject).not_to permit(organization_member, resource)
     end
 
     it 'denies access if organization_member belongs to different organization' do
       resource.update_attribute :organization, create(:organization)
-      organization_member.update_column :admin, true
+      organization_member.update_column :role, 'admin'
       expect(subject).not_to permit(organization_member, resource)
     end
 
@@ -73,7 +73,7 @@ RSpec.describe Organized::OrganizationMemberPolicy do
     end
 
     it 'grants access if user is an organization admin' do
-      organization_member.update_column :admin, true
+      organization_member.update_column :role, 'admin'
       expect(subject).to permit(organization_member, resource)
     end
   end
