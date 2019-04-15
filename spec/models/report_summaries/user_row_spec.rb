@@ -18,7 +18,7 @@ RSpec.describe ReportSummaries::UserRow do
     it 'sums all entries of the same project' do
       te = create :time_entry, amount: 1
       create :time_entry, amount: 2, organization: te.organization,
-             user: te.user
+             user: te.user, project: te.project
       res = described_class.build_from_scope TimeEntry
       expect(res.length).to eq 1
       expect(res[0].amount).to eq 3

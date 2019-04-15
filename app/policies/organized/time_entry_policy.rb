@@ -9,14 +9,6 @@ module Organized
       end
     end
 
-    def index?
-      admin? || super_user? || user == record[0].user
-    end
-
-    def index_project?
-      index?
-    end
-
     def create?
       admin? || super_user? || user == record.user
     end

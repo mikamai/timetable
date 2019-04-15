@@ -17,6 +17,10 @@ gem 'sidekiq', '~> 5.0'
 gem 'sidekiq-scheduler'
 gem 'webpacker'
 gem 'omniauth_openid_connect'
+gem 'simple_command', '~> 0.0.9'
+
+# Manage JWT tokens
+gem 'json-jwt', '~> 1.9'
 
 # Uploads
 gem 'carrierwave'
@@ -86,5 +90,5 @@ end
 
 # Windows does not include zoneinfo files, so bundle the tzinfo-data gem
 gem 'tzinfo-data', platforms: %i[mingw mswin x64_mingw jruby]
-
+gem 'dry-transaction'
 gem "annotate", "~> 2.7"

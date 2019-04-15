@@ -12,7 +12,7 @@ module Timetable
   class Application < Rails::Application
     # Use the responders controller from the responders gem
     config.app_generators.scaffold_controller :responders_controller
-
+    load(Rails.root.join('lib/friendly_id/finder_methods/friendly_id.rb'))
     config.load_defaults 5.1
 
     config.generators do |g|
