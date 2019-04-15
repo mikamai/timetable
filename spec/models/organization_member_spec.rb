@@ -4,7 +4,7 @@
 # Table name: organization_members
 #
 #  id              :bigint(8)        not null, primary key
-#  role            :integer          default(0), not null
+#  role            :integer          default("user"), not null
 #  organization_id :uuid             not null
 #  user_id         :uuid             not null
 #

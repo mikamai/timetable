@@ -61,7 +61,7 @@ RSpec.describe TimeEntry, type: :model do
     it 'require the user to be in the same project organization' do
       subject.user = create :user
       subject.project = create :project
-      expect(subject).to have(1).error_on :project
+      expect(subject).to have(2).error_on :project
     end
 
     it 'require the task to be one of the project tasks' do
@@ -72,17 +72,24 @@ RSpec.describe TimeEntry, type: :model do
 
     it 'pass when all constraints are met' do
       subject.user = create :user, :organized
-      subject.project = create :project, :with_tasks, organization: subject.user.organizations.first
+      subject.project = create :project, :with_tasks, organization: subject.user.organizations.first, users: [subject.user]
       subject.task = subject.project.tasks.first
       subject.executed_on = Date.today
       subject.amount = 1
       expect(subject).to be_valid
     end
 
-    it 'does not require organization integrity on update' do
+    it 'requires organization integrity on update when sensitive fields are changed' do
       subject = create :time_entry
       subject.project = create :project
       subject.task = create :task
+      expect(subject).not_to be_valid
+    end
+
+    it 'does not requires organization integrity on update when sensitive fields are not changed' do
+      subject = create :time_entry
+      subject.user.membership_in(subject.project.organization).destroy
+      subject.amount = 2
       expect(subject).to be_valid
     end
   end

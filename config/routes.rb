@@ -56,6 +56,22 @@ Rails.application.routes.draw do
     end
   end
 
+  namespace :api do
+    get 'users/me', controller: :api, action: :me, as: :users_me
+    resources :organizations, only: [], path: 'orgs' do
+      resources :users, only: [] do
+        resources :time_views, only: [], path: :time do
+          resources :time_entries, only: %i[index], path: :entries
+          resources :projects, only: [] do
+            get 'entries', controller: :time_entries, action: :index_project, as: :time_entries_project
+            resources :time_entries, only: :create, path: :entries
+          end
+        end
+        resources :time_entries, only: %i[edit update destroy], path: :entries
+      end
+    end
+  end
+
   resources :organizations, only: %i[new create]
 
   get 'no_organization' => 'home#no_organization'

@@ -4,7 +4,7 @@ module Organized
   class TimeViewPolicy < BasePolicy
     def show?
       return true if record.respond_to?(:user) && record_in_scope? && record.user == user
-      admin? && record_in_scope?
+      (admin? || super_user?) && record_in_scope?
     end
 
     def create?

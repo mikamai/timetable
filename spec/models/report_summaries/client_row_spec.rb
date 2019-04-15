@@ -17,8 +17,8 @@ RSpec.describe ReportSummaries::ClientRow do
 
     it 'sums all entries of the same client' do
       te = create :time_entry, amount: 1
-      create :time_entry, amount: 2, organization: te.organization,
-             project: create(:project, organization: te.organization, client: te.client)
+      create :time_entry, amount: 2, organization: te.organization, user: te.user,
+             project: create(:project, organization: te.organization, client: te.client, users: [te.user])
       res = described_class.build_from_scope TimeEntry
       expect(res.length).to eq 1
       expect(res[0].amount).to eq 3

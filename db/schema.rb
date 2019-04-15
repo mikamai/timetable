@@ -162,6 +162,7 @@ ActiveRecord::Schema.define(version: 20190401103613) do
     t.inet "last_sign_in_ip"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+    t.boolean "admin", default: false, null: false
     t.string "first_name"
     t.string "last_name"
     t.string "confirmation_token"
@@ -176,7 +177,6 @@ ActiveRecord::Schema.define(version: 20190401103613) do
     t.uuid "invited_by_id"
     t.integer "invitations_count", default: 0
     t.uuid "openid_uid"
-    t.boolean "admin", default: false, null: false
     t.index ["email"], name: "index_users_on_email", unique: true
     t.index ["invitation_token"], name: "index_users_on_invitation_token", unique: true
     t.index ["invitations_count"], name: "index_users_on_invitations_count"

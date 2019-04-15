@@ -49,8 +49,9 @@ class TimeEntry < ApplicationRecord
               greater_than: 0,
               allow_nil:    true
             }
-  validate  :validate_project_in_user_organization, on: :create
-  validate  :validate_task_in_project, on: :create
+  validate :validate_project_in_user_organization, on: %i[create update], if: :validate_project?
+  validate :validate_user_in_project, on: %i[create update], if: :validate_user?
+  validate :validate_task_in_project, on: %i[create update], if: :validate_task?
 
   delegate :name, to: :project, prefix: true, allow_nil: true
   delegate :name, to: :client, prefix: true, allow_nil: true
@@ -84,8 +85,25 @@ class TimeEntry < ApplicationRecord
     errors.add :project, :forbidden
   end
 
+  def validate_user_in_project
+    return if user.nil? || project.nil? || (project.reload && project.users.include?(user) )
+    errors.add :project, :forbidden
+  end
+
   def validate_task_in_project
     return if task.nil? || project.nil? || task.project_ids.include?(project.id)
     errors.add :task, :forbidden
+  end
+
+  def validate_project?
+    :project_id_changed? || :user_id_changed?
+  end
+
+  def validate_user?
+    :project_id_changed? || :user_id_changed?
+  end
+
+  def validate_task?
+    :project_id_changed? || :task_id_changed?
   end
 end
