@@ -18,6 +18,15 @@ class Api::ApiController < ActionController::API
     return_json_error "Forbidden", :forbidden
   end
 
+=begin
+@api {get} api/users/me Read user
+  @apiName GetUserId
+  @apiGroup Users
+  @apiDescription Read ID of api user
+
+  @apiSuccess (200) {String} id Id of the user
+=end
+
   def me
     render json: { "id": @api_user.id }
   end
