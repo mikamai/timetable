@@ -78,18 +78,18 @@ jobs:
 
 workflows:
   version: 2
-    build:
-      jobs:
-        - test
-        - documentation:
-            filters:
-              branches:
-                - master
-        - docs-deploy:
-            requires:
-              - test
-              - documentation
-            filters:
-              branches:
-                - master
+  build:
+    jobs:
+      - test
+      - documentation:
+          filters:
+            branches:
+              - master
+      - docs-deploy:
+          requires:
+            - test
+            - documentation
+          filters:
+            branches:
+              - master
 
