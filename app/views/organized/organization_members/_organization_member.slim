@@ -1,11 +1,16 @@
 tr(class="#{'font-weight-bold' if organization_member.admin?}")
   td= user_table_name organization_member.user
   td
-    - if policy(organization_member).toggle_admin?
+    - if policy(organization_member).update_role?
       - organization = organization_member.organization
-      = link_to [:toggle_admin, organization, organization_member], \
-                class: 'toggle_admin', data: { method: 'patch' } do
-        span.icon-check(class='#{organization_member.admin? ? 'active' : 'inactive'}')
+      span.dropdown
+        button.btn.dropdown-toggle(data-toggle='dropdown') #{organization_member.role.humanize}
+        .dropdown-menu
+          - OrganizationMember.roles.except(organization_member.role).keys.each do |role|
+            = link_to role.humanize, [:update_role, organization, organization_member, role: role],
+            class: 'dropdown-item', data: { method: 'patch' }
+    - else
+      button.btn #{organization_member.role.humanize}
   td
     - if policy(organization_member).resend_invitation?
       = link_to [:resend_invitation, current_organization, organization_member], class: 'btn btn-outline-success ml-2', data: { method: 'patch' } do

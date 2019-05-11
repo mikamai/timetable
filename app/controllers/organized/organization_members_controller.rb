@@ -26,12 +26,11 @@ module Organized
       respond_with current_organization, @organization_member
     end
 
-    def toggle_admin
-      toggle_role 'admin'
-    end
-
-    def toggle_super_user
-      toggle_role 'super_user'
+    def update_role
+      @organization_member = current_organization.members.find params[:id]
+      authorize @organization_member
+      @organization_member.update_attributes role: params[:role]
+      respond_with current_organization, @organization_member
     end
 
     def destroy
@@ -42,14 +41,6 @@ module Organized
     end
 
     private
-
-    def toggle_role role
-      @organization_member = current_organization.members.find params[:id]
-      authorize @organization_member
-      new_role = @organization_member.role == role ? 'user' : role
-      @organization_member.update_attribute :role, new_role
-      respond_with current_organization, @organization_member
-    end
 
     def create_params
       params.require(:organization_member).permit :user_email

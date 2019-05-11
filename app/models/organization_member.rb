@@ -27,6 +27,8 @@ class OrganizationMember < ApplicationRecord
   validates :user,
             uniqueness: { scope: :organization_id }
 
+  validates :user_id, presence: :true
+
   before_destroy :validate_references
 
   delegate :name, to: :user, prefix: true, allow_nil: true
