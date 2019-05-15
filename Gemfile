@@ -18,6 +18,7 @@ gem 'sidekiq-scheduler'
 gem 'webpacker'
 gem 'omniauth_openid_connect'
 gem 'simple_command', '~> 0.0.9'
+gem 'dotenv-rails', '~> 2.7', require: 'dotenv/rails-now'
 
 # Manage JWT tokens
 gem 'json-jwt', '~> 1.9'
