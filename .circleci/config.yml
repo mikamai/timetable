@@ -84,12 +84,14 @@ workflows:
       - documentation:
           filters:
             branches:
-              - master
+              only:
+                - master
       - docs-deploy:
           requires:
             - test
             - documentation
           filters:
             branches:
-              - master
+              only:
+                - master
 
