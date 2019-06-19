@@ -1,0 +1,2 @@
+kustomization.yml filter=git-crypt diff=git-crypt
+ecr-refresh-credentials.yml filter=git-crypt diff=git-crypt

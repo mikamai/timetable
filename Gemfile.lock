@@ -229,6 +229,8 @@ GEM
     pundit (1.1.0)
       activesupport (>= 3.0.0)
     rack (2.0.4)
+    rack-heartbeat (1.1.0)
+      rack
     rack-oauth2 (1.9.3)
       activesupport
       attr_required
@@ -440,6 +442,7 @@ DEPENDENCIES
   pry
   puma (~> 3.7)
   pundit
+  rack-heartbeat (~> 1.1)
   rails (~> 5.1.4)
   rails-controller-testing
   ransack!
@@ -469,4 +472,4 @@ RUBY VERSION
    ruby 2.4.2p198
 
 BUNDLED WITH
-   1.17.1
+   1.17.3

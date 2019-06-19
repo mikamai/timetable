@@ -1,0 +1,50 @@
+apiVersion: extensions/v1beta1
+kind: Deployment
+metadata:
+  name: timetable-worker
+  labels:
+    app.kubernetes.io/name: timetable-worker
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app.kubernetes.io/name: timetable-worker
+  strategy:
+    type: RollingUpdate
+    rollingUpdate:
+      maxSurge: 1
+      maxUnavailable: 0
+
+  template:
+    metadata:
+      labels:
+        app.kubernetes.io/name: timetable-worker
+    spec:
+      imagePullSecrets:
+      - name: ecr
+      nodeSelector:
+        mikamai.com/reserved-for: mikamai
+      tolerations:
+        - effect: NoSchedule
+          key: mikamai.com/reserved-for
+          operator: Equal
+          value: mikamai
+      containers:
+      - name: worker
+        image: 281705687666.dkr.ecr.eu-west-1.amazonaws.com/mikamai/timetable:latest
+        envFrom:
+          - secretRef:
+              name: timetable-secrets
+          - secretRef:
+              name: db-secrets
+          - configMapRef:
+              name: timetable-config
+
+        command: ["bundle"]
+        args: ["exec", "sidekiq", "-C", "config/sidekiq.yml"]
+
+      initContainers:
+        - name: wait-for-app-startup
+          image: busybox
+          imagePullPolicy: Always
+          command: ['sh', '-c', 'until nslookup $(WEB_SERVICE_NAME); do echo waiting for $(WEB_SERVICE_NAME); sleep 2; done;']

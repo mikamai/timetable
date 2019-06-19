@@ -1,0 +1,17 @@
+apiVersion: extensions/v1beta1
+kind: Ingress
+metadata:
+  name: timetable-web
+spec:
+  tls:
+    - hosts:
+        - timetable.mikamai.com
+      secretName: timetable-web-cert
+  rules:
+    - host: timetable.mikamai.com
+      http:
+        paths:
+          - path: "/"
+            backend:
+              serviceName: timetable-web
+              servicePort: http

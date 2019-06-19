@@ -1,0 +1,46 @@
+# Ignore bundler config.
+/.bundle
+
+# Ignore all logfiles and tempfiles.
+/log/*
+/tmp/*
+!/log/.keep
+!/tmp/.keep
+
+# Ignore uploaded files in development
+/storage/*
+!/storage/.keep
+
+.byebug_history
+
+.env
+.env.*
+
+/coverage
+.idea/
+.git-crypt/
+*.iml
+.scannerwork/
+rubocop-report.json
+
+storage
+spec/
+# Ignore master key for decrypting credentials and more.
+/config/master.key
+.editorconfig
+.gitignore
+.gitlab-ci.yml
+.rspec
+.rubocop.yml
+rspec/
+.ruby-version
+.ruby-gemset
+.tool-versions
+.simplecov
+CONTRIBUTING.md
+KEYCLOAK.md
+README.md
+Dockerfile
+sonar-project.properties
+kubernetes
+docker-compose.yml

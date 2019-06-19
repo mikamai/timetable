@@ -1,0 +1,71 @@
+apiVersion: extensions/v1beta1
+kind: Deployment
+metadata:
+  name: timetable-web
+  labels:
+    app.kubernetes.io/name: timetable-web
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app.kubernetes.io/name: timetable-web
+  strategy:
+    type: RollingUpdate
+    rollingUpdate:
+      maxSurge: 1
+      maxUnavailable: 0
+
+  template:
+    metadata:
+      labels:
+        app.kubernetes.io/name: timetable-web
+    spec:
+      imagePullSecrets:
+      - name: ecr
+      nodeSelector:
+        mikamai.com/reserved-for: mikamai
+      tolerations:
+        - effect: NoSchedule
+          key: mikamai.com/reserved-for
+          operator: Equal
+          value: mikamai
+      containers:
+      - name: web
+        image: 281705687666.dkr.ecr.eu-west-1.amazonaws.com/mikamai/timetable:latest
+        ports:
+          - name: http
+            containerPort: 3000
+            protocol: TCP
+        livenessProbe:
+          httpGet:
+            path: /heartbeat
+            port: http
+        readinessProbe:
+          httpGet:
+            path: /heartbeat
+            port: http
+        envFrom:
+          - secretRef:
+              name: timetable-secrets
+          - secretRef:
+              name: db-secrets
+          - configMapRef:
+              name: timetable-config
+
+        command: ["bundle"]
+        args: ["exec", "puma", "-C", "config/puma.rb"]
+
+      initContainers:
+        - name: web-migrator
+          image: 281705687666.dkr.ecr.eu-west-1.amazonaws.com/mikamai/timetable:latest
+          imagePullPolicy: Always
+          envFrom:
+          - secretRef:
+              name: timetable-secrets
+          - secretRef:
+              name: db-secrets
+          - configMapRef:
+              name: timetable-config
+
+          command: ["bundle"]
+          args: ["exec", "rails", "db:migrate"]

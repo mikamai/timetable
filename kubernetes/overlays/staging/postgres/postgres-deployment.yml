@@ -1,0 +1,31 @@
+apiVersion: extensions/v1beta1
+kind: Deployment
+metadata:
+  name: postgres
+  labels:
+    app.kubernetes.io/name: rails-db
+spec:
+  strategy:
+    type: Recreate
+  template:
+    metadata:
+      labels:
+        app.kubernetes.io/name: rails-db
+    spec:
+      containers:
+        - image: postgres:10.5-alpine
+          name: postgres
+          envFrom:
+            - secretRef:
+                name: db-secrets
+          ports:
+            - containerPort: 5432
+              name: postgres
+          volumeMounts:
+            - name: postgres
+              mountPath: /var/lib/postgresql/data
+              subPath: db
+      volumes:
+        - name: postgres
+          persistentVolumeClaim:
+            claimName: postgres-claim

@@ -1,0 +1,15 @@
+apiVersion: extensions/v1beta1
+kind: Deployment
+metadata:
+  name: timetable-web
+spec:
+  replicas: 1
+
+---
+
+apiVersion: extensions/v1beta1
+kind: Deployment
+metadata:
+  name: timetable-worker
+spec:
+  replicas: 1
