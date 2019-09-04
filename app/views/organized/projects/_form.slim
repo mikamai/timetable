@@ -33,7 +33,7 @@
               .row.form-inline
                 .col
                   select#available-users-for-project.form-control
-                    - available_users.each do |user|
+                    - @all_users.each do |user|
                       option(value=user.id data-email=user.email)= user.name
                 .col-2.text-right
                   = link_to_add_association f, :members, class: 'btn btn-outline-primary ml-2', \

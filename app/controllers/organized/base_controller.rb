@@ -3,7 +3,7 @@
 module Organized
   class BaseController < ApplicationController
     before_action :authenticate_user!
-    before_action :set_current_organization
+    before_action :set_current_organization, :all_users
 
     helper_method :available_clients, :available_projects_for, :available_tasks,
                   :available_users, :available_roles, :pundit_user,
@@ -50,6 +50,28 @@ module Organized
 
     def available_users
       @available_users ||= current_organization.users.confirmed.by_name
+    end
+
+    #map + reduce
+    def all_users
+      theusers = []
+      available_organizations.each do |orga|
+        #puts "#############################################"
+        #puts organization.name
+        #puts organization.inspect
+              #<Organization id: "7879c6cc-4a40-49f8-bd31-26ab836df5d2", name: "Mikamai", slug: "mikamai", created_at: "2019-09-04 15:01:32", updated_at: "2019-09-04 15:01:32">
+        #current_user.organizations.friendly.find organization_param
+              #all_users.push(organization.users)
+        #organization.users.each do |user|
+        #  puts "++++++++++++++++++++++"
+        #  puts user.inspect
+        #  users.push(user)
+        #end
+        theusers += orga.users
+      end
+      #puts all_users.inspect
+      #all_users.push("coucou")
+       theusers
     end
 
     def available_roles

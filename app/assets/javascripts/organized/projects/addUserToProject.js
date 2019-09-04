@@ -14,6 +14,7 @@ $(() => {
     const availableUsers = allUsers.filter((i, el) => (
       selectedUserIds.indexOf($(el).val()) === -1
     ));
+    //const availableUsers = allUsers;
     if (availableUsers.length > 0) {
       $userSelect.empty().removeAttr('disabled').append(availableUsers);
       $('.add_fields', $usersTable).removeClass('disabled');
