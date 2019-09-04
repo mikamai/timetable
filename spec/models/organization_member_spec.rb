@@ -29,7 +29,7 @@ RSpec.describe OrganizationMember, type: :model do
     end
 
     it 'require a user' do
-      expect(subject).to have(1).error_on :user
+      expect(subject).to have(2).error_on :user
       subject.user = build :user
       expect(subject).to have(0).errors_on :user
     end

@@ -34,7 +34,7 @@ RSpec.describe Organized::OrganizationMemberPolicy do
     end
   end
 
-  permissions :show?, :toggle_admin? do
+  permissions :show?, :update_role? do
     let(:resource) { create :organization_member, organization: organization }
 
     it 'denies access if user is not an admin' do
