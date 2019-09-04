@@ -25,9 +25,8 @@ class OrganizationMember < ApplicationRecord
   scope :by_user_name, -> { includes(:user).order 'users.last_name', 'users.first_name' }
 
   validates :user,
-            uniqueness: { scope: :organization_id }
-
-  validates :user_id, presence: :true
+            uniqueness: { scope: :organization_id },
+            presence: true
 
   before_destroy :validate_references
 
