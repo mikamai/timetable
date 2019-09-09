@@ -65,6 +65,15 @@ class TimeEntry < ApplicationRecord
     sum(:amount)
   end
 
+  def self.testlauris
+    150 #150 minutes = 2.5 heures
+  end
+
+  #def self.totalByProjectSoFar
+  #  TimeEntry.where(project_id: '1c579963-f60b-444f-ac20-0856445247fd').where(user_id: 'c355c623-1335-4153-98ff-426cc0ef4d7e').sum("amount")
+    #TimeEntry.where(project_id: '1c579963-f60b-444f-ac20-0856445247fd').where(user_id: user.id).sum("amount")
+  #end
+
   def notes?
     notes.present?
   end

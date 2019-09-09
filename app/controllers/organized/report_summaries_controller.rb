@@ -10,34 +10,42 @@ module Organized
     end
 
     def clients
-      @rows = ReportSummaries::ClientRow.build_from_scope time_entries
+      @rows = ReportSummaries::ClientRow.build_from_scope time_entries_one_week
+      #@time_entries_by_project = policy_scope(TimeEntry.in_organization(current_organization))
       render 'show'
     end
 
     def projects
-      @rows = ReportSummaries::ProjectRow.build_from_scope time_entries
+      @rows = ReportSummaries::ProjectRow.build_from_scope time_entries_one_week
+      #@time_entries_by_project = policy_scope(TimeEntry.in_organization(current_organization))
       render 'show'
     end
 
     def tasks
-      @rows = ReportSummaries::TaskRow.build_from_scope time_entries
+      @rows = ReportSummaries::TaskRow.build_from_scope time_entries_one_week
+      #@time_entries_by_project = policy_scope(TimeEntry.in_organization(current_organization))
       render 'show'
     end
 
     def team
-      @rows = ReportSummaries::UserRow.build_from_scope time_entries
+      @rows = ReportSummaries::UserRow.build_from_scope time_entries_one_week
+      #@time_entries_by_project =  policy_scope(TimeEntry.in_organization(current_organization))
       render 'show'
     end
 
     private
 
-    def time_entries
-      @time_entries ||= policy_scope(
+    def time_entries_one_week
+      @time_entries_one_week ||= policy_scope(
         TimeEntry.in_organization(current_organization)
                  .executed_since(@beginning_of_week)
                  .executed_until(@end_of_week)
       )
     end
+
+    #def time_entries_by_project
+    #  @time_entries_by_project = TimeEntry.in_organization(current_organization)
+    #end
 
     def set_week_range
       year, week = params[:id].split('-').map &:to_i

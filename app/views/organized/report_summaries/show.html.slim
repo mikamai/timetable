@@ -4,6 +4,7 @@
       = l @beginning_of_week, format: :report
       | &nbsp;-&nbsp;
       = l @end_of_week, format: :report
+
   .col.text-right
     .btn-group
       = link_to url_for(id: (@beginning_of_week - 1.week).strftime("%G-%V")), class: 'btn btn-secondary' do
@@ -16,7 +17,10 @@
     table.table
       tbody
         th(scope='row') Hours Tracked
-        td= format_distance_of_minutes_as_hours @time_entries.total_amount
+        td= format_distance_of_minutes_as_hours @time_entries_one_week.total_amount
+      //tbody
+      //  th(scope='row') Total Hours Tracked
+      //  td= format_distance_of_minutes_as_hours @time_entries_by_project.total_amount
 
 .row
   .col
