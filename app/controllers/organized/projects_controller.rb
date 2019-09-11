@@ -8,7 +8,7 @@ module Organized
     def index
       @q = search_projects
       @projects = @q.result.includes(:client).page(params[:page])
-      #authorize Project
+      authorize Project
       respond_with current_organization, @projects
     end
 

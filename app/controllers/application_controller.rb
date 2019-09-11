@@ -14,6 +14,10 @@ class ApplicationController < ActionController::Base
 
   self.responder = ApplicationResponder
 
+  rescue_from ActiveRecord::RecordNotFound do |e|
+    render html: '<div>ActiveRecord::RecordNotFound</div>'.html_safe, status: 404
+  end
+
   protected
 
   def configure_permitted_parameters

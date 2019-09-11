@@ -3,19 +3,19 @@
 module Organized
   class ProjectPolicy < BasePolicy
     def index?
-      admin?
+      record_in_scope?
     end
 
     def create?
-      index?
+      admin?
     end
 
     def update?
-      index? && record_in_scope? && !record.deleted?
+      admin?
     end
 
     def destroy?
-      index? && record_in_scope?
+      admin?
     end
 
     def show?

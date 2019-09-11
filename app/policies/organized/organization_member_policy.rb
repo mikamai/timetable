@@ -3,7 +3,7 @@
 module Organized
   class OrganizationMemberPolicy < BasePolicy
     def index?
-      admin?
+      record_in_scope?
     end
 
     def create?
