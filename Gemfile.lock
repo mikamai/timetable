@@ -243,11 +243,16 @@ GEM
     puma (3.12.1)
     pundit (1.1.0)
       activesupport (>= 3.0.0)
+    raabro (1.1.6)
+      activesupport
+      attr_required
+      httpclient
+      json-jwt (>= 1.9.0)
+      rack
     rack (2.0.7)
     rack-heartbeat (1.1.0)
       rack
     rack-oauth2 (1.10.0)
-    raabro (1.1.6)
       activesupport
       attr_required
       httpclient
@@ -467,8 +472,8 @@ DEPENDENCIES
   pg (~> 0.18)
   pry (~> 0.11.1)
   puma (~> 3.7)
-  rack-heartbeat (~> 1.1)
   pundit (~> 1.1.0)
+  rack-heartbeat (~> 1.1)
   rails (~> 5.1.4)
   rails-controller-testing (~> 1.0.2)
   ransack (~> 1.8.4)
