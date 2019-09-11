@@ -42,9 +42,4 @@ spec:
 
         command: ["bundle"]
         args: ["exec", "sidekiq", "-C", "config/sidekiq.yml"]
-
-      initContainers:
-        - name: wait-for-app-startup
-          image: busybox
-          imagePullPolicy: Always
-          command: ['sh', '-c', 'until nslookup $(WEB_SERVICE_NAME); do echo waiting for $(WEB_SERVICE_NAME); sleep 2; done;']
+        
