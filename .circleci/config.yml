@@ -60,9 +60,9 @@ jobs:
           root: '.'
           paths: doc/*
   docs-deploy:
-   docker:
+    docker:
      - image: circleci/node:10.15-browsers
-   steps:
+    steps:
      - checkout
      - attach_workspace:
          at: doc/
@@ -85,7 +85,7 @@ workflows:
           filters:
             branches:
               only:
-                - master
+                - not # desactivated for now
       - docs-deploy:
           requires:
             - test
@@ -93,5 +93,5 @@ workflows:
           filters:
             branches:
               only:
-                - master
+                - not # desactivated for now
 
