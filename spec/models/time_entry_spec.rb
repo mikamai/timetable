@@ -51,7 +51,7 @@ RSpec.describe TimeEntry, type: :model do
     end
 
     it 'require an amount' do
-      expect(subject).to have(1).error_on :amount
+      expect(subject).to have(2).error_on :amount
       subject.amount = -10
       expect(subject).to have(1).error_on :amount
       subject.amount = 1

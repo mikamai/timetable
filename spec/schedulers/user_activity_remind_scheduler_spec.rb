@@ -19,8 +19,9 @@ RSpec.describe UserActivityRemindScheduler do
   end
 
   it 'ignores users with enough time' do
-    create :time_entry, amount: 2399
-    create :time_entry, amount: 2401
+    user = create :user, :organized
+    create_list :time_entry, 2, amount: 1440, user: user, organization: user.organizations.first
+    create :time_entry, amount: 1000
     expect {
       subject.perform
     }.to change(ActiveJob::Base.queue_adapter.enqueued_jobs, :length).by 1

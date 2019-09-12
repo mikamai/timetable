@@ -149,18 +149,22 @@ RSpec.describe User, type: :model do
     it 'ignores users with more than 40 hours this week' do
       pm = create :project_member
       create :time_entry, project: pm.project, organization: pm.project.organization, user: pm.user,
-             executed_on: Date.today.beginning_of_week, amount: 1800
+             executed_on: Date.today.beginning_of_week, amount: 1440
       create :time_entry, project: pm.project, organization: pm.project.organization, user: pm.user,
-             executed_on: Date.today.end_of_week, amount: 601
+             executed_on: Date.today.end_of_week, amount: 961
       expect(subject.without_enough_entries_this_week).to be_empty
     end
 
     it 'ignores entries made outside of this week' do
       pm = create :project_member
       create :time_entry, project: pm.project, organization: pm.project.organization, user: pm.user,
-             executed_on: Date.today.beginning_of_week - 1.day, amount: 2401
+             executed_on: Date.today.beginning_of_week - 1.day, amount: 1201
       create :time_entry, project: pm.project, organization: pm.project.organization, user: pm.user,
-             executed_on: Date.today.end_of_week + 1.day, amount: 2401
+             executed_on: Date.today.beginning_of_week - 1.day, amount: 1201
+      create :time_entry, project: pm.project, organization: pm.project.organization, user: pm.user,
+             executed_on: Date.today.end_of_week + 1.day, amount: 1201
+      create :time_entry, project: pm.project, organization: pm.project.organization, user: pm.user,
+             executed_on: Date.today.end_of_week + 1.day, amount: 1201
       expect(subject.without_enough_entries_this_week).to eq [pm.user]
     end
 

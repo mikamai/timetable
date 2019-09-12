@@ -43,12 +43,14 @@ class TimeEntry < ApplicationRecord
   validates :executed_on,
             presence: true
   validates :amount,
-            presence: true,
-            numericality: {
-              only_integer: true,
-              greater_than: 0,
-              allow_nil:    true
-            }
+  presence: true,
+  numericality: {
+    only_integer: true,
+    greater_than: 0,
+    allow_nil: true
+  }
+  validates_numericality_of :amount, less_than_or_equal_to: 1440,
+    message: "must less than 24 hours (you should take holidays)"
   validate :validate_project_in_user_organization, on: %i[create update], if: :validate_project?
   validate :validate_user_in_project, on: %i[create update], if: :validate_user?
   validate :validate_task_in_project, on: %i[create update], if: :validate_task?
