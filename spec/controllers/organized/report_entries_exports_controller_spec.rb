@@ -78,7 +78,7 @@ RSpec.describe Organized::ReportEntriesExportsController do
     include_examples 'authentication'
 
     describe 'when org admin accesses another user report' do
-      let(:user) { create :user, :organized, organization: organization, org_admin: true }
+      let(:user) { create :user, :organized, organization: organization, org_role: 'admin' }
 
       before do
         sign_in user

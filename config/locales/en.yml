@@ -14,6 +14,23 @@ en:
         notice: Invitation email has been sent again.
 
   activerecord:
+    friendly_id:
+      not_found: "%{resource} must exist"
     attributes:
       time_entry:
         time_amount: Hours
+      models:
+        time_entry:
+          attributes:
+            task:
+              forbidden: "must exist"
+            project:
+              forbidden: "must exist"
+    errors:
+      models:
+        time_entry:
+          attributes:
+            task:
+              forbidden: "must exist"
+            project:
+              forbidden: "must exist"

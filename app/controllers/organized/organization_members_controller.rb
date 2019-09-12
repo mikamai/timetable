@@ -26,10 +26,10 @@ module Organized
       respond_with current_organization, @organization_member
     end
 
-    def toggle_admin
+    def update_role
       @organization_member = current_organization.members.find params[:id]
       authorize @organization_member
-      @organization_member.update_attribute :admin, !@organization_member.admin
+      @organization_member.update_attributes role: params[:role]
       respond_with current_organization, @organization_member
     end
 

@@ -10,7 +10,7 @@ class OrganizationsController < ApplicationController
 
   def create
     @organization = Organization.new organization_params
-    @organization.members.build user: current_user, admin: true
+    @organization.members.build user: current_user, role: 'admin'
     @organization.save
     respond_with @organization, location: -> { organization_path(@organization) }
   end

@@ -1,6 +1,6 @@
 version: 2
 jobs:
-  build:
+  test:
     docker:
       - image: circleci/ruby:2.4.2-node-browsers
         environment:
@@ -42,3 +42,56 @@ jobs:
       - store_artifacts:
           path: /tmp/test-results
           destination: test-results
+  documentation:
+    docker:
+      - image: circleci/ruby:2.4.2-node-browsers
+    working_directory: ~/repo
+    steps:
+      - checkout
+      - run:
+          command: |
+            npm install -g apidoc
+            npm install -g @forfuture/apidoc-openapi
+      - run:
+          command: |
+            apidoc -i app/ -o doc/apidoc/
+            apidoc-openapi --project ./apidoc.json --src app/ --out ./doc/openapi.json
+      - persist_to_workspace:
+          root: '.'
+          paths: doc/*
+  docs-deploy:
+   docker:
+     - image: circleci/node:10.15-browsers
+   steps:
+     - checkout
+     - attach_workspace:
+         at: doc/
+     - run:
+         name: Install and configure dependencies
+         command: |
+           npm install -g --silent gh-pages@2.0.1
+           git config user.email "circleci@mikamai.com"
+           git config user.name "ci-build"
+     - run:
+         name: Deploy docs to gh-pages branch
+         command: gh-pages --dist doc/
+
+workflows:
+  version: 2
+  build:
+    jobs:
+      - test
+      - documentation:
+          filters:
+            branches:
+              only:
+                - master
+      - docs-deploy:
+          requires:
+            - test
+            - documentation
+          filters:
+            branches:
+              only:
+                - master
+

@@ -79,7 +79,7 @@ RSpec.describe Organized::TimeViewsController do
     end
 
     context 'when org admin accesses the view of another user' do
-      let(:user) { create :user, :organized, organization: organization, org_admin: true }
+      let(:user) { create :user, :organized, organization: organization, org_role: 'admin' }
       let(:another_user) { create :user, :organized, organization: organization }
 
       it 'access is allowed' do

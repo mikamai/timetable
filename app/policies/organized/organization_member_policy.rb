@@ -18,8 +18,8 @@ module Organized
       show? && record.destroyable?
     end
 
-    def toggle_admin?
-      show?
+    def update_role?
+      show? && record.user != self.user
     end
 
     def resend_invitation?

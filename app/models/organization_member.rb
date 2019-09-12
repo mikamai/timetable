@@ -1,11 +1,10 @@
 # frozen_string_literal: true
-
 # == Schema Information
 #
 # Table name: organization_members
 #
 #  id              :bigint(8)        not null, primary key
-#  admin           :boolean          default(FALSE), not null
+#  role            :integer          default("user"), not null
 #  organization_id :uuid             not null
 #  user_id         :uuid             not null
 #
@@ -19,7 +18,6 @@
 #  fk_rails_...  (user_id => users.id)
 #
 
-
 class OrganizationMember < ApplicationRecord
   belongs_to :organization, inverse_of: :members
   belongs_to :user, inverse_of: :organization_memberships
@@ -27,11 +25,16 @@ class OrganizationMember < ApplicationRecord
   scope :by_user_name, -> { includes(:user).order 'users.last_name', 'users.first_name' }
 
   validates :user,
-            uniqueness: { scope: :organization_id }
+            uniqueness: { scope: :organization_id },
+            presence: true
 
   before_destroy :validate_references
 
   delegate :name, to: :user, prefix: true, allow_nil: true
+
+  # super_user can CRUD over timeEntries (+ timeOffEntries/Periods) for ALL users in organization
+  # this role exists only at the organization level.
+  enum role: %i[user super_user admin]
 
   def self.policy_class
     Organized::OrganizationMemberPolicy

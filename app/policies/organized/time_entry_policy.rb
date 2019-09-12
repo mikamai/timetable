@@ -10,7 +10,7 @@ module Organized
     end
 
     def create?
-      admin? || user == record.user
+      admin? || super_user? || user == record.user
     end
 
     def update?

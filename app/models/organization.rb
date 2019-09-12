@@ -32,7 +32,7 @@ class Organization < ApplicationRecord
 
   accepts_nested_attributes_for :members, reject_if: :all_blank, allow_destroy: true
 
-  friendly_id :name, use: :slugged
+  friendly_id :name, use: %i[slugged finders]
 
   scope :by_name, -> { order :name }
 

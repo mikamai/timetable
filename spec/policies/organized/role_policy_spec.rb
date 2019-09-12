@@ -15,7 +15,7 @@ RSpec.describe Organized::RolePolicy do
     end
 
     it 'grants access if user is an organization admin' do
-      organization_member.update_column :admin, true
+      organization_member.update_column :role, 'admin'
       expect(subject).to permit(organization_member, resource)
     end
   end
@@ -28,7 +28,7 @@ RSpec.describe Organized::RolePolicy do
     end
 
     it 'grants access if user is an organization admin' do
-      organization_member.update_column :admin, true
+      organization_member.update_column :role, 'admin'
       expect(subject).to permit(organization_member, resource)
     end
   end
@@ -42,12 +42,12 @@ RSpec.describe Organized::RolePolicy do
 
     it 'denies access if client is in different organization' do
       resource.update_attribute :organization, create(:organization)
-      organization_member.update_column :admin, true
+      organization_member.update_column :role, 'admin'
       expect(subject).not_to permit(organization_member, resource)
     end
 
     it 'grants access if user is an organization admin' do
-      organization_member.update_column :admin, true
+      organization_member.update_column :role, 'admin'
       expect(subject).to permit(organization_member, resource)
     end
   end

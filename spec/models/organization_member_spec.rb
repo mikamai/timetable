@@ -1,11 +1,10 @@
 # frozen_string_literal: true
-
 # == Schema Information
 #
 # Table name: organization_members
 #
 #  id              :bigint(8)        not null, primary key
-#  admin           :boolean          default(FALSE), not null
+#  role            :integer          default("user"), not null
 #  organization_id :uuid             not null
 #  user_id         :uuid             not null
 #
@@ -19,7 +18,6 @@
 #  fk_rails_...  (user_id => users.id)
 #
 
-
 require 'rails_helper'
 
 RSpec.describe OrganizationMember, type: :model do
@@ -31,7 +29,7 @@ RSpec.describe OrganizationMember, type: :model do
     end
 
     it 'require a user' do
-      expect(subject).to have(1).error_on :user
+      expect(subject).to have(2).error_on :user
       subject.user = build :user
       expect(subject).to have(0).errors_on :user
     end

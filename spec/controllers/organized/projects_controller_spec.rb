@@ -39,7 +39,7 @@ RSpec.describe Organized::ProjectsController do
     include_examples 'authentication'
 
     context 'when org admin accesses' do
-      let(:user) { create :user, :organized, organization: organization, org_admin: true }
+      let(:user) { create :user, :organized, organization: organization, org_role: 'admin' }
 
       before do
         sign_in user
@@ -70,7 +70,7 @@ RSpec.describe Organized::ProjectsController do
     include_examples 'authentication'
 
     context 'when org admin accesses' do
-      let(:user) { create :user, :organized, organization: organization, org_admin: true }
+      let(:user) { create :user, :organized, organization: organization, org_role: 'admin' }
 
       before do
         sign_in user
@@ -98,7 +98,7 @@ RSpec.describe Organized::ProjectsController do
     include_examples 'authentication'
 
     context 'when org admin accesses' do
-      let(:user) { create :user, :organized, organization: organization, org_admin: true }
+      let(:user) { create :user, :organized, organization: organization, org_role: 'admin' }
 
       before do
         sign_in user
@@ -145,7 +145,7 @@ RSpec.describe Organized::ProjectsController do
     end
 
     context 'when project user accesses' do
-      let(:user) { create :user, :organized, organization: organization, org_admin: true }
+      let(:user) { create :user, :organized, organization: organization, org_role: 'admin' }
 
       before do
         project.members.create user: user
@@ -172,7 +172,7 @@ RSpec.describe Organized::ProjectsController do
     include_examples 'authentication'
 
     context 'when org admin accesses' do
-      let(:user) { create :user, :organized, organization: organization, org_admin: true }
+      let(:user) { create :user, :organized, organization: organization, org_role: 'admin' }
 
       before do
         sign_in user
@@ -195,7 +195,7 @@ RSpec.describe Organized::ProjectsController do
     end
 
     context 'prevents access to other organizations' do
-      let(:user) { create :user, :organized, organization: organization, org_admin: true }
+      let(:user) { create :user, :organized, organization: organization, org_role: 'admin' }
       let(:project) { create :project }
 
       before { sign_in user }

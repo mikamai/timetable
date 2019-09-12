@@ -39,7 +39,7 @@ RSpec.describe Organized::ClientsController do
     include_examples 'authentication'
 
     context 'when org admin accesses' do
-      let(:user) { create :user, :organized, organization: organization, org_admin: true }
+      let(:user) { create :user, :organized, organization: organization, org_role: 'admin' }
 
       before do
         sign_in user
@@ -70,7 +70,7 @@ RSpec.describe Organized::ClientsController do
     include_examples 'authentication'
 
     context 'when org admin accesses' do
-      let(:user) { create :user, :organized, organization: organization, org_admin: true }
+      let(:user) { create :user, :organized, organization: organization, org_role: 'admin' }
 
       before do
         sign_in user
@@ -97,7 +97,7 @@ RSpec.describe Organized::ClientsController do
     include_examples 'authentication'
 
     context 'when org admin accesses' do
-      let(:user) { create :user, :organized, organization: organization, org_admin: true }
+      let(:user) { create :user, :organized, organization: organization, org_role: 'admin' }
 
       before do
         sign_in user
@@ -130,7 +130,7 @@ RSpec.describe Organized::ClientsController do
     include_examples 'authentication'
 
     context 'when org admin accesses' do
-      let(:user) { create :user, :organized, organization: organization, org_admin: true }
+      let(:user) { create :user, :organized, organization: organization, org_role: 'admin' }
 
       before do
         sign_in user
@@ -146,7 +146,7 @@ RSpec.describe Organized::ClientsController do
     end
 
     context 'prevents access to other organizations' do
-      let(:user) { create :user, :organized, organization: organization, org_admin: true }
+      let(:user) { create :user, :organized, organization: organization, org_role: 'admin' }
       let(:client) { create :client }
 
       before { sign_in user }
@@ -168,7 +168,7 @@ RSpec.describe Organized::ClientsController do
     include_examples 'authentication'
 
     context 'when org admin accesses' do
-      let(:user) { create :user, :organized, organization: organization, org_admin: true }
+      let(:user) { create :user, :organized, organization: organization, org_role: 'admin' }
 
       before do
         sign_in user
@@ -189,7 +189,7 @@ RSpec.describe Organized::ClientsController do
     end
 
     context 'prevents access to other organizations' do
-      let(:user) { create :user, :organized, organization: organization, org_admin: true }
+      let(:user) { create :user, :organized, organization: organization, org_role: 'admin' }
       let(:client) { create :client }
 
       before { sign_in user }
@@ -210,7 +210,7 @@ RSpec.describe Organized::ClientsController do
     include_examples 'authentication'
 
     context 'when org admin accesses' do
-      let(:user) { create :user, :organized, organization: organization, org_admin: true }
+      let(:user) { create :user, :organized, organization: organization, org_role: 'admin' }
 
       before do
         sign_in user
@@ -225,7 +225,7 @@ RSpec.describe Organized::ClientsController do
     end
 
     context 'prevents access to other organizations' do
-      let(:user) { create :user, :organized, organization: organization, org_admin: true }
+      let(:user) { create :user, :organized, organization: organization, org_role: 'admin' }
       let(:client) { create :client }
 
       before { sign_in user }

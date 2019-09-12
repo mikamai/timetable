@@ -59,7 +59,7 @@ RSpec.describe Organized::ReportSummariesController do
       context 'and there are rows made by current user' do
         before do
           tw = create :time_entry, organization: organization, user: user, amount: 1
-          other_project = create :project, organization: organization, client: tw.project.client
+          other_project = create :project, organization: organization, client: tw.project.client, users: [user]
           create :time_entry, organization: organization, user: user, project: other_project, amount: 2
           create :time_entry, organization: organization, user: user, amount: 4
         end
@@ -82,7 +82,7 @@ RSpec.describe Organized::ReportSummariesController do
     end
 
     context 'when org admin accesses' do
-      let(:user) { create :user, :organized, organization: organization, org_admin: true }
+      let(:user) { create :user, :organized, organization: organization, org_role: 'admin' }
 
       before { sign_in user }
 
@@ -112,7 +112,7 @@ RSpec.describe Organized::ReportSummariesController do
         before do
           tw = create :time_entry, organization: organization, user: user, amount: 1
           create :time_entry, organization: organization, user: user, project: tw.project, amount: 2
-          other_project = create :project, organization: organization, client: tw.project.client
+          other_project = create :project, organization: organization, client: tw.project.client, users: [user]
           create :time_entry, organization: organization, user: user, amount: 4, project: other_project
         end
 
@@ -134,7 +134,7 @@ RSpec.describe Organized::ReportSummariesController do
     end
 
     context 'when org admin accesses' do
-      let(:user) { create :user, :organized, organization: organization, org_admin: true }
+      let(:user) { create :user, :organized, organization: organization, org_role: 'admin' }
 
       before { sign_in user }
 
@@ -186,7 +186,7 @@ RSpec.describe Organized::ReportSummariesController do
     end
 
     context 'when org admin accesses' do
-      let(:user) { create :user, :organized, organization: organization, org_admin: true }
+      let(:user) { create :user, :organized, organization: organization, org_role: 'admin' }
 
       before { sign_in user }
 
@@ -236,7 +236,7 @@ RSpec.describe Organized::ReportSummariesController do
     end
 
     context 'when org admin accesses' do
-      let(:user) { create :user, :organized, organization: organization, org_admin: true }
+      let(:user) { create :user, :organized, organization: organization, org_role: 'admin' }
 
       before { sign_in user }
 

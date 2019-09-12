@@ -25,7 +25,7 @@ Rails.application.routes.draw do
       resources :clients
       resources :organization_members, path: :members, only: %i[index new create destroy] do
         patch :resend_invitation, on: :member
-        patch :toggle_admin, on: :member
+        patch 'update_role/:role', on: :member, action: :update_role, as: :update_role
       end
       resources :projects
 
@@ -53,6 +53,25 @@ Rails.application.routes.draw do
       resources :time_off_periods, only: %i[create]
       get 'time_off_periods/:id/approve', controller: :time_off_periods, action: :approve, as: :approve_time_off_period
       get 'time_off_periods/:id/decline', controller: :time_off_periods, action: :decline, as: :decline_time_off_period
+    end
+  end
+
+  namespace :api do
+    get 'me', controller: :api, action: :me, as: :me
+    get 'me/orgs', controller: :organizations, action: :me, as: :me_orgs
+    get 'me/projects', controller: :projects, action: :me, as: :me_projects
+    get 'me/tasks', controller: :tasks, action: :me, as: :me_tasks
+    resources :organizations, only: [], path: 'orgs' do
+      resources :users, only: [] do
+        resources :time_views, only: [], path: :time do
+          resources :time_entries, only: %i[index], path: :entries
+          resources :projects, only: [] do
+            get 'entries', controller: :time_entries, action: :index_project, as: :time_entries_project
+            resources :time_entries, only: :create, path: :entries
+          end
+        end
+        resources :time_entries, only: %i[edit update destroy], path: :entries
+      end
     end
   end
 

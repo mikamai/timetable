@@ -39,7 +39,7 @@ RSpec.describe Organized::OrganizationMembersController do
     include_examples 'authentication'
 
     context 'when org admin accesses' do
-      let(:user) { create :user, :organized, organization: organization, org_admin: true }
+      let(:user) { create :user, :organized, organization: organization, org_role: 'admin' }
 
       before do
         sign_in user
@@ -69,7 +69,7 @@ RSpec.describe Organized::OrganizationMembersController do
     include_examples 'authentication'
 
     context 'when org admin accesses' do
-      let(:user) { create :user, :organized, organization: organization, org_admin: true }
+      let(:user) { create :user, :organized, organization: organization, org_role: 'admin' }
 
       before do
         sign_in user
@@ -96,7 +96,7 @@ RSpec.describe Organized::OrganizationMembersController do
     include_examples 'authentication'
 
     context 'when org admin accesses' do
-      let(:user) { create :user, :organized, organization: organization, org_admin: true }
+      let(:user) { create :user, :organized, organization: organization, org_role: 'admin' }
 
       before do
         sign_in user
@@ -135,7 +135,7 @@ RSpec.describe Organized::OrganizationMembersController do
     include_examples 'authentication'
 
     context 'when org admin accesses' do
-      let(:user) { create :user, :organized, organization: organization, org_admin: true }
+      let(:user) { create :user, :organized, organization: organization, org_role: 'admin' }
 
       before do
         sign_in user
@@ -150,7 +150,7 @@ RSpec.describe Organized::OrganizationMembersController do
     end
 
     context 'prevents access to other organizations' do
-      let(:user) { create :user, :organized, organization: organization, org_admin: true }
+      let(:user) { create :user, :organized, organization: organization, org_role: 'admin' }
       let(:organization_member) { create :organization_member }
 
       before { sign_in user }
@@ -161,48 +161,47 @@ RSpec.describe Organized::OrganizationMembersController do
     end
   end
 
-  describe 'PATCH toggle_admin' do
+  describe 'PATCH update role' do
     let(:organization_member) { create :organization_member, organization: organization }
 
-    def call_action
-      patch :toggle_admin, params: { organization_id: organization.id, id: organization_member.id }
+    def call_action role = 'user'
+      patch :update_role, params: { organization_id: organization.id, id: organization_member.id, role: role }
     end
 
     include_examples 'authentication'
 
     context 'when org admin accesses' do
-      let(:user) { create :user, :organized, organization: organization, org_admin: true }
+      let(:user) { create :user, :organized, organization: organization, org_role: 'admin' }
 
       before do
         sign_in user
-        call_action
       end
-
-      it { is_expected.to redirect_to organization_organization_members_path(organization) }
 
       context 'for a plain organization member' do
         it 'grants admin privileges' do
-          expect { organization_member.reload }.to change(organization_member, :admin?).to true
+          call_action 'admin'
+          expect { organization_member.reload }.to change(organization_member, :role).to 'admin'
         end
       end
 
       context 'for an admin organization member' do
-        let(:organization_member) { create :organization_member, organization: organization, admin: true }
+        let(:organization_member) { create :organization_member, organization: organization, role: 'admin' }
 
         it 'removes admin privileges' do
-          expect { organization_member.reload }.to change(organization_member, :admin?).to false
+          call_action 'super_user'
+          expect { organization_member.reload }.to change(organization_member, :role).to 'super_user'
         end
       end
     end
 
     context 'prevents access to other organizations' do
-      let(:user) { create :user, :organized, organization: organization, org_admin: true }
+      let(:user) { create :user, :organized, organization: organization, org_role: 'admin' }
       let(:organization_member) { create :organization_member }
 
       before { sign_in user }
 
       it 'raises a 404' do
-        expect { call_action }.to raise_error ActiveRecord::RecordNotFound
+        expect { call_action 'user' }.to raise_error ActiveRecord::RecordNotFound
       end
     end
   end
@@ -218,7 +217,7 @@ RSpec.describe Organized::OrganizationMembersController do
     include_examples 'authentication'
 
     context 'when org admin accesses' do
-      let(:user) { create :user, :organized, organization: organization, org_admin: true }
+      let(:user) { create :user, :organized, organization: organization, org_role: 'admin' }
 
       before do
         sign_in user
@@ -235,7 +234,7 @@ RSpec.describe Organized::OrganizationMembersController do
     end
 
     context 'prevents access to other organizations' do
-      let(:user) { create :user, :organized, organization: organization, org_admin: true }
+      let(:user) { create :user, :organized, organization: organization, org_role: 'admin' }
       let(:organization_member) { create :organization_member }
 
       before { sign_in user }
