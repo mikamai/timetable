@@ -48,10 +48,20 @@ RSpec.describe Api::TimeEntriesController, type: :controller do
         verify_expectation_for action, user, project
       end
 
+      it 'accepts slugs for time entry creation' do
+        call_action params.merge(task_id: task.slug, organization_id: organization.slug, project_id: project.slug)
+        expect(response.status).to eq 200
+      end if action == 'create'
+
+      it "accepts 'me' for time entry creation" do
+        call_action params.merge(user_id: 'me')
+        expect(response.status).to eq 200
+      end if action == 'create'
+
       it 'raises a 404 if parameters are missing' do
         call_action params.except(:task_id)
-
-        expect(JSON.parse(response.body)).to eq({"error"=>"Task must exist"})
+        expect(response.status).to eq 404
+        expect(JSON.parse(response.body)).to eq({"error"=>"Couldn't find Task without an ID"})
       end if action == "create"
 
       it 'raises an error if url params are incorrect' do
@@ -111,7 +121,6 @@ RSpec.describe Api::TimeEntriesController, type: :controller do
       it 'raises a 404 for a normal user' do
         set_organization_role user, organization, 'user'
         call_action params
-
         expect(response.status).to eq 403
       end
 
@@ -143,13 +152,13 @@ RSpec.describe Api::TimeEntriesController, type: :controller do
 
         it 'raises a 404 if parameters are missing' do
           call_action params.except(:task_id)
-          expect(response.status).to eq 400
-          expect(JSON.parse(response.body)).to eq({"error"=>"Task must exist"})
+          expect(response.status).to eq 404
+          expect(JSON.parse(response.body)).to eq({"error"=>"Couldn't find Task without an ID"})
         end if action == 'create'
 
         it 'raises a 404 if parameters are not authorized' do
           call_action params.clone.merge(task_id: other_task.id)
-          expect(response.status).to eq 400
+          expect(response.status).to eq 404
           expect(JSON.parse(response.body)).to eq({"error"=>"Task must exist"})
         end if action == 'create' || action == 'update'
 

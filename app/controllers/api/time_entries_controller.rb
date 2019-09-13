@@ -8,8 +8,8 @@ class Api::TimeEntriesController < Api::ApiController
  @apiDescription Read Time Entries for User on Day
 
  @apiParam {String} organizationId Organization's unique slug or ID
- @apiParam {String} userId User's unique ID
- @apiParam {String} timeViewId TimeView's unique ID
+ @apiParam {String} userId User's unique ID (accepts also "me")
+ @apiParam {String} timeViewId TimeView's unique slug or ID
 
  @apiSuccess (200) {Object[]} timeEntries Array of Time Entries regirstered on TimeView day, all projects included.
 =end
@@ -27,9 +27,9 @@ class Api::TimeEntriesController < Api::ApiController
  @apiDescription Read Time Entries for User on Project on Day
 
  @apiParam {String} organizationId Organization's unique Slug or ID
- @apiParam {String} userId User's unique ID
- @apiParam {String} timeViewId TimeView's unique ID
- @apiParam {String} projectId Project's unique Slug or ID
+ @apiParam {String} userId User's unique ID (accepts also "me")
+ @apiParam {String} timeViewId TimeView's unique slug or ID
+ @apiParam {String} projectId Project's unique Slug or slug or ID
 
  @apiSuccess (200) {Object[]} timeEntries Array of Time Entries registered on TimeView day on the project.
 =end
@@ -47,10 +47,10 @@ class Api::TimeEntriesController < Api::ApiController
  @apiDescription Create Time Entry for User on Project on Day
 
  @apiParam {String} organizationId Organization's unique Slug
- @apiParam {String} userId User's unique ID
+ @apiParam {String} userId User's unique ID (accepts also "me")
  @apiParam {String} timeViewId TimeView's unique ID
  @apiParam {String} projectId Project's unique Slug or ID
- @apiParam {String} [taskId] Task's unique ID
+ @apiParam {String} [taskId] Task's unique Slug or ID
  @apiParam {Number} [timeAmount] Number of hours
  @apiParam {String} [notes] TimeEntry's Notes
 
@@ -71,11 +71,11 @@ class Api::TimeEntriesController < Api::ApiController
  @apiDescription Update Time Entry
 
  @apiParam {String} organizationId Organization's unique Slug
- @apiParam {String} userId User's unique ID
+ @apiParam {String} userId User's unique ID (accepts also "me")
  @apiParam {String} timeEntryId TimeEntry's unique ID
  @apiParam {String} [timeViewId] TimeView's unique ID
  @apiParam {String} [projectId] Project's unique Slug or ID
- @apiParam {String} [taskId] Task's unique ID
+ @apiParam {String} [taskId] Task's unique Slug or ID
  @apiParam {Number} [timeAmount] Number of hours
  @apiParam {String} [notes] TimeEntry's Notes
 
@@ -95,7 +95,7 @@ class Api::TimeEntriesController < Api::ApiController
  @apiDescription Delet Time Entry
 
  @apiParam {String} organizationId Organization's unique Slug or ID
- @apiParam {String} userId User's unique ID
+ @apiParam {String} userId User's unique ID (accepts also "me")
  @apiParam {String} timeEntryId TimeEntry's unique ID
 
  @apiSuccess (202)
@@ -114,17 +114,21 @@ class Api::TimeEntriesController < Api::ApiController
   end
 
   def create_params
-    params.permit(:notes, :time_amount, :task_id)
-          .merge(executed_on: @time_view.date, user_id: user.id, project_id: new_or_current_project.id)
+    params.permit(:notes, :time_amount)
+          .merge(executed_on: @time_view.date, user_id: user.id, project_id: new_or_current_project.id, task: task)
   end
 
   def update_params
-    params.permit(:notes, :time_amount, :executed_on, :task_id)
-          .merge(project_id: new_or_current_project.id)
+    params.permit(:notes, :time_amount, :executed_on)
+          .merge(project_id: new_or_current_project.id, task: task)
   end
 
   def new_or_current_project
     @new_or_current_project ||= params[:project_id] ? organization.projects.find(params[:project_id]) : time_entry.project
+  end
+
+  def task
+    @task ||= @new_or_current_project.tasks.find(params[:task_id])
   end
 
   def set_time_view

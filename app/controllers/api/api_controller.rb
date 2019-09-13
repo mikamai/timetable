@@ -55,7 +55,7 @@ class Api::ApiController < ActionController::API
   end
 
   def user
-    @user ||= @current_user.organization.users.find(params[:user_id])
+    @user ||= params[:user_id] == 'me' ? @api_user : @current_user.organization.users.find(params[:user_id])
   end
 
   def week_view
