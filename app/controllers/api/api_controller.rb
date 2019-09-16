@@ -28,7 +28,7 @@ class Api::ApiController < ActionController::API
 =end
 
   def me
-    render json: { "id": @api_user.id }
+    render json: @api_user
   end
 
   protected

@@ -1,7 +1,8 @@
 class Api::ProjectsController < Api::ApiController
+  skip_before_action :set_pundit_user, only: :index
 
 =begin
-@api {get} api/me/projects Read projects of current user
+@api {get} api/projects Read projects in scope
   @apiName GetProjects
   @apiGroup Projects
   @apiDescription Read projects of api's current user
@@ -9,17 +10,14 @@ class Api::ProjectsController < Api::ApiController
   @apiSuccess (200) {String[]} projectsId Array of projects slugs, nested in organizations
 =end
 
-  def me
-    orgs = @api_user.projects.map(&:organization).map(&:slug)
-    projects = @api_user.projects.map(&:slug)
-    render json: { "projects":  format_hash(orgs, projects) }
+  def index
+    @projects = @api_user.projects.where(filtering_params)
+    render json: @projects
   end
 
   private
 
-  def format_hash orgs, projects
-    hash = Hash.new { |h,k| h[k] = [] }
-    orgs.each_with_index { |org, i| hash[org.to_sym] << projects[i] }
-    hash
+  def filtering_params
+    params.permit(:organization_id)
   end
 end

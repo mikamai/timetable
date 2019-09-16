@@ -9,8 +9,8 @@ class Api::OrganizationsController < Api::ApiController
   @apiSuccess (200) {String[]} OrganizationsId Array of organizations slugs
 =end
 
-  def me
-    organizations = @api_user.organizations.map(&:slug)
-    render json: { "orgs": organizations }
+  def index
+    @organizations = @api_user.organizations
+    render json: @organizations
   end
 end

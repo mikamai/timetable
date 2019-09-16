@@ -48,7 +48,7 @@ RSpec.describe Api::ApiController, type: :controller do
       set_token tokens[:valid_token]
       call_action
       expect(response.status).to eq 200
-      expect(response.body).to eq("{\"id\":\"#{user.id}\"}")
+      expect(response.body).to include("{\"id\":\"#{user.id}\"")
     end
   end
 end

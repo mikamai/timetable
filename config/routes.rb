@@ -58,10 +58,16 @@ Rails.application.routes.draw do
 
   namespace :api do
     get 'me', controller: :api, action: :me, as: :me
-    get 'me/orgs', controller: :organizations, action: :me, as: :me_orgs
-    get 'me/projects', controller: :projects, action: :me, as: :me_projects
-    get 'me/tasks', controller: :tasks, action: :me, as: :me_tasks
+    get 'orgs', controller: :organizations, action: :index, as: :organizations
+    get 'projects', controller: :projects, action: :index, as: :projects
+    get 'tasks', controller: :tasks, action: :index, as: :tasks
+    get 'projects/:id/tasks', controller: :tasks, action: :index, as: :project_tasks
+
     resources :organizations, only: [], path: 'orgs' do
+      get 'projects', controller: :projects, action: :index, as: :org_projects
+      get 'tasks', controller: :tasks, action: :index, as: :org_tasks
+      get 'projects/:id/tasks', controller: :tasks, action: :index, as: :org_project_tasks
+
       resources :users, only: [] do
         resources :time_views, only: [], path: :time do
           resources :time_entries, only: %i[index], path: :entries
