@@ -38,6 +38,10 @@ class Task < ApplicationRecord
     Organized::TaskPolicy
   end
 
+  def as_json **params
+    super(only: [:id, :name, :slug, :organization_id, :slug ])
+  end
+
   private
 
   def should_generate_new_friendly_id?

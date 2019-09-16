@@ -39,4 +39,8 @@ class Organization < ApplicationRecord
   validates :name,
             presence: true,
             uniqueness: true
+
+  def as_json **params
+    super(only: [:id, :name, :slug, :created_at])
+  end
 end

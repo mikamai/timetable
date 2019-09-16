@@ -61,12 +61,12 @@ Rails.application.routes.draw do
     get 'orgs', controller: :organizations, action: :index, as: :organizations
     get 'projects', controller: :projects, action: :index, as: :projects
     get 'tasks', controller: :tasks, action: :index, as: :tasks
-    get 'projects/:id/tasks', controller: :tasks, action: :index, as: :project_tasks
+    get 'projects/:project_id/tasks', controller: :tasks, action: :index, as: :project_tasks
 
     resources :organizations, only: [], path: 'orgs' do
       get 'projects', controller: :projects, action: :index, as: :org_projects
       get 'tasks', controller: :tasks, action: :index, as: :org_tasks
-      get 'projects/:id/tasks', controller: :tasks, action: :index, as: :org_project_tasks
+      get 'projects/:project_id/tasks', controller: :tasks, action: :index, as: :org_project_tasks
 
       resources :users, only: [] do
         resources :time_views, only: [], path: :time do

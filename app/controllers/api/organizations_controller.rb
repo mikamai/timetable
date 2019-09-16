@@ -1,4 +1,5 @@
 class Api::OrganizationsController < Api::ApiController
+  skip_before_action :set_pundit_user, only: :index
 
 =begin
 @api {get} api/me/orgs Read organizations of current user

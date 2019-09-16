@@ -18,7 +18,7 @@ RSpec.describe Api::ProjectsController, type: :controller do
     def call_action params
       get :index, params: { organization_id: params }
     end
-    
+
     before do
       set_token tokens[:valid_token]
     end
@@ -26,7 +26,7 @@ RSpec.describe Api::ProjectsController, type: :controller do
     it 'returns all projects in scope' do
       get :index
       expect(response.status).to eq 200
-      expect(response.body).to eq("[{\"id\":\"#{project.id}\",\"organization_id\":\"#{organization.id}\",\"name\":\"#{project.name}\",\"tasks\":[]}]")
+      expect(response.body).to eq("[{\"id\":\"#{project.id}\",\"organization_id\":\"#{organization.id}\",\"name\":\"#{project.name}\",\"slug\":\"client-1-project-1\",\"tasks\":[]}]")
     end
 
     it 'sort projects by organization' do

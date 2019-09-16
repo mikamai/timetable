@@ -69,6 +69,10 @@ class User < ApplicationRecord
             :last_name,
             presence: true
 
+  def as_json **params
+    super(only: [:id, :email, :created_at, :first_name, :last_name])
+  end
+
   def self.without_enough_entries_this_week
     users = left_joins(:projects, :this_week_time_entries)
     users

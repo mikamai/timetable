@@ -80,6 +80,10 @@ class TimeEntry < ApplicationRecord
     amount.to_f / 60
   end
 
+  def as_json **params
+    super(only: [:id, :user_id, :task_id, :amount, :notes, :executed_on, :created_at, :project_id])
+  end
+
   private
 
   def validate_project_in_user_organization
