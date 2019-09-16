@@ -3,7 +3,7 @@
 require 'rails_helper'
 require 'net/http'
 
-RSpec.describe Api::TimeEntriesController, type: :controller do
+RSpec.describe Api::V1::TimeEntriesController, type: :controller do
   let(:organization) { create :organization }
   let(:user) { create :user, :organized, organization: organization }
   let!(:tokens) { generate_tokens(user) }

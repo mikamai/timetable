@@ -3,7 +3,7 @@
 require 'rails_helper'
 require 'net/http'
 
-RSpec.describe Api::ApiController, type: :controller do
+RSpec.describe Api::V1::ApiController, type: :controller do
   let(:user) { create :user }
   let!(:tokens) { generate_tokens(user) }
 

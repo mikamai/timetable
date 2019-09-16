@@ -1,4 +1,4 @@
-class Api::TasksController < Api::ApiController
+class Api::V1::TasksController < Api::V1::ApiController
   skip_before_action :set_pundit_user, only: :index
 
 =begin
@@ -11,9 +11,14 @@ class Api::TasksController < Api::ApiController
 =end
 
   def index
-    @tasks = @api_user.projects.where(filtering_params).map(&:tasks).flatten
+    @tasks = @api_user.tasks
+    @tasks = @tasks.where(projects: filtering_params.to_h) unless filtering_params.empty?
     render json: @tasks
   end
+
+  # def by_project
+  #   @api_user.projects.find(params[:id])
+  # end
 
   private
 

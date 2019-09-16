@@ -1,4 +1,4 @@
-class Api::ProjectsController < Api::ApiController
+class Api::V1::ProjectsController < Api::V1::ApiController
   skip_before_action :set_pundit_user, only: :index
 
 =begin
@@ -18,7 +18,6 @@ class Api::ProjectsController < Api::ApiController
   private
 
   def filtering_params
-    params[:id] = params.delete(:project_id) if params[:project_id]
-    params.permit(:organization_id, :id)
+    params.permit(:organization_id)
   end
 end

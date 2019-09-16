@@ -1,4 +1,4 @@
-class Api::TimeEntriesController < Api::ApiController
+class Api::V1::TimeEntriesController < Api::V1::ApiController
   before_action :set_time_view, only: [:index, :index_project, :create]
 
 =begin

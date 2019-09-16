@@ -1,5 +1,5 @@
 # frozen_string_literal: true
-class Api::ApiController < ActionController::API
+class Api::V1::ApiController < ActionController::API
   include Pundit
   before_action :set_api_user
   before_action :set_pundit_user

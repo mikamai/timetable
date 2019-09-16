@@ -3,7 +3,7 @@
 require 'rails_helper'
 require 'net/http'
 
-RSpec.describe Api::ProjectsController, type: :controller do
+RSpec.describe Api::V1::ProjectsController, type: :controller do
   let!(:organization) { create :organization }
   let!(:other) { create :organization }
   let!(:user) { create :user, :organized, organizations: [organization, other] }

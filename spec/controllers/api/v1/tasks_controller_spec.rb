@@ -3,7 +3,7 @@
 require 'rails_helper'
 require 'net/http'
 
-RSpec.describe Api::TasksController, type: :controller do
+RSpec.describe Api::V1::TasksController, type: :controller do
   let!(:organization) { create :organization }
   let!(:other) { create :organization }
   let!(:user) { create :user, :organized, organizations: [organization, other] }
@@ -19,7 +19,7 @@ RSpec.describe Api::TasksController, type: :controller do
     def call_action params
       get :index, params: { organization_id: params }
     end
-    
+
     before do
       set_token tokens[:valid_token]
     end
