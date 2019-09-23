@@ -22,5 +22,6 @@ FactoryBot.define do
   factory :organization_member do
     user
     organization
+    role { 'user' }
   end
 end

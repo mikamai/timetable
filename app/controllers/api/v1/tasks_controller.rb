@@ -1,5 +1,4 @@
 class Api::V1::TasksController < Api::V1::ApiController
-  skip_before_action :set_pundit_user, only: :index
 
 =begin
 @api {get} api/me/tasks Read tasks of current user
@@ -11,18 +10,10 @@ class Api::V1::TasksController < Api::V1::ApiController
 =end
 
   def index
-    @tasks = @api_user.tasks
-    @tasks = @tasks.where(projects: filtering_params.to_h) unless filtering_params.empty?
-    render json: @tasks
-  end
-
-  # def by_project
-  #   @api_user.projects.find(params[:id])
-  # end
-
-  private
-
-  def filtering_params
-    params.permit(:organization_id, :id)
+    @tasks = scoped_user.tasks.joins(:projects)
+      .where(organization_id: params[:organization_id])
+      .where(projects: { id: params[:project_id] })
+      .distinct
+    render json: paginate(@tasks)
   end
 end

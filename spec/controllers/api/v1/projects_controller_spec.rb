@@ -4,10 +4,9 @@ require 'rails_helper'
 require 'net/http'
 
 RSpec.describe Api::V1::ProjectsController, type: :controller do
-  let!(:organization) { create :organization }
-  let!(:other) { create :organization }
-  let!(:user) { create :user, :organized, organizations: [organization, other] }
-  let!(:tokens) { generate_tokens(user) }
+  let(:organization) { create :organization }
+  let(:user) { create :user, :organized, organizations: [organization] }
+  let(:tokens) { generate_tokens(user) }
   let!(:project) { create :project, organization: organization, users: [user] }
 
   before do
@@ -15,24 +14,19 @@ RSpec.describe Api::V1::ProjectsController, type: :controller do
   end
 
   context 'GET projects' do
-    def call_action params
-      get :index, params: { organization_id: params }
-    end
-
     before do
       set_token tokens[:valid_token]
     end
 
-    it 'returns all projects in scope' do
-      get :index
-      expect(response.status).to eq 200
-      expect(response.body).to eq("[{\"id\":\"#{project.id}\",\"organization_id\":\"#{organization.id}\",\"name\":\"#{project.name}\",\"slug\":\"client-1-project-1\",\"tasks\":[]}]")
+    it 'returns projects for user in organization' do
+      get :index, params: { organization_id: organization.id, user_id: 'me' }
+      expect(response.body).to include("\"total_count\":1,")
+      expect(response.body).to include("\"data\":[{\"id\":\"#{project.id}\"")
     end
 
-    it 'sort projects by organization' do
-        get :index, params: { organization_id: other.id }
-        expect(response.status).to eq 200
-        expect(response.body).to eq("[]")
-      end
+    it 'throws a 404 if org does not exist' do
+      get :index, params: { organization_id: "Not existing", user_id: 'me' }
+      expect(response.status).to eq 404
+    end
   end
 end

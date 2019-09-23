@@ -1,5 +1,4 @@
 class Api::V1::ProjectsController < Api::V1::ApiController
-  skip_before_action :set_pundit_user, only: :index
 
 =begin
 @api {get} api/projects Read projects of current user
@@ -11,8 +10,8 @@ class Api::V1::ProjectsController < Api::V1::ApiController
 =end
 
   def index
-    @projects = @api_user.projects.where(filtering_params)
-    render json: @projects
+    @projects = scoped_user.organizations.find(params[:organization_id]).projects
+    render json: paginate(@projects)
   end
 
   private

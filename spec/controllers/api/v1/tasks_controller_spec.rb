@@ -4,42 +4,41 @@ require 'rails_helper'
 require 'net/http'
 
 RSpec.describe Api::V1::TasksController, type: :controller do
-  let!(:organization) { create :organization }
-  let!(:other) { create :organization }
-  let!(:user) { create :user, :organized, organizations: [organization, other] }
+  let(:organization) { create :organization }
+  let!(:user) { create :user, :organized, organizations: [organization] }
+  let(:membership) { user.membership_in organization }
+  let(:other) { create :user, :organized, organizations: [organization] }
+  let!(:project) { create :project, :with_tasks, organization: organization, users: [other, user] }
   let!(:tokens) { generate_tokens(user) }
-  let!(:project) { create :project, :with_tasks, organization: organization, users: [user] }
-  let!(:project2) { create :project, :with_tasks, organization: other, users: [user] }
 
   before do
     allow_any_instance_of(ApplicationHelper).to receive(:set_public_key).and_return tokens[:public_key]
   end
 
   context 'GET tasks' do
-    def call_action params
-      get :index, params: { organization_id: params }
-    end
-
-    before do
+    def call_action user_id
       set_token tokens[:valid_token]
+      get :index, params: { organization_id: organization.id, project_id: project.id, user_id: user_id }
     end
 
-    it 'returns all tasks in scope' do
-      get :index
-      expect(response.status).to eq 200
-      expect(JSON.parse(response.body).length).to eq 4
+    it 'returns paginated tasks filtered by organization and projects' do
+      call_action 'me'
+      membership.update_attributes role: 'user'
+      expect(response.body).to include("\"total_count\":2,")
+      expect(response.body).to include("\"id\":\"#{project.tasks.first.id}\",")
+      expect(response.body).to include("\"id\":\"#{project.tasks.second.id}\",")
     end
 
-    it 'filters tasks by organization_id' do
-      get :index, params: { organization_id: other.id }
-      expect(response.status).to eq 200
-      expect(JSON.parse(response.body).length).to eq 2
+    it 'returns tasks for user if api_user is admin' do
+      membership.update_attributes role: 'admin'
+      call_action user.id
+      expect(response.body).to include("\"total_count\":2,")
     end
 
-    it 'filters tasks by project_id' do
-      get :index, params: { id: project2.id }
-      expect(response.status).to eq 200
-      expect(JSON.parse(response.body).length).to eq 2
+    it 'returns unauthorized if outside scope' do
+      membership.update_attributes role: 'user'
+      call_action other.id
+      expect(response.body).to include("{\"error\":\"Forbidden\"}")
     end
   end
 end

@@ -115,7 +115,7 @@ class Api::V1::TimeEntriesController < Api::V1::ApiController
 
   def create_params
     params.permit(:notes, :time_amount)
-          .merge(executed_on: @time_view.date, user_id: user.id, project_id: new_or_current_project.id, task: task)
+          .merge(executed_on: @time_view.date, user_id: scoped_user.id, project_id: new_or_current_project.id, task: task)
   end
 
   def update_params
@@ -132,10 +132,10 @@ class Api::V1::TimeEntriesController < Api::V1::ApiController
   end
 
   def set_time_view
-    @time_view ||= TimeView.find params[:time_view_id], @organization, user
+    @time_view ||= TimeView.find params[:time_view_id], @organization, scoped_user
   end
 
   def time_entry
-    @time_entry ||= user.time_entries.find(params[:id])
+    @time_entry ||= scoped_user.time_entries.find(params[:id])
   end
 end

@@ -33,6 +33,14 @@ class Api::V1::ApiController < ActionController::API
 
   protected
 
+  def page
+    @page ||= params[:page].to_i > 0 ? params[:page].to_i : 1
+  end
+
+  def size
+    @size ||= params[:size].to_i > 0 ? [params[:size].to_i, 50].min : 25
+  end
+
   def authorization_header
     return nil unless request.headers['Authorization'].present?
 
@@ -54,12 +62,20 @@ class Api::V1::ApiController < ActionController::API
     @organization ||= @api_user.organizations.find(params[:organization_id])
   end
 
-  def user
-    @user ||= params[:user_id] == 'me' ? @api_user : @current_user.organization.users.find(params[:user_id])
+  def scoped_user
+    @scoped_user ||= begin
+      if params[:user_id] == 'me' || params[:user_id] == @api_user.id
+        @api_user
+      elsif @current_user.role == 'admin'
+        @current_user.organization.users.find(params[:user_id])
+      else
+        raise Pundit::NotAuthorizedError
+      end
+    end
   end
 
   def week_view
-    @week_view ||= WeekView.find_by_time_view_id params[:time_view_id], organization, user
+    @week_view ||= WeekView.find_by_time_view_id params[:time_view_id], organization, scoped_user
   end
 
   def time_view
@@ -68,5 +84,20 @@ class Api::V1::ApiController < ActionController::API
 
   def return_json_error error_message, status
     render json: { error: error_message }, status: status
+  end
+
+  def paginate(scope)
+    collection = scope.page(page).per(size)
+    return {
+        total_pages: collection.total_pages,
+        total_count: collection.total_count,
+        current_page: collection.current_page,
+        next_page: collection.next_page,
+        prev_page: collection.prev_page,
+        first_page: collection.first_page?,
+        last_page: collection.last_page?,
+        out_of_range: collection.out_of_range?,
+        data: collection
+    }
   end
 end
