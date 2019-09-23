@@ -17,7 +17,7 @@ class Api::V1::TimeEntriesController < Api::V1::ApiController
   def index
     raise_if_unauthorized
     @time_entries = time_view.time_entries
-    render json: @time_entries
+    render json: paginate(@time_entries)
   end
 
 =begin
@@ -37,7 +37,7 @@ class Api::V1::TimeEntriesController < Api::V1::ApiController
   def index_project
     raise_if_unauthorized
     @time_entries = time_view.time_entries.where(project_id: new_or_current_project.id)
-    render json: @time_entries
+    render json: paginate(@time_entries)
   end
 
 =begin

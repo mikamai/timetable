@@ -28,9 +28,9 @@ module TestsHelpers
   def verify_expectation_for action, user, project
     case action
     when "index"
-      expect(parse_response.map{ |entry| entry["user_id"] == user.id }.include?(false)).to eq false
+      expect(parse_response["data"].map{ |entry| entry["user_id"] == user.id }.include?(false)).to eq false
     when "index_project"
-      expect(parse_response.map{ |entry| entry["user_id"] == user.id && entry["project_id"] == project.id }.include?(false)).to eq false
+      expect(parse_response["data"].map{ |entry| entry["user_id"] == user.id && entry["project_id"] == project.id }.include?(false)).to eq false
     when "create"
       expect(parse_response["id"]).not_to be_nil
       expect(parse_response["amount"]).to eq 120
