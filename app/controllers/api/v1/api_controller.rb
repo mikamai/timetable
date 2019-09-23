@@ -66,7 +66,7 @@ class Api::V1::ApiController < ActionController::API
     @scoped_user ||= begin
       if params[:user_id] == 'me' || params[:user_id] == @api_user.id
         @api_user
-      elsif @current_user.role == 'admin'
+      elsif @current_user.role == 'admin' || @current_user.role == 'super_user'
         @current_user.organization.users.find(params[:user_id])
       else
         raise Pundit::NotAuthorizedError

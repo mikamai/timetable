@@ -58,17 +58,11 @@ RSpec.describe Api::V1::TimeEntriesController, type: :controller do
         expect(response.status).to eq 200
       end if action == 'create'
 
-      it 'raises a 404 if parameters are missing' do
-        call_action params.except(:task_id)
-        expect(response.status).to eq 404
-        expect(JSON.parse(response.body)).to eq({"error"=>"Couldn't find Task without an ID"})
-      end if action == "create"
-
       it 'raises an error if url params are incorrect' do
         incorrect_params = params.clone.merge({user_id: 'invalid-slug'})
         call_action incorrect_params
-        expect(response.status).to eq 404
-        expect(response.body.include?("User must exist")).to be true
+        expect(response.status).to eq 403
+        expect(response.body).to include("{\"error\":\"Forbidden\"}")
       end
 
       it 'raises a 404 if user is not in organization' do
@@ -149,12 +143,6 @@ RSpec.describe Api::V1::TimeEntriesController, type: :controller do
           expect(response.status.to_s).to match(/^20[0-2]{1}$/)
           verify_expectation_for action, other_user, project
         end
-
-        it 'raises a 404 if parameters are missing' do
-          call_action params.except(:task_id)
-          expect(response.status).to eq 404
-          expect(JSON.parse(response.body)).to eq({"error"=>"Couldn't find Task without an ID"})
-        end if action == 'create'
 
         it 'raises a 404 if parameters are not authorized' do
           call_action params.clone.merge(task_id: other_task.id)

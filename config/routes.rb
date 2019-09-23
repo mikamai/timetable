@@ -64,6 +64,7 @@ Rails.application.routes.draw do
         resources :users, only: [] do
           resources :time_entries, only: %i[index], path: :entries
           resources :projects, only: %i[index show] do
+            get 'entries', controller: :time_entries, action: :index_project, as: :time_entries_project
             resources :tasks, only: [:index] do
               resources :time_entries, only: :create, path: :entries
             end
