@@ -7,6 +7,7 @@ jobs:
           - RAILS_ENV: test
           - POSTGRES_USER: circleci
           - POSTGRES_DB: circle_test
+          - BUNDLER_VERSION: 2.0.2
       - image: circleci/postgres:9.6-alpine
         environment:
           - POSTGRES_USER: circleci
@@ -21,7 +22,7 @@ jobs:
       - run:
           name: install dependencies
           command: |
-            bundle install --jobs=4 --retry=3 --path vendor/bundle
+            gem update bundler && bundle install --jobs=4 --retry=3 --path vendor/bundle
       - save_cache:
           paths:
             - ./vendor/bundle
@@ -57,24 +58,24 @@ jobs:
             apidoc -i app/ -o doc/apidoc/
             apidoc-openapi --project ./apidoc.json --src app/ --out ./doc/openapi.json
       - persist_to_workspace:
-          root: '.'
+          root: "."
           paths: doc/*
   docs-deploy:
     docker:
-     - image: circleci/node:10.15-browsers
+      - image: circleci/node:10.15-browsers
     steps:
-     - checkout
-     - attach_workspace:
-         at: doc/
-     - run:
-         name: Install and configure dependencies
-         command: |
-           npm install -g --silent gh-pages@2.0.1
-           git config user.email "circleci@mikamai.com"
-           git config user.name "ci-build"
-     - run:
-         name: Deploy docs to gh-pages branch
-         command: gh-pages --dist doc/
+      - checkout
+      - attach_workspace:
+          at: doc/
+      - run:
+          name: Install and configure dependencies
+          command: |
+            npm install -g --silent gh-pages@2.0.1
+            git config user.email "circleci@mikamai.com"
+            git config user.name "ci-build"
+      - run:
+          name: Deploy docs to gh-pages branch
+          command: gh-pages --dist doc/
 
 workflows:
   version: 2

@@ -29,7 +29,7 @@ gem 'fog-aws', '~> 2.0.0'
 
 # Other
 gem 'cocoon', '~> 1.2.11'
-gem 'devise', '~> 4.3.0'
+gem 'devise', '~> 4.7.1'
 gem 'devise_invitable', '~> 1.7.2'
 gem 'friendly_id', '~> 5.2.3'
 gem 'kaminari', '~> 1.1.1'
@@ -43,7 +43,7 @@ gem 'oj', '~> 3.3.9'
 gem 'rollbar', '~> 2.15.5'
 
 # Views
-gem 'bootstrap', '4.0.0.beta2.1'
+gem 'bootstrap', '>= 4.3.1'
 gem 'bower-rails', '~> 0.11.0'
 gem 'entypo-rails', '~> 3.0.0'
 gem 'jbuilder', '~> 2.5'
