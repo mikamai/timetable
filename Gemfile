@@ -21,7 +21,7 @@ gem 'simple_command', '~> 0.0.9'
 gem 'dotenv-rails', '~> 2.7', require: 'dotenv/rails-now'
 
 # Manage JWT tokens
-gem 'json-jwt', '~> 1.9'
+gem 'json-jwt', '~> 1.11'
 
 # Uploads
 gem 'carrierwave', '~> 1.2.2'
