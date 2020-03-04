@@ -10,7 +10,7 @@ end
 
 gem 'paranoia', '~> 2.4.1'
 gem 'pg', '~> 0.18'
-gem 'puma', '~> 3.7'
+gem 'puma', '~> 3.12'
 gem 'rails', '~> 5.1.4'
 gem 'scenic', '~> 1.4.1'
 gem 'sidekiq', '~> 5.0'
