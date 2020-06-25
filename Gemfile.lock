@@ -244,7 +244,7 @@ GEM
     pundit (1.1.0)
       activesupport (>= 3.0.0)
     raabro (1.1.6)
-    rack (2.0.7)
+    rack (2.2.3)
     rack-oauth2 (1.10.0)
       activesupport
       attr_required
