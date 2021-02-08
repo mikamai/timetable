@@ -24,7 +24,7 @@ gem 'dotenv-rails', '~> 2.7', require: 'dotenv/rails-now'
 gem 'json-jwt', '~> 1.9'
 
 # Uploads
-gem 'carrierwave', '~> 1.2.2'
+gem 'carrierwave', '~> 1.3.2'
 gem 'fog-aws', '~> 2.0.0'
 
 # Other
