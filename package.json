@@ -4,7 +4,7 @@
   "dependencies": {
     "@forfuture/apidoc-openapi": "0.0.1",
     "@rails/webpacker": "^3.3.1",
-    "lodash": "^4.17.11",
+    "lodash": "^4.17.21",
     "moment": "^2.24.0",
     "pikaday": "^1.8.0",
     "selectize": "^0.12.6",
